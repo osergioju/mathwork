@@ -1,0 +1,183 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    Matérias
+{% endblock %}
+
+{% block content %}
+
+    <!-- Sidebar -->
+    <div class="flexo-dashboar">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-4 col-xl-3">
+                    {% include 'base/sidebar.html' %}
+                </div>
+                <div class="col-12 col-lg-8 col-xl-9">
+
+                    <div class="body-content-dashboard">
+                        {% if 4 in lista_permissoes_cod_tela %}
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="dash1-tab" data-bs-toggle="tab" data-bs-target="#dash1" type="button" role="tab" aria-controls="dash1" aria-selected="true"><i></i> Turmas</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="dash2-tab" data-bs-toggle="tab" data-bs-target="#dash2" type="button" role="tab" aria-controls="dash2" aria-selected="false"><i></i> Vídeo explicativo</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="dash1" role="tabpanel" aria-labelledby="dash1-tab">
+                                <form id="fm" method="post" action="{% url 'materias' id_configuracao=id_conf %}">
+                                    <div class="geralbody-dashboard">
+                                        <div class="chosen_quantity">
+                                            <label for="1">
+                                                Quantidade de matérias
+                                                <div class="button-incrasedecesase">
+                                                    <button type="button" onclick="incredec('down', 'Materias', 'type2')">-</button>
+                                                    <input type="text" class="receive_val" value="{{ page_resultados|length }}">
+                                                    <button type="button" onclick="incredec('up', 'Materias', 'type2')">+</button>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="bodyfields">
+                                            <div class="repeaterbody-fields">
+                                                {% csrf_token %}
+                                                <div id="repeaterbody-line" class="row">
+                                                    {% for resultado in page_resultados %}
+                                                        {% with loop_one=forloop %}
+                                                            <div class="carouseltype2">
+                                                                <div class="unicogenerated-field"> 
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-lg-6">
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+                                                                                    <input type="hidden" name="idmateria_{{ forloop.counter }}" value="{{ resultado.Id_Materia }}">
+                                                                                </div>
+                                                                                <div class="col-12 col-lg-6"> 
+                                                                                    <div class="formg_math"> 
+                                                                                        <label for="0_{{ forloop.counter }}"> 
+                                                                                            <h3>Matéria</h3> 
+                                                                                            <input type="text" class="required" name="materia_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Materia }}"> 
+                                                                                        </label> 
+                                                                                    </div> 
+                                                                                </div> 
+                                                                                <div class="col-12 col-lg-6"> 
+                                                                                    <div class="formg_math"> 
+                                                                                        <label for="1_{{ forloop.counter }}"> 
+                                                                                            <h3>Preferência</h3> 
+                                                                                            <input type="text" class="required" name="preferencia_{{ forloop.counter }}" id="1_{{ forloop.counter }}" value="{{ resultado.Preferencia }}"> 
+                                                                                        </label> 
+                                                                                    </div> 
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12"> 
+                                                                            <div class="flex_multipleturmas">
+                                                                                {% for turmas in get_turmas %}
+                                                                                    {% with loop_two=forloop %}     
+                                                                                        {% for restricoes in get_restricoes %}
+                                                                                            {% if restricoes.Id_Turma == turmas.Id_Turma and restricoes.Id_Materia == resultado.Id_Materia %}
+                                                                                                <div class="formg_math miniform_g"> 
+                                                                                                    <h4>{{ turmas.Nome_Turma }}</h4>
+                                                                                                    <input type="hidden" name="idturma_{{ loop_two.counter }}_{{ loop_two.parentloop.counter }}" value="{{ turmas.Id_Turma }}"> 
+                                                                                                    <label for="turma_{{ loop_two.counter }}_{{ turmas.Id_Turma }}">
+                                                                                                        <span>Qnt min. (semanal)</span>
+                                                                                                        <input class="required" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
+                                                                                                    </label>
+                                                                                                    <label for="turma_{{ loop_two.counter }}_{{ turmas.Id_Turma }}">
+                                                                                                        <span>Qnt max. (diária)</span>
+                                                                                                        <input class="required" value="{{ restricoes.Qtd_Maxima_Diaria }}" type="text" id="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
+                                                                                    {% endwith %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                        {% endwith %}
+                                                    {% endfor %}
+                                                </div>
+                                                
+                                                <input type="hidden" name="counter" id="counter" value="{{ page_resultados|length }}">
+                                                <input type="hidden" name="counter_turmas" id="counter_turmas" value="{{ get_turmas|length }}">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="button-savestage">
+                                                            <button type="submit">Salvar</button>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="dash2" role="tabpanel" aria-labelledby="dash2-tab">...</div>
+                        </div>
+                        {% else %}
+                            <div class="nopermission_page">
+                                <i></i>
+                                <h2>Você não tem permissão<Br>para acessar essa página</h2>
+                                <a href="{% url 'administrativo' %}">Voltar a pagina inicial</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="hiddenfield-copy">
+                        <div class="carouseltype2 fieldto-copy">
+                            <div class="unicogenerated-field"> 
+                                <div class="row">
+                                    <div class="col-12 col-lg-6">
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6"> 
+                                                <div class="formg_math"> 
+                                                    <label for="0_REPLACEINDEX"> 
+                                                        <h3>Matéria</h3> 
+                                                        <input type="text" class="required" name="materia_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
+                                                    </label> 
+                                                </div> 
+                                            </div> 
+                                            <div class="col-12 col-lg-6"> 
+                                                <div class="formg_math"> 
+                                                    <label for="1_REPLACEINDEX"> 
+                                                        <h3>Preferência</h3> 
+                                                        <input type="text" class="required" name="preferencia_REPLACEINDEX" id="1_REPLACEINDEX" value="10"> 
+                                                    </label>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12"> 
+                                        <div class="flex_multipleturmas">
+                                            {% for turmas in get_turmas %}
+                                                <div class="formg_math miniform_g"> 
+                                                    <h4>{{ turmas.Nome_Turma }}</h4>
+                                                    <input type="hidden" value="{{ turmas.Id_Turma }}" name="idturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                    <label for="minturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                        <span>Qnt min. (semanal)</span>
+                                                        <input type="text" class="required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                    </label>
+                                                    <label for="maxturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                        <span>Qnt max. (diária)</span>
+                                                        <input type="text" class="required" id="maxturma_{{ forloop.counter }}_REPLACEINDEX" name="maxturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %} 

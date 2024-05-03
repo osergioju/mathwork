@@ -1,0 +1,117 @@
+{% extends 'base/base.html' %}
+{% load poll_extras %}
+
+{% block title %}
+    Rodar Modelo
+{% endblock %}
+
+{% block content %}
+
+    <!-- Sidebar -->
+    <div class="flexo-dashboar">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-4 col-xl-3">
+                    {% include 'base/sidebar.html' %}
+                </div>
+                <div class="col-12 col-lg-8 col-xl-9">
+
+                    <div class="body-content-dashboard">
+                        {% if 8 in lista_permissoes_cod_tela %}
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="dash1-tab" data-bs-toggle="tab" data-bs-target="#dash1" type="button" role="tab" aria-controls="dash1" aria-selected="true"><i></i> Turmas</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="dash2-tab" data-bs-toggle="tab" data-bs-target="#dash2" type="button" role="tab" aria-controls="dash2" aria-selected="false"><i></i> Vídeo explicativo</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="dash1" role="tabpanel" aria-labelledby="dash1-tab">
+
+                                {% if rotateModel == False %}
+                                    <div class="modelos_rodar">
+                                        <div class="bubblerodar">
+                                            <div class="header-rodar-modelo">
+                                                <h2>Gerar novo relatório<Br></h2>
+                                            </div>
+                                            <form method="post" action="{% url 'rodar_modelo' id_configuracao=id_conf %}">
+                                                {% csrf_token %}
+                                                
+
+                                                {% if N_Rodadas_Utilizadas == N_Rodadas_Contratadas_total %}
+                                                    <span class="atenttion_rodaddas"><b>Atenção:</b> Você já utilizou <b>{{ N_Rodadas_Utilizadas }}</b> rodadas de <b>{{ N_Rodadas_Contratadas_total}}</b>. <a href="#">Entre em contato</a> para obter mais.</span>
+                                                {% else %}
+                                                    <input type="submit" value="Rodar">
+                                                {% endif %}
+
+
+                                                {% if N_Rodadas_Utilizadas >= N_Rodadas_Contratadas_proximidade and N_Rodadas_Utilizadas <  N_Rodadas_Contratadas_total%}
+                                                    <br><span class="atenttion_rodaddas"><b>Atenção:</b> Você já utilizou <b>{{ N_Rodadas_Utilizadas }}</b> rodadas, seu limite é <b>{{ N_Rodadas_Contratadas_total }}</b>.</span><br>
+                                                {% endif %}
+
+                                                <input type="hidden" name="id_config" value="{{ id_conf }}">
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    {% if msg_sucesso %}
+                                        <div class="sucesso_modelo">
+                                            <div class="pill_sucesso_modelo">
+                                                <i></i>
+                                                <h2>Concluído</h2>
+                                                <a href="{% url 'relatorios' id_configuracao=id_conf %}">Clique aqui para conferir seu relatório.</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    {% if msg_erro %}
+                                        <div class="super_erros-guide">
+                                            {% for item in msg_erro %}
+                                                <div class="unicaitem-error">
+                                                    <h3>{{ item.1 }}</h3>
+                                                    <ul>
+                                                        {% for mensagem in item.0 %}
+                                                            <li>{{ mensagem }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                                
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                {% endif %}
+
+
+                                {% if modelos_disponiveis %}
+                                    <div class="modelos_disponiveis">
+                                        <div class="bubblemodelos-disponveis">
+                                            <h3>Você tem relatórios disponíveis</h3>
+                                            <p>Clique no link abaixo para visualizar o relatório.</p>
+                                            <ul>
+                                                {% for modelo in modelos_disponiveis %}
+                                                    <li><a href="{% url 'ver_relatorio' id_configuracao=id_conf id_rodada=modelo.Id_Rodada %}">Gerado em {{ modelo.data_registro|date:"d/m/Y H:i:s" }} </a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        {% else %}
+                            <div class="nopermission_page">
+                                <i></i>
+                                <h2>Você não tem permissão<Br>para acessar essa página</h2>
+                                <a href="{% url 'administrativo' %}">Voltar a pagina inicial</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %} 

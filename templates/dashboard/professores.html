@@ -1,0 +1,391 @@
+{% extends 'base/base.html' %}
+{% load poll_extras %}
+
+{% block title %}
+    Professores
+{% endblock %}
+
+{% block content %}
+
+    <!-- Sidebar -->
+    <div class="flexo-dashboar">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-4 col-xl-3">
+                    {% include 'base/sidebar.html' %}
+                </div>
+                <div class="col-12 col-lg-8 col-xl-9">
+
+                    <div class="body-content-dashboard">
+                        {% if 5 in lista_permissoes_cod_tela %}
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="dash1-tab" data-bs-toggle="tab" data-bs-target="#dash1" type="button" role="tab" aria-controls="dash1" aria-selected="true"><i></i> Turmas</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="dash2-tab" data-bs-toggle="tab" data-bs-target="#dash2" type="button" role="tab" aria-controls="dash2" aria-selected="false"><i></i> Vídeo explicativo</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="dash1" role="tabpanel" aria-labelledby="dash1-tab">
+                                <form id="fm" method="post" action="{% url 'professores' id_configuracao=id_conf %}">
+                                    <div class="geralbody-dashboard">
+                                        <div class="chosen_quantity">
+                                            <label for="1">
+                                                Quantidade de professores
+                                                <div class="button-incrasedecesase">
+                                                    <button type="button" onclick="incredec('down', 'Materias', 'type2')">-</button>
+                                                    <input type="text" class="receive_val" value="{{ page_resultados|length }}">
+                                                    <button type="button" onclick="incredec('up', 'Materias', 'type2')">+</button>
+                                                </div>
+                                            </label>
+                                        </div>
+        
+                                        <div class="bodyfields">
+                                            <div class="repeaterbody-fields">
+                                                {% csrf_token %}
+                                                <div id="repeaterbody-line" class="row">
+            
+                                                    {% for resultado in page_resultados %}
+                                                        {% with loop_one=forloop %}
+                                                            <div class="carouseltype2">
+                                                                <div class="unicogenerated-field"> 
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-lg-6">
+                                                                            <div class="row">
+                                                                                <div class="col-12 col-lg-6"> 
+                                                                                    <input type="hidden" name="id_professor_{{ forloop.counter }}" id="" value="{{ resultado.Id_Professor }}">
+                                                                                    <input type="hidden" name="quantidade_turmas__{{ forloop.counter }}" value="{{ turmas|length }}">
+                                                                                    <div class="formg_math"> 
+                                                                                        <label for="0_{{ forloop.counter }}"> 
+                                                                                            <h3>Nome</h3> 
+                                                                                            <input class="required" type="text" name="nprofessor_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Professor }}"> 
+                                                                                        </label> 
+                                                                                    </div>  
+                                                                                </div> 
+                                                                                <div class="col-12 col-lg-6"> 
+                                                                                    <div class="formg_math"> 
+                                                                                        <label for="1_{{ forloop.counter }}"> 
+                                                                                            <h3>Preferência</h3> 
+                                                                                            {% for atrb in get_atribuicoes_count %}
+                                                                                                {% if atrb.Id_Professor == resultado.Id_Professor  %}
+                                                                                                    <input type="text" class="required" name="preferencia_{{ forloop.parentloop.counter }}" id="1_{{ forloop.parentloop.counter }}" value="{{ atrb.Preferencia }}"> 
+                                                                                                {% endif %}
+                                                                                            {% endfor %}
+                                                                                        </label> 
+                                                                                    </div> 
+                                                                                </div> 
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="materias___e_turmas">
+                                                                                <div class="header-materiasturmas_repeater">
+                                                                                    <h3>Matérias e turmas</h3>
+                                                                                    <button type="button">+</button>
+                                                                                </div>
+                                                                                <div class="content_materias_turmas">
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <div class="duplicater_add_div">
+                                                                                                {% for dados in dados_agrupados %}
+                                                                                                    {% if resultado.Id_Professor == dados.id_professor %}
+                                                                                                        {% for materia_id, turmas_id in dados.materias_dados.items %}
+                                                                                                            <div class="relacional_professorxmateria">
+                                                                                                                <div class="row">
+                                                                                                                    <div class="col-12 col-lg-6">
+                                                                                                                        <div class="row">
+                                                                                                                            <div class="col-12 col-lg-6"> 
+                                                                                                                                <div class="formg_math"> 
+                                                                                                                                    <label for="0_{{ forloop.counter }}_{{ forloop.parentloop.counter }}"> 
+                                                                                                                                        <h3>Matéria</h3> 
+                                                                                                                                        <select class="required" name="mateira_{{ loop_one.counter }}_{{ forloop.counter }}" id="0_{{ forloop.counter }}_{{ forloop.parentloop.counter }}">
+                                                                                                                                            <option selected value="" disabled>---</option>
+                                                                                                                                            {% for getmatrias in materias %}
+                                                                                                                                                <option {% if materia_id == getmatrias.Id_Materia %} selected {% endif %} value="{{ getmatrias.Id_Materia }}">{{ getmatrias.Nome_Materia }}</option>
+                                                                                                                                            {% endfor %}
+                                                                                                                                        </select>
+                                                                                                                                    </label> 
+                                                                                                                                </div> 
+                                                                                                                            </div> 
+                                                                                                                            <div class="col-12 col-lg-6"> 
+                                                                                                                                <div class="formg_math"> 
+                                                                                                                                    <label for="1_{{ forloop.counter }}_{{ forloop.parentloop.counter }}">
+                                                                                                                                        <h3>Turmas</h3> 
+                                                                                                                                        <div class="dropdown-sendturmas" data-sendturma="turmas_{{ forloop.counter }}_{{ loop_one.counter }}">
+                                                                                                                                            <div class="fakeselect_">
+                                                                                                                                                --- <i></i>
+                                                                                                                                            </div>
+                                                                                                                                            <div class="body_dropdownsend">
+                                                                                                                                                {% for turma in turmas %}
+                                                                                                                                                        <label for="{{ turma.Id_Turma }}_{{ forloop.counter }}_{{ forloop.parentloop.counter }}_{{ loop_one.counter }}">
+                                                                                                                                                        <input 
+                                                                                                                                                            {% if turma.Id_Turma in turmas_id %} checked {% endif %} 
+                                                                                                                                                            data-mytext="{{ turma.Nome_Turma }}" 
+                                                                                                                                                            id="{{ turma.Id_Turma }}_{{ forloop.counter }}_{{ forloop.parentloop.counter }}_{{ loop_one.counter }}"
+                                                                                                                                                            type="checkbox" 
+                                                                                                                                                            value="{{ turma.Id_Turma }}" 
+                                                                                                                                                            name="repeaterturma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                                                                                                                                        >
+                                                                                                                                                        <input
+                                                                                                                                                            type="hidden" 
+                                                                                                                                                            value="{{ turma.Id_Turma }}" 
+                                                                                                                                                            name="repeaterturmatext_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                                                                                                                                        >
+                                                                                                                                                        {{ turma.Nome_Turma }}
+                                                                                                                                                    </label>
+                                                                                                                                                {% endfor %}
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </label>
+                                                                                                                                </div> 
+                                                                                                                            </div> 
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="col-12">
+                                                                                                                        <div class="turmas_relational" data-receiveturma="turmas_{{ forloop.counter }}_{{ loop_one.counter }}">
+                                                                                                                            {% for turma in turmas %}
+                                                                                                                                {% if turma.Id_Turma in turmas_id %}
+                                                                                                                                    <span data-spnexid="{{ turma.Id_Turma }}"><button type="button">x</button>{{ turma.Nome_Turma }}</span>
+                                                                                                                                {% endif %}
+                                                                                                                            {% endfor %}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        {% endfor %}
+                                                                                                    {% endif %}
+                                                                                                {% endfor %}
+                                                                                                <div class="duplicator_turmas_materias">
+                                                                                                    <button type="button" class="duplicatormaximus">Adicionar +</button>
+                                                                                                    {% for dados in dados_agrupados %}
+                                                                                                        {% if resultado.Id_Professor == dados.id_professor %}
+                                                                                                            <input type="hidden" class="count_materias" name="count_materias_all_{{ forloop.counter }}" value="{{ dados.materias_dados|length }}">
+                                                                                                        {% endif %}
+                                                                                                    {% endfor %}
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endwith %}
+                                                    {% endfor %}
+                                                </div>
+                                                
+                                                <input type="hidden" name="counter" id="counter" value="{{ page_resultados|length }}">
+                                                <input type="hidden" name="counter_turmas" id="counter_turmas" value="{{ get_turmas|length }}">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="button-savestage">
+                                                            <button type="submit">Salvar</button>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="dash2" role="tabpanel" aria-labelledby="dash2-tab">...</div>
+                        </div>
+                        {% else %}
+                            <div class="nopermission_page">
+                                <i></i>
+                                <h2>Você não tem permissão<Br>para acessar essa página</h2>
+                                <a href="{% url 'administrativo' %}">Voltar a pagina inicial</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="hiddenfield-copy">
+                        <!-- Copiar mini -->
+                        <div class="relacional_professorxmateria coopyx_max">
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6"> 
+                                            <div class="formg_math"> 
+                                                <label for="0_REPLACEINDEX_newreplaceindex"> 
+                                                    <h3>Matéria</h3> 
+                                                    <select class="required" name="mateira_REPLACEINDEX_newreplaceindex" id="">
+                                                        <option value=""  selected disabled>---</option>
+                                                        {% for materia in materias %}
+                                                            <option value="{{ materia.Id_Materia }}">{{ materia.Nome_Materia }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </label> 
+                                            </div> 
+                                        </div> 
+                                        <div class="col-12 col-lg-6"> 
+                                            <div class="formg_math"> 
+                                                <label for="1_REPLACEINDEX_newreplaceindex"> 
+                                                    <h3>Turmas</h3> 
+                                                    <div class="dropdown-sendturmas" data-sendturma="turmas_REPLACEINDEX_newreplaceindex">
+                                                        <div class="fakeselect_">
+                                                            --- <i></i>
+                                                        </div>
+                                                        <div class="body_dropdownsend">
+                                                            {% for turma in turmas %}
+                                                                <label for="repeaterturma_REPLACEINDEX_newreplaceindex_{{ forloop.counter }}">
+                                                                    <input 
+                                                                        data-mytext="{{ turma.Nome_Turma }}" 
+                                                                        id="repeaterturma_REPLACEINDEX_newreplaceindex_{{ forloop.counter }}" 
+                                                                        type="checkbox" value="{{ turma.Id_Turma }}" 
+                                                                        name="repeaterturma_REPLACEINDEX_newreplaceindex_{{ forloop.counter }}"
+                                                                    >
+                                                                    <input
+                                                                        type="hidden" 
+                                                                        value="{{ turma.Id_Turma }}" 
+                                                                        name="repeaterturmatext_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
+                                                                    >
+                                                                    {{ turma.Nome_Turma }}
+                                                                </label>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </label> 
+                                            </div> 
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="turmas_relational" data-receiveturma="turmas_REPLACEINDEX_newreplaceindex">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Copiar super grand -->
+                        <div class="carouseltype2 fieldto-copy">
+                            <div class="unicogenerated-field"> 
+                                <div class="row">
+                                    <input class="ihaveindex" type="hidden" name="quantidade_turmas__REPLACEINDEX" data-myindexbloc="REPLACEINDEX" value="{{ turmas|length }}">
+                                    <div class="col-12 col-lg-6">
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6"> 
+                                                <div class="formg_math"> 
+                                                    <label for="0_REPLACEINDEX"> 
+                                                        <h3>Nome</h3> 
+                                                        <input type="text" class="required" name="nprofessor_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
+                                                    </label> 
+                                                </div> 
+                                            </div> 
+                                            <div class="col-12 col-lg-6"> 
+                                                <div class="formg_math"> 
+                                                    <label for="1_REPLACEINDEX"> 
+                                                        <h3>Preferência</h3> 
+                                                        <input class="required" type="text" name="preferencia_REPLACEINDEX" id="1_REPLACEINDEX" value=""> 
+                                                    </label> 
+                                                </div> 
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+
+                                        <div class="materias___e_turmas">
+                                            <div class="header-materiasturmas_repeater">
+                                                <h3>Matérias e turmas</h3>
+                                                <button type="button">+</button>
+                                            </div>
+                                            <div class="content_materias_turmas">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="duplicater_add_div">
+                                                            <div class="relacional_professorxmateria">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-lg-6">
+                                                                        <div class="row">
+                                                                            <div class="col-12 col-lg-6"> 
+                                                                                <div class="formg_math"> 
+                                                                                    <label for="0_REPLACEINDEX"> 
+                                                                                        <h3>Matéria</h3> 
+                                                                                        <select class="required" name="mateira_REPLACEINDEX_1" id="">
+                                                                                            <option value=""  selected disabled>---</option>
+                                                                                            {% for materia in materias %}
+                                                                                                <option value="{{ materia.Id_Materia }}">{{ materia.Nome_Materia }}</option>
+                                                                                            {% endfor %}
+                                                                                        </select>
+                                                                                    </label> 
+                                                                                </div> 
+                                                                            </div> 
+                                                                            <div class="col-12 col-lg-6"> 
+                                                                                <div class="formg_math"> 
+                                                                                    <label for="1_REPLACEINDEX_1"> 
+                                                                                        <h3>Turmas</h3> 
+                                                                                        <div class="dropdown-sendturmas" data-sendturma="turmas_REPLACEINDEX_1">
+                                                                                            <div class="fakeselect_">
+                                                                                                --- <i></i>
+                                                                                            </div>
+                                                                                            <div class="body_dropdownsend">
+                                                                                                {% for turma in turmas %}
+                                                                                                    <label for="repeaterturma_REPLACEINDEX_1_{{ forloop.counter }}">
+                                                                                                        <input 
+                                                                                                            data-mytext="{{ turma.Nome_Turma }}" 
+                                                                                                            id="repeaterturma_REPLACEINDEX_1_{{ forloop.counter }}" 
+                                                                                                            type="checkbox" value="{{ turma.Id_Turma }}" 
+                                                                                                            name="repeaterturma_REPLACEINDEX_1_{{ forloop.counter }}"
+                                                                                                        >
+
+                                                                                                        <input
+                                                                                                            type="hidden" 
+                                                                                                            value="{{ turma.Id_Turma }}" 
+                                                                                                            name="repeaterturmatext_REPLACEINDEX_1_{{ forloop.counter }}"
+                                                                                                        >
+                                                                                                        {{ turma.Nome_Turma }}
+                                                                                                    </label>
+                                                                                                {% endfor %}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </label> 
+                                                                                </div> 
+                                                                            </div> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="turmas_relational" data-receiveturma="turmas_REPLACEINDEX_1">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+    
+                                                            <div class="duplicator_turmas_materias">
+                                                                <button type="button" class="duplicatormaximus">Adicionar +</button>
+                                                                <input type="hidden" class="count_materias" name="count_materias_all_REPLACEINDEX" value="1">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="col-12">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <pre>
+        {{ json_resultados|safe }}
+    </pre>
+{% endblock %} 
+
+
