@@ -509,7 +509,7 @@ def dash_inicial(request, id_escola):
 
 # Cadastrar os usuários
 def cadastrar_usuario(request, id_escola):
-    if checkuser_login(request, False, id_escola):
+    if checkuser_login(request, True, id_escola):
         ## Processo para enviar os dados pro banco
         if request.method == 'POST':
             # Obter os dados do formulário
@@ -571,7 +571,7 @@ def cadastrar_usuario(request, id_escola):
 
 ## Meus Dados 
 def meus_dados(request, id_escola):
-    if checkuser_login(request, False, id_escola):
+    if checkuser_login(request, True, id_escola):
         escolas = Escolas.objects.filter(Id_Escola=id_escola).first()
         n_restantes = int(escolas.N_Rodadas_Contratadas) - int(escolas.N_Rodadas_Utilizadas)
     
@@ -581,7 +581,7 @@ def meus_dados(request, id_escola):
 
 ## Meus usuários 
 def meus_usuarios(request, id_escola):
-    if checkuser_login(request, False, id_escola):
+    if checkuser_login(request, True, id_escola):
         if request.method == 'POST':
             # Obter os dados do formulário
             if request.POST.get('action') == 'edit':
@@ -626,7 +626,7 @@ def meus_usuarios(request, id_escola):
 
 ## Soluções 
 def solucoes(request, id_escola):
-    if checkuser_login(request, False, id_escola):
+    if checkuser_login(request, True, id_escola):
         configuracoes = Configuracoes.objects.filter(Id_Escola=id_escola).all()
         escolas = Escolas.objects.filter(Id_Escola=id_escola).first()
         return render(request, 'dashboard/solucoes.html', {'configuracoes' : configuracoes,'id_escola': id_escola, 'escolas' : escolas})
