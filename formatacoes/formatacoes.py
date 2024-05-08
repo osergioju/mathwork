@@ -108,10 +108,14 @@ def gera_visualizacao_janelas(professores, turmas, dias, momentos, turmas_df, tu
                     nm_momento = momentos[indice_momento]
                     nm_materia = turmas_df_formatado_escola[nm_turma].loc[nm_momento, nm_dia]
 
-                    dados.append([nm_professor, nm_materia, nm_turma, nm_dia, nm_momento])
+                    # o momento precisa ser formatado para medir janelas posteriormente (contar_janelas)
+                    nm_momento_formatado = f"aula {indice_momento + 1}"
+
+                    # dados.append([nm_professor, nm_materia, nm_turma, nm_dia, nm_momento])
+                    dados.append([nm_professor, nm_materia, nm_turma, nm_dia, nm_momento, nm_momento_formatado])
     
-    df_visualizacao_professores = DataFrame(data=dados, columns=["professor", "materia/professor", "turma", "dia", "momento"])
-    df_visualizacao_professores.sort_values(by=["dia", "momento", "materia/professor"], inplace=True)
+    df_visualizacao_professores = DataFrame(data=dados, columns=["professor", "materia/professor", "turma", "dia", "momento", "momento_formatado"])
+    df_visualizacao_professores.sort_values(by=["dia", "momento_formatado", "materia/professor"], inplace=True)
     df_visualizacao_professores.reset_index(drop=True, inplace=True)
 
     return df_visualizacao_professores

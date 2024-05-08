@@ -24,8 +24,8 @@ def somar_janelas(df_visualizacao_janelas, dias):
         if dia_anterior != dia_atual:
             continue
 
-        momento_anterior = int(df_visualizacao_janelas.loc[ind - 1, "momento"][-1])
-        momento_atual = int(row["momento"][-1])
+        momento_anterior = int(df_visualizacao_janelas.loc[ind - 1, "momento_formatado"].split(" ")[-1])
+        momento_atual = int(row["momento_formatado"].split(" ")[-1])
 
         janelas_dia[dia_atual] += momento_atual - momento_anterior - 1
         janelas_total += momento_atual - momento_anterior - 1
@@ -34,7 +34,7 @@ def somar_janelas(df_visualizacao_janelas, dias):
 
 def contar_janelas(df_visualizacao_janelas, dias, professores):
 
-    df_visualizacao_janelas.sort_values(by=["professor", "dia", "momento"], 
+    df_visualizacao_janelas.sort_values(by=["professor", "dia", "momento_formatado"], 
                                         inplace=True)
     df_visualizacao_janelas.reset_index(drop=True, inplace=True)
     
