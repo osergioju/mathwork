@@ -33,7 +33,6 @@ class Usuarios(models.Model):
     first_acesso = models.CharField(max_length=100)
     Id_UserRole = models.CharField(max_length=100)
     Is_Ativo = models.CharField(max_length=100)
-    
     class Meta:
         db_table = 'Usuarios'
 
