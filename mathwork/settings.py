@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$!+x737w1+07weejodu=7wu(iwt0hm#c&#70t6*28vhok!*m=d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '162.240.54.198', 'sistemacronogrid.com.br']
+ALLOWED_HOSTS = ['18.230.6.109:8000', '127.0.0.1', '162.240.54.198', 'sistemacronogrid.com.br']
 
 
 
