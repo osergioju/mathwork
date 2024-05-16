@@ -85,7 +85,11 @@
                                                                                     <div class="formg_math"> 
                                                                                         <label for="1_{{ forloop.counter }}"> 
                                                                                             <h3>Preferência</h3> 
-                                                                                            <input type="text" class="required" name="preferencia_{{ forloop.counter }}" id="1_{{ forloop.counter }}" value="2"> 
+                                                                                            {% for atrb in get_uniqueatribuicoes %}
+                                                                                                {% if atrb.Id_Professor == resultado.Id_Professor %}
+                                                                                                <input type="text" class="required" name="preferencia_{{ forloop.parentloop.counter }}" id="1_{{ forloop.parentloop.counter }}" value="{{ atrb.Preferencia }}"> 
+                                                                                                {% endif %}
+                                                                                            {% endfor %}
                                                                                         </label> 
                                                                                     </div> 
                                                                                 </div> 

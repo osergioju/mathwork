@@ -993,6 +993,7 @@ def professores(request, id_configuracao):
         get_turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
         get_atribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).all()
         get_atribuicoes_count = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Preferencia', 'Id_Professor').annotate(count=Count('Id_Atribuicao'))
+        get_uniqueatribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Id_Professor', 'Preferencia').order_by('Id_Professor').distinct()
 
         # Criar um conjunto para armazenar IDs únicos
         ids_unicos = set()
@@ -1042,8 +1043,7 @@ def professores(request, id_configuracao):
                     'materias_dados': {materia_id: [turma_id]}
                 })
         
-        # get_atribuicoes = ( Atribuicoes_Professores.o bjects.raw( "SELECT Id_Atribuicao, Id_Professor, Id_Configuracao, Id_Materia, " "GROUP_CONCAT(Id_Turma SEPARATOR '|') as Id_Turma, Preferencia " "FROM Atribuicoes_Professores " "WHERE Id_Configuracao = %s " "GROUP BY Id_Materia, Id_Professor", [id_configuracao] ) )
-        return render(request, 'dashboard/professores.html', {'get_atribuicoes_count': get_atribuicoes_count, 'dados_agrupados' : dados_agrupados, 'get_atribuicoes' : get_atribuicoes ,'turmas' : get_turmas,'materias' : materias_dados , 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
+        return render(request, 'dashboard/professores.html', {'get_uniqueatribuicoes' : get_uniqueatribuicoes,  'get_atribuicoes_count': get_atribuicoes_count, 'dados_agrupados' : dados_agrupados, 'get_atribuicoes' : get_atribuicoes ,'turmas' : get_turmas,'materias' : materias_dados , 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
         return redirect('login')
     
