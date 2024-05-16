@@ -50,6 +50,7 @@ class Configuracoes(models.Model):
     Id_Periodo = models.CharField(max_length=100)
     Desc_Configuracao = models.CharField(max_length=100)
     Momento_Execucao = models.CharField(max_length=100)
+    Titulo_Configuracao = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'Configuracoes'

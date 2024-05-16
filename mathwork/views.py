@@ -1,5 +1,6 @@
 # meuapp/views.py
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
@@ -262,13 +263,18 @@ def sair_comom(request):
 def custom_authenticate(email=None, password=None):
     senha_crypt = None  # Definir senha_crypt com valor padrão
     
-    user = Usuarios.objects.get(Email=email)
-    crypt_senha = hashlib.md5(password.encode()).hexdigest()
+    try:
+        user = Usuarios.objects.get(Email=email)
+        crypt_senha = hashlib.md5(password.encode()).hexdigest()
 
-    if user.password == crypt_senha:
-        return user
-    else:
+        if user.password == crypt_senha:
+            return user
+        else:
+            return None
+    except ObjectDoesNotExist:
         return None
+
+    
 
 # Gerar aleatório pra confirmar no e-mail 
 def gerar_esquema():
@@ -410,7 +416,7 @@ def visibilidade_links(request):
 
 ## Início
 def inicio(request, id_escola):
-    if checkuser_login(request, False, False):
+    if checkuser_login(request, True, id_escola):
         ## Caso a pessoa tenha cadastrado uma configuração nova
         if request.method == 'POST':
             # Obter os dados do formulário
@@ -420,13 +426,14 @@ def inicio(request, id_escola):
             nmescola = request.POST.get('nm_escola')
             txtunidade = request.POST.get('txt_unidade')
             txtperiodo = request.POST.get('txt_periodo')
+            nm_config = request.POST.get('nm_config')
             execucao = datetime.now()
 
             ## Concatena a variável 
             resultado = f"{nmescola} - {txtunidade} - {txtperiodo}"
 
             # Criar um novo objeto Usuarios com os dados do formulário
-            configuracoes_objeto = Configuracoes(Id_Escola=idescola, Id_Unidade=idunidade, Id_Periodo=idperiodo, Desc_Configuracao=resultado, Momento_Execucao=execucao)
+            configuracoes_objeto = Configuracoes(Id_Escola=idescola, Id_Unidade=idunidade, Id_Periodo=idperiodo, Desc_Configuracao=resultado, Momento_Execucao=execucao, Titulo_Configuracao=nm_config)
 
             # Salvar o objeto no banco de dados
             configuracoes_objeto.save()
@@ -444,7 +451,7 @@ def inicio(request, id_escola):
         configuracoes = Configuracoes.objects.filter(Id_Escola=id_escola).all()
         return render(request, 'dashboard/startscreen.html' ,{'id_escola' : id_escola, 'escolas' : escolas, 'configuracoes': configuracoes, 'periodos': periodos, 'unidades': unidades})
     else:
-        return redirect('login')
+        return redirect('administrativo')
 
 ## Tela inicial
 def dash_inicial(request, id_escola):
@@ -653,10 +660,9 @@ def turmas(request, id_configuracao):
                 turmas = request.POST.get(turmas_key)
                 idturma = request.POST.get(idturma_key)
 
-                # if idturma is not None:
-                    # Turmas.objects.filter(Q(Id_Configuracao=id_configuracao), ~Q(Id_Turma=idturma)).delete()
-                
+
                 if idturma is None:
+                    print("CAIU AQUI")
                     # Criar um novo objeto Usuarios com os dados do formulário
                     turmas_obj = Turmas(Nome_Turma=turmas, Id_Configuracao=id_configuracao)
 
@@ -667,6 +673,8 @@ def turmas(request, id_configuracao):
                     lista_ids.append((novo_id))
 
                 else:
+                    print("Na VERDADE CAIU AQUI")
+
                     Turmas.objects.filter(Id_Turma=idturma).update(Nome_Turma=turmas)
                     lista_ids.append((idturma))
 
@@ -877,94 +885,109 @@ def professores(request, id_configuracao):
         counts = count_instances(id_configuracao)
 
         if request.method == 'POST':
+            grupos_dados = []
+            ids_professores = []
+            grupo_atual = []
+            id_professor = None
+            grupo_turmas = []
 
-            # Obter a quantidade de grupos do campo 'counter'
-            quantidade_grupos = int(request.POST.get('counter', 0))
-            # quantidade_turmas = int(request.POST.get('counter_turmas', 0))
-            professores_obj = None  # Declare a variável fora do primeiro loop
+            # Itera sobre os itens do request.POST
+            for key, value in request.POST.items():
+                # Verifica se o nome do campo é 'break', indicando o início de um novo grupo
+                if key.startswith('quantidade_turmas__'):
+                        # Se o grupo atual não estiver vazio, adiciona-o à lista de grupos de dados
+                    if grupo_atual:
+                        grupos_dados.append(grupo_atual)
+                        # Reinicia o grupo atual para o próximo conjunto de campos repetidores
+                        grupo_atual = []
+                        # Reinicia a preferência atual para o próximo grupo
+                        preferencia_atual = None
+                elif key.startswith('id_professor'):
+                    id_professor = value
+
+                elif key.startswith('nprofessor_'):
+                    # Adiciona o par de chave-valor ao grupo atual
+                    grupo_atual.append({'nome_professor': value, 'id_professor' : id_professor, 'materias': []})
+                    # Reinicia a preferência atual para o próximo professor
+                    preferencia_atual = None
+                elif key.startswith('preferencia_'):
+                    preferencia_atual = value
+
+                elif key.startswith('mateira_'):
+                    # Adiciona a matéria à lista de matérias do professor atual
+                    grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'turmas': []})
+                elif key.startswith('turmas_'):
+                    id_turma = value
+
+                    # Adiciona a turma à lista de turmas da matéria atual
+                    grupo_atual[-1]['materias'][-1]['turmas'].append({'id_turma': id_turma, 'nome_turma': value})
+
+            # Adiciona o último grupo de dados à lista de grupos, se houver algum
+            if grupo_atual:
+                grupos_dados.append(grupo_atual)
+
+            print(grupos_dados)
             
-            lista_ids = []
+            # Itera sobre os grupos de dados
+            for grupo in grupos_dados:
+                # Itera sobre os dados de cada grupo
+                for dados_professor in grupo:
+                    # Extrai o nome do professor
+                    nome_professor = dados_professor['nome_professor']
+                    id_professor = dados_professor['id_professor']                    
 
-            for index in range(1, quantidade_grupos + 1):
-                # Construir os nomes dos campos para Materias
-                nprofessor_key = f'nprofessor_{index}'
-                preferencia_key = f'preferencia_{index}'
-                id_professor_key = f'id_professor_{index}'
-                quantidade_turmas_key = f'quantidade_turmas__{index}'
-                quantidade_materias_key = f'count_materias_all_{index}'
+                    if(id_professor):
+                        id_professor_cadastrado = None
+                        # Atualizar o objeto Materias no banco de dados com base no id_turma
+                        Professores.objects.filter(Id_Professor=id_professor).update(Nome_Professor=nome_professor)
+                    else:
+                        # Cria um novo objeto Professores com os dados do formulário
+                        professores_obj = Professores(Nome_Professor=nome_professor, Id_Configuracao=id_configuracao)
 
-                # Obter os valores dos campos para Materias
-                nprofessor_value = request.POST.get(nprofessor_key)
-                preferencia_value = request.POST.get(preferencia_key)
-                id_professor = request.POST.get(id_professor_key)
-                quantidade_turmas = int(request.POST.get(quantidade_turmas_key))
-                quantidade_materias = int(request.POST.get(quantidade_materias_key))
-                    
-                if id_professor is None:
-                    id_professor_int = 0
-                else:
-                    id_professor_int = int(id_professor)
+                        # Salva o objeto Professores no banco de dados
+                        professores_obj.save()
 
-                if id_professor_int > 0:
-                    # Atualizar o objeto Materias no banco de dados com base no id_turma
-                    Professores.objects.filter(Id_Professor=id_professor_int).update(Nome_Professor=nprofessor_value)
-                    lista_ids.append((id_professor_int))
-                else:
-                    # Criar um novo objeto Materias com os dados do formulário
-                    professores_obj = Professores(Nome_Professor=nprofessor_value, Id_Configuracao=id_configuracao)
+                        # Resgata o id do indivíduo
+                        id_professor_cadastrado = professores_obj.Id_Professor
 
-                    # Salvar o objeto Materias no banco de dados
-                    professores_obj.save()
+                    # Identifica os professores
+                    if(id_professor):
+                        id_professor_send = id_professor
+                    else:
+                        id_professor_send = id_professor_cadastrado
 
-                    novo_id = professores_obj.Id_Professor
-                    lista_ids.append((novo_id))
+                    ids_professores.append(id_professor_send)
 
-                for indice in range(1, quantidade_materias + 1):
 
-                    materia_key = f'mateira_{index}_{indice}'
-                    materia_value = request.POST.get(materia_key)
+                    for lista_materias in dados_professor['materias']:
+                        id_materia = lista_materias['id_materia']
+                        preferencia = lista_materias['preferencia']
+                        id_conf = id_configuracao
+                        
+                        Atribuicoes_Professores.objects.filter(Id_Professor=id_professor_send, Id_Configuracao=id_conf).delete()
+                        for lista_turmas in lista_materias['turmas']:
+                            id_turma = lista_turmas['id_turma']
 
-                    for i in range(1, quantidade_turmas + 1):
-                        # Obter os valores dos campos para Restricoes_Materias
-                        idturma_check_key = f'repeaterturma_{index}_{indice}_{i}'
-                        idturma_check_key_text = f'repeaterturmatext_{index}_{indice}_{i}'
-                        idturma_check = request.POST.get(idturma_check_key)
-                        idturma_check_text = request.POST.get(idturma_check_key_text) 
-
-                        # Verificar se o checkbox está marcado
-                        if request.POST.get(idturma_check_key) == 'on':
-                            idturma_check = request.POST.get(f'repeaterturma_{index}_{indice}_{i}') 
-
-                        if id_professor_int == 0:
-                            id_professores_get = novo_id
-                        else:
-                            id_professores_get = id_professor_int
-
-                        if idturma_check is not None:
-
-                            existing_disponibilidade = Atribuicoes_Professores.objects.filter(Id_Professor=id_professores_get, Id_Configuracao=id_configuracao, Id_Materia=materia_value,Id_Turma=idturma_check,Preferencia=preferencia_value)
-
-                            if existing_disponibilidade.exists():
-                                # Se existir, atualizar o registro existente
-                                existing_disponibilidade.update(Preferencia=preferencia_value)
-                            else:
-                                # Criar um novo objeto Restricoes_Materias com os dados do formulário
-                                restricoes_obj = Atribuicoes_Professores(Id_Professor=id_professores_get, Id_Configuracao=id_configuracao, Id_Materia=materia_value,Id_Turma=idturma_check,Preferencia=preferencia_value)
+                            grupo_turmas.append({
+                                'id_turma': id_turma,
+                                'id_professor' : id_professor_send,
+                                'id_configuracao' : id_conf,
+                                'id_materia' : id_materia,
+                                'preferencia' : preferencia
+                            })
+                        
+                        for turmas_gp in grupo_turmas:
+                            # Finalmente cadastra as atribuições
+                            atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'])
+                            atribuicoes_obj.save()
         
-                                # Salvar o objeto Restricoes_Materias no banco de dados
-                                restricoes_obj.save()
-                        else:
-                            Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao, Id_Professor=id_professores_get, Id_Materia=materia_value, Id_Turma=idturma_check_text).delete()
 
+                                
 
-            # Exibir a lista com todos os IDs, novo ID e IDs antigos
-            lista_ids = [int(id) for id in lista_ids]   
+            # AGora deleta os qiue não existe mais
+            Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=ids_professores).delete()
+            Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=ids_professores).delete()
 
-            # Exclua os registros cujo ID não está na lista fornecida e cuja Id_Configuracao seja igual à variável id_configuracao
-            Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=lista_ids).delete()
-            Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=lista_ids).delete()
-
-            return redirect('professores', id_configuracao)
 
         ## Pega a função das urls
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()

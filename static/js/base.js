@@ -1,11 +1,11 @@
-// Incrementar valores nos inputs
+/*
 function incredec(x, y, z) {
     // Abrir o drop down & popular seus filhos
     $(function(){
         
 
         // Duplicador de campo 
-        $('.duplicatormaximus').off('click').on('click', function(){
+        $('.duplicatormaximus____OFFF').off('click').on('click', function(){
             var copiar_div = document.querySelector('.coopyx_max');
             var new_copiar_div = copiar_div.cloneNode(true);
             var superindex = $(this).closest('.unicogenerated-field').find('.ihaveindex').data('myindexbloc');
@@ -22,67 +22,8 @@ function incredec(x, y, z) {
             // Finalmente adiciona a div duplicada
             $(this).parent('.duplicator_turmas_materias').parent('.duplicater_add_div').append(new_copiar_div);
             $(this).next('.count_materias').val(qnt_divs + 1);
-
-            $(function(){
-                $('.header-materiasturmas_repeater button').off('click').on('click', function(){
-                    $(this).parent('.header-materiasturmas_repeater').next('.content_materias_turmas').slideToggle();
-                });
-
-                $('.fakeselect_').off('click').on('click', function() {
-                    myturmas = $(this).parent('.dropdown-sendturmas').data('sendturma');
-                    $(this).next('.body_dropdownsend').slideToggle();
-                });
-
-                $('.body_dropdownsend input').off('change').on('change', function(){
-                    meutexto = $(this).data('mytext');
-                    meuid = $(this).val();
-                    meupaiturma = $(this).parent().parent().parent('.dropdown-sendturmas').data('sendturma');
-
-                    // Alimenta a div com spans correspondentes aos selecionados
-                    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').each(function(){
-                        if ($('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').length > 0) {
-                            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').remove();
-                        }
-                        else{
-                            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').append('<span data-spnexid="'+meuid+'"><button type="button">x</button>'+meutexto+'</span>');
-                        }
-                    });
-
-                    
-                });
-            });
         }); 
 
-
-
-
-        $('.header-materiasturmas_repeater button').off('click').on('click', function(){
-            $(this).parent('.header-materiasturmas_repeater').next('.content_materias_turmas').slideToggle();
-        });
-
-        $('.fakeselect_').off('click').on('click', function() {
-            myturmas = $(this).parent('.dropdown-sendturmas').data('sendturma');
-            $(this).next('.body_dropdownsend').slideToggle();
-        });
-
-        $('.body_dropdownsend input').off('change').on('change', function(){
-            meutexto = $(this).data('mytext');
-            meuid = $(this).val();
-            meupaiturma = $(this).parent().parent().parent('.dropdown-sendturmas').data('sendturma');
-            $(this).parent().parent().parent('.dropdown-sendturmas').addClass('redCOLOR');
-            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').addClass('redCOLOR');
-            // Alimenta a div com spans correspondentes aos selecionados
-            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').each(function(){
-                if ($('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').length > 0) {
-                    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').remove();
-                }
-                else{
-                    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').append('<span data-spnexid="'+meuid+'"><button type="button">x</button>'+meutexto+'</span>');
-                }
-            });
-
-            
-        });
     });
 
     
@@ -150,7 +91,7 @@ function incredec(x, y, z) {
 
     checkSave();
 }
-
+*/
 
 // Pega os textos da unidade e período 
 function gtvalue(x){
@@ -164,88 +105,6 @@ function gtvalue(x){
     fieldAlimenta = document.getElementById('r_'+idfield);
     fieldAlimenta.value = dataattr;
 }
-
-
-
-$('.fakeselect_').off('click').on('click', function() {
-    myturmas = $(this).parent('.dropdown-sendturmas').data('sendturma');
-    $(this).next('.body_dropdownsend').slideToggle();
-});
-
-$('.body_dropdownsend input').off('change').on('change', function(){
-    meutexto = $(this).data('mytext');
-    meuid = $(this).val();
-    meupaiturma = $(this).parent().parent().parent('.dropdown-sendturmas').data('sendturma');
-    $(this).parent().parent().parent('.dropdown-sendturmas').addClass('redCOLOR');
-    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').addClass('redCOLOR');
-
-    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').each(function(){
-        if ($('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').length > 0) {
-            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').remove();
-        }
-        else{
-            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').append('<span data-spnexid="'+meuid+'"><button type="button">x</button>'+meutexto+'</span>');
-        }
-    });
-});
-
-$('.header-materiasturmas_repeater button').off('click').on('click', function(){
-    $(this).parent('.header-materiasturmas_repeater').next('.content_materias_turmas').slideToggle();
-});
-
-
-// Duplicador de campo 
-$('.duplicatormaximus').off('click').on('click', function(){
-    var copiar_div = document.querySelector('.coopyx_max');
-    var new_copiar_div = copiar_div.cloneNode(true);
-            
-    // Remove a classe pra não dar b.o na hora de adicionar o novovalor 
-    new_copiar_div.classList.remove('coopyx_max');
-
-    // Conta as divs e vê quanto add no inputer 
-    // 
-    qnt_divs = $(this).parent('.duplicator_turmas_materias').parent('.duplicater_add_div').children('.relacional_professorxmateria').length;
-
-    new_copiar_div.innerHTML = new_copiar_div.innerHTML.replace(/REPLACEINDEX/g, 1);    
-    new_copiar_div.innerHTML = new_copiar_div.innerHTML.replace(/newreplaceindex/g, qnt_divs + 1);    
-
-
-    // Finalmente adiciona a div duplicada
-    $(this).parent('.duplicator_turmas_materias').parent('.duplicater_add_div').append(new_copiar_div);
-    $(this).next('.count_materias').val(qnt_divs + 1);
-
-    $(function(){
-        $('.header-materiasturmas_repeater button').off('click').on('click', function(){
-            $(this).parent('.header-materiasturmas_repeater').next('.content_materias_turmas').slideToggle();
-        });
-
-        $('.fakeselect_').off('click').on('click', function() {
-            myturmas = $(this).parent('.dropdown-sendturmas').data('sendturma');
-            $(this).next('.body_dropdownsend').slideToggle();
-        });
-
-        $('.body_dropdownsend input').off('change').on('change', function(){
-            meutexto = $(this).data('mytext');
-            meuid = $(this).val();
-            meupaiturma = $(this).parent().parent().parent('.dropdown-sendturmas').data('sendturma');
-            $(this).parent().parent().parent('.dropdown-sendturmas').addClass('redCOLOR');
-            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').addClass('redCOLOR');
-
-            // Alimenta a div com spans correspondentes aos selecionados
-            $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').each(function(){
-                if ($('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').length > 0) {
-                    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"] span[data-spnexid="'+meuid+'"]').remove();
-                }
-                else{
-                    $('.turmas_relational[data-receiveturma="'+meupaiturma+'"]').append('<span data-spnexid="'+meuid+'"><button type="button">x</button>'+meutexto+'</span>');
-                }
-            });
-
-            
-        });
-    });
-}); 
-
 
 
 // Open professor calendar 
@@ -280,8 +139,6 @@ function exportarParaXLSX(x,y) {
 
     dataTable.page.len(10).draw();
 }
-
-
 
 
 //////////
@@ -380,3 +237,190 @@ $(document).ready(function(){
 $('.flex-settings button').on('click', function(){
     $('.settings-guide').slideToggle();
 });
+
+
+////////////////////////////
+// ADD GENÉRICO & remover 
+///////////////////////////
+function genericAddmore(y, z){
+    // Pega o total de intens em loop nessa página 
+    current_value = document.getElementById('counter');
+    current_value_value = current_value.value;
+
+    // Novo valor 
+    novovalor = parseInt(current_value_value) + 1;
+
+    // Generate novos campos 
+    current_value.value = novovalor;
+
+    // Adicionar a div modelo
+    var repeaterBodyLine = document.getElementById('repeaterbody-line');
+    var newDiv = document.createElement('div');
+    if(z == 'type1'){
+        newDiv.className = 'col-12 col-lg-6';
+        newDiv.id = 'fatherfield_' + novovalor;
+        newDiv.innerHTML = '<div class="formg_math"><label for="' + novovalor + '"><h3>'+ y +' ' + novovalor + '</h3><input class="replace_index required" type="text" name="'+ y.toLowerCase() +'_'+novovalor+'" id="' + novovalor + '"><button type="button" class="removeMe" onclick="removeMe(\'type\', \''+ novovalor +'\')"></button></label></div>';
+        
+    }
+    else if(z == 'type2' || z == 'type3'){
+        var type2Div = document.querySelector('.fieldto-copy');
+        var newDiv = type2Div.cloneNode(true);
+        
+        // Remove a classe pra não dar b.o na hora de adicionar o novovalor 
+        newDiv.classList.remove('fieldto-copy');
+
+        // Substitiui tudo que é REPLACEINDEX pelo id necessário 
+        newDiv.innerHTML = newDiv.innerHTML.replace(/REPLACEINDEX/g, novovalor);
+        newDiv.id = 'fatherfield_' + novovalor;
+    }
+    else{
+        newDiv.className = 'col-12 col-lg-6';
+        newDiv.id = 'fatherfield_' + novovalor;
+        newDiv.innerHTML = '<div class="formg_math"><label for="' + novovalor + '"><h3>'+ y +' ' + novovalor + '</h3><input class="replace_index required" type="text" name="'+ y.toLowerCase() +'_'+novovalor+'" id="' + novovalor + '"></label></div>';
+
+    }
+    repeaterBodyLine.appendChild(newDiv);
+}
+
+function removeMe(type, id) {
+    var element = document.getElementById('fatherfield_' + id);
+    element.remove();
+
+    updatefieldId(type);
+}
+
+function updatefieldId(type){
+    if(type == 'type1'){
+        var count = document.getElementsByClassName('formg_math').length;
+        // Atualiza título de cada um dos campos
+        var spans = document.querySelectorAll('.formg_math h3');
+        var formgMaths = document.querySelectorAll('.formg_math');
+
+        // Atualiza titulo dos boxes que contém m indexes
+        spans.forEach(function(span, index) {
+            var originalText = span.textContent;
+            var newText = originalText.replace(/\d+/g, index + 1);
+            span.textContent = newText; // Atualiza o texto do span
+        });
+    }
+    else{
+        var count = document.getElementsByClassName('carouseltype2').length;
+        var formgMaths = document.querySelectorAll('.carouseltype2:not(.fieldto-copy)');
+    }
+    
+    // Atualiza name/id de cada um dos campos internos 
+    formgMaths.forEach(function(formgMath, index) {
+        // Troca id do blocão
+        if(type == 'type2' || type == 'type3'){
+            var id_conteudo = formgMath.getElementsByClassName('id_conteudo'); 
+            if(id_conteudo.length > 0){
+                var split_id_conteudo = id_conteudo[0].name.split('_');
+                split_id_conteudo[1] = index + 1;
+                id_conteudo[0].name = split_id_conteudo.join('_');
+            }   
+        }
+
+        var inputs = formgMath.querySelectorAll('.replace_index');
+        inputs.forEach(function(input) {
+            if(type == 'type3'){
+                var originalName = input.getAttribute('name');
+                var originalId = input.getAttribute('id');
+
+                var split_name = originalName.split('_');
+                var split_id = originalId.split('_');
+
+            }
+            else{
+                var originalName = input.getAttribute('name');
+                var originalId = input.getAttribute('id');
+    
+                var newName = originalName.replace(/\d+/g, index + 1);
+                var newId = originalId.replace(/\d+/g, index + 1);
+    
+                input.setAttribute('name', newName); 
+                input.setAttribute('id', newId); 
+            }
+        });
+
+        
+
+        if(type == 'type2'){
+            var miniform_g = formgMath.querySelectorAll('.miniform_g');
+            miniform_g.forEach(function(miniform, index2) {
+                var input_miniform = miniform.getElementsByClassName('replace_index_level2');
+                var id_minifor = miniform.getElementsByClassName('id_minifor');
+
+                var split_name = input_miniform[0].name.split('_');
+                var split_id = id_minifor[0].name.split('_');
+
+                split_name[1] = index2 + 1;
+                split_name[2] = index + 1;
+
+                split_id[1] = index2 + 1;
+                split_id[2] = index + 1;
+
+                // Reatribuindo o nome ao campo
+                input_miniform[0].name = split_name.join('_');
+                id_minifor[0].name = split_name.join('_');
+            });
+        }
+
+        
+    });
+
+    // Atualiza a quantidade do counter 
+    var counterField = document.getElementById('counter');
+    counterField.value = count - 1; 
+}
+
+function dropdownProfessores(id){
+    div_open = id.parentElement.nextElementSibling;
+    if (div_open.classList.contains("hidden")) {
+        div_open.classList.remove("hidden");
+        id.innerHTML = '-';
+    } else {
+        div_open.classList.add("hidden");
+        id.innerHTML = '+';
+    }
+}
+
+function duplicatormaximus(me){
+    var copiar_div = document.querySelector('.coopyx_max');
+    var new_copiar_div = copiar_div.cloneNode(true);
+
+    // Adiciona um valor no input próximo
+    count_materias = me.nextElementSibling;
+    count_materias_valor = parseInt(count_materias.value) + 1;
+
+    // Pega qual índice da supercaixa 
+    father_box = me.closest(".unicogenerated-field");
+    input_index = father_box.querySelector('.ihaveindex').dataset.myindexbloc;
+
+    // Remove a classe pra não dar b.o na hora de adicionar o novovalor 
+    new_copiar_div.classList.remove('coopyx_max');
+
+    new_copiar_div.innerHTML = new_copiar_div.innerHTML.replace(/REPLACEINDEX/g, count_materias_valor);    
+    new_copiar_div.innerHTML = new_copiar_div.innerHTML.replace(/newreplaceindex/g, input_index);    
+    new_copiar_div.id = 'fatherfield_'+count_materias_valor +''+input_index;
+
+    // Finalmente adiciona a div duplicada
+    div_recebe = me.parentElement.parentElement;
+    div_recebe.appendChild(new_copiar_div);
+
+    // Alimenta input com quantidade de divs 
+    count_materias.value = count_materias_valor;
+}
+
+// Ver a senha 
+function togglePasswordVisibility() {
+    var passwordField = document.getElementById("passwordField");
+    var eyeIcon = document.querySelector(".show-password");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.innerHTML = "👁️";
+    } else {
+        passwordField.type = "password";
+        eyeIcon.innerHTML = "👁️";
+    }
+}

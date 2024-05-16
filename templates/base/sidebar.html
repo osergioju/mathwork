@@ -10,7 +10,8 @@
         -->
         <div class="chosenclass-sidebar">
             <h2 class="title_sidebar">
-                {{ id_escola_url.Nome_Escola }}
+                {{ get_config.Titulo_Configuracao }}
+                <span>{{ get_config.Desc_Configuracao }}</span>
             </h2>
             <a href="{% url 'inicio' id_escola=objconfig.Id_Escola %}">Selecionar outra</a>
             <div class="form-chosen">

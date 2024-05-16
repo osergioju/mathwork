@@ -34,6 +34,10 @@
                                     <input type="hidden" name="nm_escola" value="{{ escolas.Nome_Escola }}">
                                     <input type="hidden" name="txt_unidade" id="r_1" value="">
                                     <input type="hidden" name="txt_periodo" id="r_2" value="">
+                                    <label for="3">
+                                        Dê um nome para essa configuração
+                                        <input type="text" name="nm_config" id="3" value="">
+                                    </label>
                                     <label for="1">
                                         Unidade
                                         <select name="unidade" id="1" onchange="gtvalue(this)">
@@ -52,6 +56,7 @@
                                             {% endfor %}
                                         </select>
                                     </label>
+                                    
                                     <div class="sendbty">
                                         <button type="submit">Cadastrar</button>
                                     </div>

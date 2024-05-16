@@ -30,12 +30,14 @@
                                     <div class="geralbody-dashboard">
                                         <div class="chosen_quantity">
                                             <label for="1">
-                                                Quantidade de turmas
+                                                Cadastro de turmas
+                                                <!-- 
                                                 <div class="button-incrasedecesase">
                                                     <button type="button" onclick="incredec('down','Turmas', 'type1')">-</button>
                                                     <input type="text" class="receive_val" value="{{ page_resultados|length }}">
                                                     <button type="button"  onclick="incredec('up', 'Turmas', 'type1')">+</button>
                                                 </div>
+                                                -->
                                             </label>
                                         </div>
                                         <div class="bodyfields">
@@ -44,16 +46,20 @@
                                                     {% csrf_token %}
                                                     <div id="repeaterbody-line" class="row">
                                                         {% for resultado in page_resultados %}
-                                                            <div class="col-12 col-lg-6">
+                                                            <div class="col-12 col-lg-6" id="fatherfield_{{ forloop.counter }}">
                                                                 <div class="formg_math">
                                                                     <label for="{{ forloop.counter }}">
                                                                         <h3>Turma {{ forloop.counter }}</h3>
-                                                                        <input type="hidden" name="idturma_{{ forloop.counter }}" value="{{ resultado.Id_Turma }}">
-                                                                        <input class="required" type="text" name="turmas_{{ forloop.counter }}" id="{{ forloop.counter }}"  value="{{ resultado.Nome_Turma }}">
+                                                                        <input type="hidden" name="idturma_{{ forloop.counter }}" id="{{ resultado.Id_Turma }}" value="{{ resultado.Id_Turma }}">
+                                                                        <input class="replace_index required" type="text" name="turmas_{{ forloop.counter }}" id="{{ forloop.counter }}"  value="{{ resultado.Nome_Turma }}">
+                                                                        <button type="button" class="removeMe" onclick="removeMe('type1', {{ forloop.counter }})"></button>
                                                                     </label>
                                                                 </div>
                                                             </div>
                                                         {% endfor %}
+                                                    </div>
+                                                    <div class="addmorefield-generic">
+                                                        <button type="button" onclick="genericAddmore('Turmas','type1')">Adicionar campo</button>
                                                     </div>
                                                     <input type="hidden" name="counter" id="counter" value="{{ page_resultados|length }}">
                                                     <div class="row">

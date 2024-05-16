@@ -479,19 +479,13 @@ h2.title_sidebar {
     font-weight: 600;
 }
 
-.chosenclass-sidebar a {
-    transition: 0.4s ease all;
+h2.title_sidebar span {
     display: inline-block;
-    background: linear-gradient(90deg, #161C35 47.84%, rgba(255, 107, 0, 0.41) 215.03%);
-    color: white;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 5px 30px;
-    border-radius: 100px;
-    font-size: 14px;
-    position: relative;
-    overflow: hidden;
+    font-size: 12px;
+    font-weight: 400;
 }
+
+.chosenclass-sidebar a {color: black;font-size: 12px;font-weight: 600;}
 
 .chosenclass-sidebar {
     padding-bottom: 20px;
@@ -753,21 +747,24 @@ DASHBOARD
 }
 
 .formg_math label h3 {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
     color: #0F123B;
 }
 
 .formg_math label input {
     width: 100%;
-    padding: 14px;
+    padding: 0 14px;
     border-radius: 1000px;
-    border: 1px solid #878787;
-    font-size: 16px;
+    border: 1px solid #c8c8c8;
+    height: 40px;
+    font-size: 14px;
+    padding-right: 40px;
 }
 
 .formg_math label {
     width: 100%;
+    position: relative;
 }
 
 .startscreen {
@@ -838,17 +835,16 @@ DASHBOARD
     flex-direction: column;
     align-items: baseline;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     width: 50%;
     padding-right: 10px;
 }
 
 .form_create_startscreen label input, .form_create_startscreen label select {
-    padding: 10px 20px;
-    border-radius: 1000px;
+    padding: 5px 14px;
+    border-radius: 10000px;
     border: 1px solid #b9b9b9;
     width: 100%;
-    height: 50px;
 }
 
 .form_create_startscreen {
@@ -1071,8 +1067,7 @@ li.disable__link {
 .formg_math.miniform_g h4 {font-size: 14px;font-weight: bold;width: 100%;display: inline-block;color: #1a1f37;}
 
 .formg_math.miniform_g label {
-    width: 47%;
-    margin-right: 3%;
+    width: 100%
 }
 
 .formg_math.miniform_g input {
@@ -1201,7 +1196,7 @@ li.disable__link {
 .materias___e_turmas {
     background: #fcf7f2;
     border-radius: 20px;
-    padding: 0 30px;
+    padding: 0 5px;
 }
 
 .header-materiasturmas_repeater {
@@ -1209,11 +1204,12 @@ li.disable__link {
     flex-flow: wrap;
     justify-content: space-between;
     align-items: center;
+    padding: 5px 0 5px 5px;
 }
 
 .header-materiasturmas_repeater h3 {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 14px;
     color: #1a1f37;
     margin: 0;
 }
@@ -1223,11 +1219,11 @@ li.disable__link {
     background: #fe922b;
     width: 30px;
     height: 30px;
-    margin: 10px 0;
     border: none;
     color: white;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: 300;
+    line-height: 18px;
 }
 
 .duplicator_turmas_materias {
@@ -1235,7 +1231,7 @@ li.disable__link {
     display: flex;
     justify-content: flex-end;
     padding: 15px 0 0 0;
-    border-top: 1px solid black;
+    border-top: 1px solid #e2e2e2;
     order: 9999999;
 }
 
@@ -1260,7 +1256,7 @@ li.disable__link {
     margin: 0;
 }
 
-.content_materias_turmas {
+.content_materias_turmas.hidden {
     display: none;
 }
 
@@ -2432,4 +2428,236 @@ a.cardactions_person:hover::before {
     background: #1a1e37;
     transition: 0.4s ease all;
     border: 1px solid #1a1e37;
+}
+
+.addmorefield-generic button {
+    padding: 5px 25px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #0F123B;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    transition: 0.4s ease all;
+}
+
+.addmorefield-generic button:hover {
+    color: #0F123B;
+    background: #d5d5d5;
+    transition: 0.4s ease all;
+}
+
+.formg_math label .removeMe {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 100000px;
+    border: none;
+    background: #e5e5e5;
+    transform: scale(0.7);
+    color: white;
+    transition: 0.4s ease all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.formg_math label .removeMe:before{
+    height: 20px;
+    content: url(../svg/lixo.svg);
+    display: inline-block;
+    width: 20px;
+    opacity: 0.5;
+}
+
+.formg_math label .removeMe:hover {
+    background: #ff9292;
+    transition: 0.4s ease all;
+}
+
+.addmorefield-generic {
+    display: flex;
+    justify-content: end;
+}
+
+.formg_math label .removeMe:hover::before {
+    opacity: 1;
+}
+
+.deletebutton-type2 button {
+    width: 40px;
+    height: 40px;
+    border-radius: 100000px;
+    border: none;
+    background: #e5e5e5;
+    transform: scale(0.7);
+    color: white;
+    transition: 0.4s ease all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deletebutton-type2 {
+    padding-bottom: 20px;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.deletebutton-type2 button:before{
+    content: url(../svg/lixo.svg);
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+.deletebutton-type2 button:hover {
+    transition: 0.4s ease all;
+    background: #ff9292;
+}
+
+.deletebutton-type2 button:hover::before {
+    opacity: 1;
+    transition: 0.3s ease all;
+}
+
+/***
+DROPDOWN
+***********/
+.turmacards-area {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.formg_math label.unicacheck_fielbubble {
+    min-width: 10%;
+    background: white;
+    margin-right: 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px 5px 28px;
+    position: relative;
+    font-size: 14px;
+    transition: 0.5s ease all;
+    cursor: pointer;
+    overflow: hidden;
+    width: auto;
+}
+
+.fakebubble-checkbox input {
+    display: none;
+}
+
+.fakebubble-checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 1000px;
+    position: absolute;
+    left: 5px;
+    border: 2px solid #1a1f37;
+}
+
+.unicacheck_fielbubble:hover {
+    transition: 0.4s ease all;
+    background: #fe932a;
+    color: white;
+}
+
+.fakebubble-checkbox:before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #1a1f37;
+    position: absolute;
+    border-radius: 1000px;
+    left: 1px;
+    top: 1px;
+    transform: scale(0);
+    transition: 0.4s ease all;
+}
+
+.unicacheck_fielbubble:hover .fakebubble-checkbox:before {
+    transition: 0.4s ease all;
+    transform: scale(0.8);
+}
+
+
+input:checked + .slider {
+    background-color: #FE912B;
+}
+  
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+input:checked + .beforecarter {
+    background: #fe922b;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: 0.4s ease all;
+}
+
+.unicacheck_fielbubble span {
+    position: relative;
+}
+
+.beforecarter {
+    transition: 0.4s ease all;
+}
+
+.beforecarter:before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 1000px;
+    left: 6px;
+    top: 8px;
+    border: 1px solid #1a1f37;
+}
+
+.beforecarter:after {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    background: #1a1f37;
+    content: "";
+    border-radius: 1000px;
+    top: 10px;
+    left: 8px;
+    transform: scale(0);
+    transition: 0.4s ease all;
+}
+
+input:checked + .beforecarter:after {
+    transform: scale(0.8);
+}
+
+.turmacards-area input {
+    display: none;
+}
+
+label.unicacheck_fielbubble:hover {
+    background: #fe932a;
+}
+
+.form_create_startscreen label:first-of-type {
+    margin-bottom: 15px;
+    width: 100%;
 }

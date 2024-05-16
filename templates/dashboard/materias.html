@@ -32,11 +32,13 @@
                                         <div class="chosen_quantity">
                                             <label for="1">
                                                 Quantidade de matérias
+                                                <!--
                                                 <div class="button-incrasedecesase">
                                                     <button type="button" onclick="incredec('down', 'Materias', 'type2')">-</button>
                                                     <input type="text" class="receive_val" value="{{ page_resultados|length }}">
                                                     <button type="button" onclick="incredec('up', 'Materias', 'type2')">+</button>
                                                 </div>
+                                                -->
                                             </label>
                                         </div>
                                         <div class="bodyfields">
@@ -45,19 +47,19 @@
                                                 <div id="repeaterbody-line" class="row">
                                                     {% for resultado in page_resultados %}
                                                         {% with loop_one=forloop %}
-                                                            <div class="carouseltype2">
+                                                            <div class="carouseltype2" id="fatherfield_{{ forloop.counter }}">
                                                                 <div class="unicogenerated-field"> 
                                                                     <div class="row">
                                                                         <div class="col-12 col-lg-6">
                                                                             <div class="row">
                                                                                 <div class="col-12">
-                                                                                    <input type="hidden" name="idmateria_{{ forloop.counter }}" value="{{ resultado.Id_Materia }}">
+                                                                                    <input type="hidden" class="id_conteudo" name="idmateria_{{ forloop.counter }}" value="{{ resultado.Id_Materia }}">
                                                                                 </div>
                                                                                 <div class="col-12 col-lg-6"> 
                                                                                     <div class="formg_math"> 
                                                                                         <label for="0_{{ forloop.counter }}"> 
                                                                                             <h3>Matéria</h3> 
-                                                                                            <input type="text" class="required" name="materia_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Materia }}"> 
+                                                                                            <input type="text" class="replace_index required" name="materia_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Materia }}"> 
                                                                                         </label> 
                                                                                     </div> 
                                                                                 </div> 
@@ -65,10 +67,15 @@
                                                                                     <div class="formg_math"> 
                                                                                         <label for="1_{{ forloop.counter }}"> 
                                                                                             <h3>Preferência</h3> 
-                                                                                            <input type="text" class="required" name="preferencia_{{ forloop.counter }}" id="1_{{ forloop.counter }}" value="{{ resultado.Preferencia }}"> 
+                                                                                            <input type="text" class="replace_index required" name="preferencia_{{ forloop.counter }}" id="1_{{ forloop.counter }}" value="{{ resultado.Preferencia }}"> 
                                                                                         </label> 
                                                                                     </div> 
                                                                                 </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12 col-lg-6">
+                                                                            <div class="deletebutton-type2">
+                                                                                <button button type="button" class="removeMe" onclick="removeMe('type2' ,{{ forloop.counter }})"></button>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12"> 
@@ -79,15 +86,12 @@
                                                                                             {% if restricoes.Id_Turma == turmas.Id_Turma and restricoes.Id_Materia == resultado.Id_Materia %}
                                                                                                 <div class="formg_math miniform_g"> 
                                                                                                     <h4>{{ turmas.Nome_Turma }}</h4>
-                                                                                                    <input type="hidden" name="idturma_{{ loop_two.counter }}_{{ loop_two.parentloop.counter }}" value="{{ turmas.Id_Turma }}"> 
+                                                                                                    <input type="hidden" class="id_minifor" name="idturma_{{ loop_two.counter }}_{{ loop_two.parentloop.counter }}" value="{{ turmas.Id_Turma }}"> 
                                                                                                     <label for="turma_{{ loop_two.counter }}_{{ turmas.Id_Turma }}">
                                                                                                         <span>Qnt min. (semanal)</span>
-                                                                                                        <input class="required" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
+                                                                                                        <input class="replace_index_level2 required" ID="" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
                                                                                                     </label>
-                                                                                                    <label for="turma_{{ loop_two.counter }}_{{ turmas.Id_Turma }}">
-                                                                                                        <span>Qnt max. (diária)</span>
-                                                                                                        <input class="required" value="{{ restricoes.Qtd_Maxima_Diaria }}" type="text" id="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
-                                                                                                    </label>
+                                                                                                    <input class="required" value="0" type="hidden" id="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
                                                                                                 </div>
                                                                                             {% endif %}
                                                                                         {% endfor %}
@@ -101,7 +105,9 @@
                                                         {% endwith %}
                                                     {% endfor %}
                                                 </div>
-                                                
+                                                <div class="addmorefield-generic">
+                                                    <button type="button" onclick="genericAddmore('Materias','type2')">Adicionar campo</button>
+                                                </div>
                                                 <input type="hidden" name="counter" id="counter" value="{{ page_resultados|length }}">
                                                 <input type="hidden" name="counter_turmas" id="counter_turmas" value="{{ get_turmas|length }}">
                                                 <div class="row">
@@ -137,7 +143,7 @@
                                                 <div class="formg_math"> 
                                                     <label for="0_REPLACEINDEX"> 
                                                         <h3>Matéria</h3> 
-                                                        <input type="text" class="required" name="materia_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
+                                                        <input type="text" class="replace_index required" name="materia_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
                                                     </label> 
                                                 </div> 
                                             </div> 
@@ -145,10 +151,15 @@
                                                 <div class="formg_math"> 
                                                     <label for="1_REPLACEINDEX"> 
                                                         <h3>Preferência</h3> 
-                                                        <input type="text" class="required" name="preferencia_REPLACEINDEX" id="1_REPLACEINDEX" value="10"> 
+                                                        <input type="text" class="replace_index required" name="preferencia_REPLACEINDEX" id="1_REPLACEINDEX" value="10"> 
                                                     </label>
                                                 </div> 
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="deletebutton-type2">
+                                            <button button type="button" class="removeMe" onclick="removeMe('type2' ,REPLACEINDEX)"></button>
                                         </div>
                                     </div>
                                     <div class="col-12"> 
@@ -159,12 +170,9 @@
                                                     <input type="hidden" value="{{ turmas.Id_Turma }}" name="idturma_{{ forloop.counter }}_REPLACEINDEX">
                                                     <label for="minturma_{{ forloop.counter }}_REPLACEINDEX">
                                                         <span>Qnt min. (semanal)</span>
-                                                        <input type="text" class="required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                        <input type="text" class="replace_index_level2 required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
                                                     </label>
-                                                    <label for="maxturma_{{ forloop.counter }}_REPLACEINDEX">
-                                                        <span>Qnt max. (diária)</span>
-                                                        <input type="text" class="required" id="maxturma_{{ forloop.counter }}_REPLACEINDEX" name="maxturma_{{ forloop.counter }}_REPLACEINDEX">
-                                                    </label>
+                                                    <input type="hidden" class="required" id="maxturma_{{ forloop.counter }}_REPLACEINDEX" name="maxturma_{{ forloop.counter }}_REPLACEINDEX" value="0">
                                                 </div>
                                             {% endfor %}
                                         </div>
