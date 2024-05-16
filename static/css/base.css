@@ -280,6 +280,7 @@ span#name_suer {
 div#myTabContent {
     background: white;
     border-radius: 0 15px 15px 15px;
+    position: relative;
 }
 
 .tabs_mathworks ul li.nav-item button {
@@ -960,13 +961,14 @@ li.disable__link {
     font-size: 14px;
 }
 
-.carouseltype2 {background: #1a1f37;padding: 20px;border-radius: 10px;margin-bottom: 20px;}
+.carouseltype2 {background: #1a1f37;padding: 20px;border-radius: 10px;margin-bottom: 20px;position: relative;}
 
 #repeaterbody-line {
     scrollbar-width: thin;
     scrollbar-color: #ffffff #d9d9d9;
     /* max-height: 700px;
     overflow-y: auto; */
+    padding-left: 20px;
 }
 
 #repeaterbody-line::-webkit-scrollbar {
@@ -2508,6 +2510,18 @@ a.cardactions_person:hover::before {
     justify-content: end;
 }
 
+.indice__count {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #1a1f37;
+    transform: translate(-25px, 0px);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px 0 0 10px;
+    z-index: 3;
+}
+
 .deletebutton-type2 button:before{
     content: url(../svg/lixo.svg);
     display: inline-block;
@@ -2660,4 +2674,34 @@ label.unicacheck_fielbubble:hover {
 .form_create_startscreen label:first-of-type {
     margin-bottom: 15px;
     width: 100%;
+}
+
+.fakeloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(255 255 255 / 64%);
+    z-index: 99;
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
+    display: none;
+}
+
+.centralloader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centralloader svg {
+    width: 100px;
+    height: 100px;
+}
+
+.centralloader svg, .centralloader svg * {
+    stroke: #fe922b;
 }

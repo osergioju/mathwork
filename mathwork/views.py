@@ -925,8 +925,6 @@ def professores(request, id_configuracao):
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
                 grupos_dados.append(grupo_atual)
-
-            print(grupos_dados)
             
             # Itera sobre os grupos de dados
             for grupo in grupos_dados:
@@ -976,13 +974,12 @@ def professores(request, id_configuracao):
                                 'preferencia' : preferencia
                             })
                         
-                        for turmas_gp in grupo_turmas:
-                            # Finalmente cadastra as atribuições
-                            atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'])
-                            atribuicoes_obj.save()
+                        
         
-
-                                
+            for turmas_gp in grupo_turmas:
+                # Finalmente cadastra as atribuições
+                atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'])
+                atribuicoes_obj.save()
 
             # AGora deleta os qiue não existe mais
             Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=ids_professores).delete()

@@ -30,9 +30,12 @@
                                     </label>
                                 </div>
                                 <div class="formg-login">
-                                    <label for="2">
+                                    <label for="2_pass">
                                         Senha
-                                        <input type="password" name="password" id="2" placeholder="Senha">
+                                        <div class="encapsula_pass">
+                                            <input type="password" name="password" id="2_pass" placeholder="Senha">
+                                            <span class="show-password" onclick="togglePasswordVisibility()"></span>    
+                                        </div>
                                         <div class="link-fgt-senha">
                                             <a href="{% url 'recuperar_senha' %}">Esqueci minha senha</a>
                                         </div>

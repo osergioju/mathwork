@@ -220,6 +220,47 @@ body{
     font-weight: 600;
     margin-top: 40px;
 }
+.encapsula_pass {
+    width: 100%;
+    position: relative;
+}
+
+span.show-password {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-10px, 13px) scale(0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+span.show-password:before {
+    content: url(../svg/eye-open.svg);
+    position: absolute;
+    width: 100%;
+    transform: translate(0px, 4px);
+}
+
+span.show-password:after {
+    content: url(../svg/eye-close.svg);
+    position: absolute;
+    width: 100%;
+    transform: translate(0px, 9px);
+    opacity: 0;
+}
+
+span.show-password.activaded:after {
+    opacity: 1;
+}
+
+span.show-password.activaded:before {
+    opacity: 0;
+}
 
 @media(min-width: 993px){
     .centralform-login, .centrallogin-brand {

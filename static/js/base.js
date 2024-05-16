@@ -165,11 +165,13 @@ $('#fm').submit(function(event) {
         else {
             $(this).removeClass('error_field');
         }
-        console.log(valor);
     });
 
     if (!isValid) {
         event.preventDefault(); // Impede o envio do formulário se houver erros
+    }
+    else{
+        $('.fakeloader').fadeIn();
     }
 });
 
@@ -312,12 +314,14 @@ function updatefieldId(type){
     formgMaths.forEach(function(formgMath, index) {
         // Troca id do blocão
         if(type == 'type2' || type == 'type3'){
+            var span_index = formgMath.getElementsByClassName('spanex_index'); 
             var id_conteudo = formgMath.getElementsByClassName('id_conteudo'); 
             if(id_conteudo.length > 0){
                 var split_id_conteudo = id_conteudo[0].name.split('_');
                 split_id_conteudo[1] = index + 1;
                 id_conteudo[0].name = split_id_conteudo.join('_');
             }   
+            span_index[0].innerHTML = index + 1;
         }
 
         var inputs = formgMath.querySelectorAll('.replace_index');
@@ -413,14 +417,14 @@ function duplicatormaximus(me){
 
 // Ver a senha 
 function togglePasswordVisibility() {
-    var passwordField = document.getElementById("passwordField");
+    var passwordField = document.getElementById("2_pass");
     var eyeIcon = document.querySelector(".show-password");
 
     if (passwordField.type === "password") {
         passwordField.type = "text";
-        eyeIcon.innerHTML = "👁️";
+        eyeIcon.classList.add("activaded");
     } else {
         passwordField.type = "password";
-        eyeIcon.innerHTML = "👁️";
+        eyeIcon.classList.remove("activaded");
     }
 }
