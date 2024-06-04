@@ -43,7 +43,7 @@ def contar_janelas(df_visualizacao_janelas, dias, professores):
     for nm_professor in professores.values():
         janelas[nm_professor] = {dia: 0 for dia in dias.values()}
         df_filtrado = df_visualizacao_janelas[df_visualizacao_janelas["professor"] == nm_professor]
-        df_filtrado = df_filtrado.sort_values(by=["dia", "momento"]).reset_index(drop=True)
+        df_filtrado = df_filtrado.sort_values(by=["dia", "momento_formatado"]).reset_index(drop=True)
 
         janelas_dia_prof, _ = somar_janelas(df_visualizacao_janelas=df_filtrado, 
                                             dias=dias)
