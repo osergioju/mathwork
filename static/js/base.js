@@ -374,7 +374,12 @@ function updatefieldId(type){
 
     // Atualiza a quantidade do counter 
     var counterField = document.getElementById('counter');
-    counterField.value = count - 1; 
+    if(type == 'type2' || type == 'type3'){
+        counterField.value = count - 1; 
+    }
+    else{
+        counterField.value = count; 
+    }
 }
 
 function dropdownProfessores(id){

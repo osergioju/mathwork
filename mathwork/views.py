@@ -660,9 +660,7 @@ def turmas(request, id_configuracao):
                 turmas = request.POST.get(turmas_key)
                 idturma = request.POST.get(idturma_key)
 
-
                 if idturma is None:
-                    print("CAIU AQUI")
                     # Criar um novo objeto Usuarios com os dados do formulário
                     turmas_obj = Turmas(Nome_Turma=turmas, Id_Configuracao=id_configuracao)
 
@@ -673,14 +671,14 @@ def turmas(request, id_configuracao):
                     lista_ids.append((novo_id))
 
                 else:
-                    print("Na VERDADE CAIU AQUI")
-
                     Turmas.objects.filter(Id_Turma=idturma).update(Nome_Turma=turmas)
                     lista_ids.append((idturma))
 
             # Exibir a lista com todos os IDs, novo ID e IDs antigos
             lista_ids = [int(id) for id in lista_ids]
 
+            print(lista_ids)
+            
             # Exclua os registros cujo ID não está na lista fornecida e cuja Id_Configuracao seja igual à variável id_configuracao
             Turmas.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Turma__in=lista_ids).delete()
 
@@ -798,7 +796,7 @@ def materias(request, id_configuracao):
         counts = count_instances(id_configuracao)
 
         if request.method == 'POST':
-
+            
             # Obter a quantidade de grupos do campo 'counter'
             quantidade_grupos = int(request.POST.get('counter', 0))
             quantidade_turmas = int(request.POST.get('counter_turmas', 0))

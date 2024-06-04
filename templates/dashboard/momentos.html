@@ -62,7 +62,7 @@
                                                                 <div class="formg_math">
                                                                     <label for="{{ forloop.counter }}">
                                                                         <h3>Momento {{ forloop.counter }}</h3>
-                                                                        <input type="hidden" name="idmomentos_{{ forloop.counter }}" value="{{ resultado.Id_Momento }}">
+                                                                        <input class="replace_index" type="hidden" name="idmomentos_{{ forloop.counter }}" value="{{ resultado.Id_Momento }}">
                                                                         <input class="replace_index required" type="text" name="momentos_{{ forloop.counter }}" id="{{ forloop.counter }}"  value="{{ resultado.Nome_Momento }}">
                                                                         <button type="button" class="removeMe" onclick="removeMe('type1', {{ forloop.counter }})"></button>
                                                                     </label>
