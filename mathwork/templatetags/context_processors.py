@@ -10,7 +10,7 @@ def visibilidade_links(request):
             stat_user = Usuarios.objects.filter(Id_Usuario=id_user).first()
             id_status_user = stat_user.Id_UserRole 
             
-            if id_status_user == 1:
+            if id_status_user == 1: 
                 admin = 0
                 request.session['adm_statuses'] = 0
             else:
