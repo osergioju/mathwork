@@ -70,3 +70,6 @@ def retorna_mensagens(configuracoes):
             problemas.append((mensagens, dica))
     
     return problemas
+
+def gera_triplas(sequencia):
+    return [sequencia[i:i + 3] for i in range(0, len(sequencia) - 2, 1)]

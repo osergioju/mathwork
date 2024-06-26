@@ -36,35 +36,6 @@ def cronogrid(configuracoes):
         professores_turmas_materias -- dicionário com as matérias que cada professor pode dar em cada turma
         df_disponibilidades -- dataframe com as disponibilidades de cada professor em cada dia e momento preenchiadas com 1 ou 0
     """
-
-    # con_class = Connector()
-    # nm_escola = con_class.get_nm_escola(configuracoes["Id_Escola"])[0]
-    # nm_unidade = con_class.get_nm_unidade(configuracoes["Id_Unidade"])[0]
-    # nm_periodo = con_class.get_nm_periodo(configuracoes["Id_Periodo"])[0]
-    # con_class.fechar_conexao()
-
-    min_aulas_semana = {materia: {turma: configuracoes["aulas_minimas_semanais"][materia][turma] 
-                                    for turma in configuracoes["turmas"].values()} 
-                                for materia in configuracoes["materias"].values()}
-    # aulas_maximas_diarias = {}
-    # for nm_materia in configuracoes["aulas_minimas_semanais"]:
-    #     aulas_maximas_diarias[nm_materia] = {}
-    #     for turma in configuracoes["aulas_minimas_semanais"][nm_materia]:
-    #         aulas_maximas_diarias[nm_materia][turma] = 2
-
-    aulas_maximas_diarias = {materia: {turma: configuracoes["aulas_maximas_diarias"][materia][turma]
-                                for turma in configuracoes["turmas"].values()}
-                            for materia in configuracoes["materias"].values()}
-
-    configuracoes["aulas_maximas_diarias"] = aulas_maximas_diarias
-
-    max_aulas_dia = {materia: {turma: configuracoes["aulas_maximas_diarias"][materia][turma] 
-                                   for turma in configuracoes["turmas"].values()}
-                                for materia in configuracoes["materias"].values()}
-
-    # max_aulas_dia = {materia: {turma: 2 for turma in configuracoes["turmas"].values()}
-    #                         for materia in configuracoes["materias"].values()}
-    
     
     # a sequencia b, a, d, c permite que a sequencia das variáveis facilite a criação dos coeficientes para aumentar as dobradinhas (aulas geminadas)
     b, a, d, c = range(configuracoes["B"]), range(configuracoes["A"]), range(configuracoes["D"]), range(configuracoes["C"])
@@ -150,7 +121,7 @@ def cronogrid(configuracoes):
             "desc": "Cada professor deve ministrar um número mínimo de aulas por semana por turma",
             "letras_vertical": ["a", "b"],
             "letras_horizontal": ["c", "d"],
-            "argumentos": [prob, a, b, c, d, vars_, min_aulas_semana, configuracoes["professores_turmas_materias"],
+            "argumentos": [prob, a, b, c, d, vars_, configuracoes["aulas_minimas_semanais"], configuracoes["professores_turmas_materias"],
                         configuracoes["professores"], configuracoes["turmas"]],
             "callable": restricao_tres,
             "active": True,
@@ -159,7 +130,7 @@ def cronogrid(configuracoes):
             "desc": "Cada professor só pode ministrar até duas (ou mais ou menos) aulas por dia numa mesma turma",
             "letras_vertical": ["a", "b", "d"],
             "letras_horizontal": ["c"],
-            "argumentos": [prob, a, b, c, d, vars_, max_aulas_dia, configuracoes["professores_turmas_materias"], 
+            "argumentos": [prob, a, b, c, d, vars_, configuracoes["aulas_maximas_diarias"], configuracoes["professores_turmas_materias"], 
                         configuracoes["professores"], configuracoes["turmas"]],
             "callable": restricao_quatro,
             "active": True,
@@ -258,7 +229,7 @@ def cronogrid(configuracoes):
                                  "df_visualizacao_professores": df_visualizacao_prof,
                                  "df_visualizacao_janelas": df_visualizacao_janelas,
                                  "df_resumo_janelas": df_resumo_janelas, 
-                                 "configuracoes": configuracoes})
+                                 "configuracoes": configuracoes, "prob": prob})
             else:
 
                 print(f"Não foi possível encontrar uma solução ótima com o solver {nm_solver}")

@@ -1,7 +1,8 @@
 import pulp as plp
 from numpy import array, insert, where
 from itertools import product
-import numpy as np
+from utils.utils import gera_triplas
+
 
 def restricao_um(prob, a, b, c, d, vars_, rest):
 
@@ -118,7 +119,7 @@ def restricao_tres(prob, a, b, c, d, vars_, min_aulas_semana, professores_turmas
         prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) >= min_aulas_semana_professor, f"{rest:02}_{x:03}"
         x += 1
 
-def restricao_quatro(prob, a, b, c, d, vars_, min_max_aulas_dia, professores_turmas_materias, professores, turmas, rest):
+def restricao_quatro(prob, a, b, c, d, vars_, max_aulas_dia, professores_turmas_materias, professores, turmas, rest):
 
     """
     Restrição 4: Cada professor deve dar um número mínimo e máximo de aulas por dia.
@@ -164,7 +165,15 @@ def restricao_quatro(prob, a, b, c, d, vars_, min_max_aulas_dia, professores_tur
 
         # prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) >= 0, f"{rest:02}_{2 * x + 1:03}"
         # prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) <= qtd_max_aulas_dia_prof, f"{rest:02}_{x:03}" # f"{rest:02}_{2 * x:03}"
-        prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) <= 2, f"{rest:02}_{x:03}" # f"{rest:02}_{2 * x:03}"
+        qtd_max = max_aulas_dia[nm_professor][nm_turma]
+        prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) <= qtd_max, f"{rest:02}_{x:03}.0" # f"{rest:02}_{2 * x:03}"
+
+        if qtd_max > 2:
+            triplas_ks = gera_triplas(ks)
+            for z, tripla_ks in enumerate(triplas_ks, 1):
+                lista_somar = [vars_[str(tuple(k))] for k in tripla_ks]
+                prob += plp.lpSum(lista_somar) <= 2, f"{rest:02}_{x:03}.{z}"
+
         x += 1
 
 def restricao_cinco(prob, a, b, vars_, df_disponibilidade_professores, professores_turmas_materias, 
