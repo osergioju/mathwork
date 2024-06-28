@@ -99,7 +99,7 @@
                                                                                             <h3>Quantidade máxima diária</h3> 
                                                                                             {% for atrb in get_uniqueatribuicoes %}
                                                                                                 {% if atrb.Id_Professor == resultado.Id_Professor %}
-                                                                                                <input type="number" min="0" class="required" name="qnt_maxima_diaria_{{ forloop.parentloop.counter }}" id="2_{{ forloop.parentloop.counter }}" value="{{ atrb.Qnt_Maxima_Diaria }}"> 
+                                                                                                <input type="number" min="1" max="3" class="required" name="qnt_maxima_diaria_{{ forloop.parentloop.counter }}" id="2_{{ forloop.parentloop.counter }}" value="{{ atrb.Qnt_Maxima_Diaria }}"> 
                                                                                                 {% endif %}
                                                                                             {% endfor %}
                                                                                         </label> 
