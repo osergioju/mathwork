@@ -892,6 +892,7 @@ def professores(request, id_configuracao):
             grupo_atual = []
             id_professor = None
             grupo_turmas = []
+            qnt_maxima_diaria = None
 
             # Itera sobre os itens do request.POST
             for key, value in request.POST.items():
@@ -904,6 +905,8 @@ def professores(request, id_configuracao):
                         grupo_atual = []
                         # Reinicia a preferência atual para o próximo grupo
                         preferencia_atual = None
+                        qnt_maxima_diaria = None
+
                 elif key.startswith('id_professor'):
                     id_professor = value
 
@@ -912,12 +915,16 @@ def professores(request, id_configuracao):
                     grupo_atual.append({'nome_professor': value, 'id_professor' : id_professor, 'materias': []})
                     # Reinicia a preferência atual para o próximo professor
                     preferencia_atual = None
+                    qnt_maxima_diaria = None
                 elif key.startswith('preferencia_'):
                     preferencia_atual = value
+    
+                elif key.startswith('qnt_maxima_diaria_'):
+                    qnt_maxima_diaria = value
 
                 elif key.startswith('mateira_'):
                     # Adiciona a matéria à lista de matérias do professor atual
-                    grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'turmas': []})
+                    grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'qnt_maxima_diaria': qnt_maxima_diaria, 'turmas': []})
                 elif key.startswith('turmas_'):
                     id_turma = value
 
@@ -927,7 +934,7 @@ def professores(request, id_configuracao):
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
                 grupos_dados.append(grupo_atual)
-            
+
             # Itera sobre os grupos de dados
             for grupo in grupos_dados:
                 # Itera sobre os dados de cada grupo
@@ -962,6 +969,7 @@ def professores(request, id_configuracao):
                     for lista_materias in dados_professor['materias']:
                         id_materia = lista_materias['id_materia']
                         preferencia = lista_materias['preferencia']
+                        qnt_maxima_diaria_get = lista_materias['qnt_maxima_diaria']
                         id_conf = id_configuracao
                         
                         Atribuicoes_Professores.objects.filter(Id_Professor=id_professor_send, Id_Configuracao=id_conf).delete()
@@ -973,14 +981,15 @@ def professores(request, id_configuracao):
                                 'id_professor' : id_professor_send,
                                 'id_configuracao' : id_conf,
                                 'id_materia' : id_materia,
-                                'preferencia' : preferencia
+                                'preferencia' : preferencia,
+                                'qnt_maxima_diaria_get' : qnt_maxima_diaria_get
                             })
                         
                         
         
             for turmas_gp in grupo_turmas:
                 # Finalmente cadastra as atribuições
-                atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'])
+                atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'],Qnt_Maxima_Diaria=turmas_gp['qnt_maxima_diaria_get'])
                 atribuicoes_obj.save()
 
             # AGora deleta os qiue não existe mais
@@ -995,7 +1004,7 @@ def professores(request, id_configuracao):
         get_turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
         get_atribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).all()
         get_atribuicoes_count = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Preferencia', 'Id_Professor').annotate(count=Count('Id_Atribuicao'))
-        get_uniqueatribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Id_Professor', 'Preferencia').order_by('Id_Professor').distinct()
+        get_uniqueatribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Id_Professor', 'Preferencia','Qnt_Maxima_Diaria').order_by('Id_Professor').distinct()
 
         # Criar um conjunto para armazenar IDs únicos
         ids_unicos = set()
@@ -1217,7 +1226,6 @@ def disponibilidade(request, id_configuracao):
         dias = Dias.objects.filter(Id_Configuracao=id_configuracao).all()
         professores = Professores.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Professor').all()
 
-        # get_atribuicoes = ( Atribuicoes_Professores.objects.raw( "SELECT Id_Atribuicao, Id_Professor, Id_Configuracao, Id_Materia, " "GROUP_CONCAT(Id_Turma SEPARATOR '|') as Id_Turma, Preferencia " "FROM Atribuicoes_Professores " "WHERE Id_Configuracao = %s " "GROUP BY Id_Materia, Id_Professor", [id_configuracao] ) )
         return render(request, 'dashboard/disponibilidade.html', {'json_resultados' : json_resultados ,'professores' : professores ,'dias' : dias ,'momentos' : momentos  ,'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
         return redirect('login')

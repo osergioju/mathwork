@@ -139,6 +139,7 @@ class Atribuicoes_Professores(models.Model):
     Id_Materia = models.CharField(max_length=100)
     Id_Turma = models.CharField(max_length=100)
     Preferencia = models.CharField(max_length=100)
+    Qnt_Maxima_Diaria = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'Atribuicoes_Professores'

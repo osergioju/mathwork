@@ -68,7 +68,7 @@
                                                                 </div>
                                                                 <div class="unicogenerated-field"> 
                                                                     <div class="row">
-                                                                        <div class="col-12 col-lg-6">
+                                                                        <div class="col-12 col-lg-11">
                                                                             <div class="row">
                                                                                 <div class="col-12 col-lg-6"> 
                                                                                     <input type="hidden" name="id_professor_{{ forloop.counter }}" id="" value="{{ resultado.Id_Professor }}">
@@ -81,7 +81,7 @@
                                                                                         </label> 
                                                                                     </div>  
                                                                                 </div> 
-                                                                                <div class="col-12 col-lg-6"> 
+                                                                                <div class="col-12 col-lg-3"> 
                                                                                     <div class="formg_math"> 
                                                                                         <label for="1_{{ forloop.counter }}"> 
                                                                                             <h3>Preferência</h3> 
@@ -93,9 +93,21 @@
                                                                                         </label> 
                                                                                     </div> 
                                                                                 </div> 
+                                                                                <div class="col-12 col-lg-3"> 
+                                                                                    <div class="formg_math"> 
+                                                                                        <label for="2_{{ forloop.counter }}"> 
+                                                                                            <h3>Quantidade máxima diária</h3> 
+                                                                                            {% for atrb in get_uniqueatribuicoes %}
+                                                                                                {% if atrb.Id_Professor == resultado.Id_Professor %}
+                                                                                                <input type="number" min="0" class="required" name="qnt_maxima_diaria_{{ forloop.parentloop.counter }}" id="2_{{ forloop.parentloop.counter }}" value="{{ atrb.Qnt_Maxima_Diaria }}"> 
+                                                                                                {% endif %}
+                                                                                            {% endfor %}
+                                                                                        </label> 
+                                                                                    </div> 
+                                                                                </div> 
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-12 col-lg-6">
+                                                                        <div class="col-12 col-lg-1">
                                                                             <div class="deletebutton-type2">
                                                                                 <button button type="button" class="removeMe" onclick="removeMe('type3' ,{{ forloop.counter }})"></button>
                                                                             </div>
@@ -270,7 +282,7 @@
                             <div class="unicogenerated-field"> 
                                 <div class="row">
                                     <input class="ihaveindex" type="hidden" name="quantidade_turmas__REPLACEINDEX" data-myindexbloc="REPLACEINDEX" value="{{ turmas|length }}">
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-11">
                                         <div class="row">
                                             <div class="col-12 col-lg-6"> 
                                                 <input type="hidden" name="id_professor_REPLACEINDEX" id="" value="">
@@ -281,7 +293,7 @@
                                                     </label> 
                                                 </div> 
                                             </div> 
-                                            <div class="col-12 col-lg-6"> 
+                                            <div class="col-12 col-lg-3"> 
                                                 <div class="formg_math"> 
                                                     <label for="1_REPLACEINDEX"> 
                                                         <h3>Preferência</h3> 
@@ -289,9 +301,19 @@
                                                     </label> 
                                                 </div> 
                                             </div> 
+                                            <div class="col-12 col-lg-3"> 
+                                                <div class="formg_math"> 
+                                                    <label for="2_REPLACEINDEX"> 
+                                                        <h3>Quantidade máxima diária</h3> 
+                                                        <input class="replace_index required" type="text" class="required" name="qnt_maxima_diaria_REPLACEINDEX" id="2_REPLACEINDEX" value="2"> 
+                                                    </label> 
+                                                </div> 
+                                            </div> 
+
+
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-1">
                                         <div class="deletebutton-type2">
                                             <button button type="button" class="removeMe" onclick="removeMe('type3' ,REPLACEINDEX)"></button>
                                         </div>
