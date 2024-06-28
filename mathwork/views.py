@@ -449,7 +449,7 @@ def inicio(request, id_escola):
             # Redirecionar para a página de sucesso ou outra página conforme necessário
             return redirect('turmas', id_configuracao)
 
-        periodos = Periodos.objects.all()
+        periodos = Periodos.objects.all() 
         unidades = Unidades.objects.filter(Id_Escola=id_escola).all()
         escolas = Escolas.objects.filter(Id_Escola=id_escola).first()
         configuracoes = Configuracoes.objects.filter(Id_Escola=id_escola).all()

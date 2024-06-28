@@ -35,15 +35,16 @@
                                     <div class="body-loggin-form">
                                         <div class="formg_login_first">
                                             <label for="3">
-                                                <input required class="confirma__code" maxlength="6" type="text" name="autenticacao">
+                                                <input required class="confirma__code" maxlength="6" type="text" name="autenticacao" id="autenticacao">
                                             </label>
                                         </div>
                                         <div class="formg_login_first btn_inside-form">
-                                            <button type="button">Enviar</button>
+                                            <button type="button" id="enviar-btn">Enviar</button>
                                         </div>
                                         <div class="alert_error"></div>
                                     </div>
                                 </form>
+                                
                             </div>
                         </div>
                     </div>
@@ -66,6 +67,14 @@
     
     
     <script>
+        document.getElementById('autenticacao').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Previne o comportamento padrão de submit
+                document.getElementById('enviar-btn').click(); // Simula o clique no botão
+            }
+        });
+
+        
         $('.confirma__code').on('input', function() {
             // Remover caracteres não numéricos
             $(this).val($(this).val().replace(/\D/g, ''));

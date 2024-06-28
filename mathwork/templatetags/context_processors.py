@@ -32,7 +32,7 @@ def visibilidade_links(request):
                 lista_permissoes_cod_tela = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
             else:
                 lista_permissoes_cod_tela = Permissoes_Usuarios.objects.filter(Id_Usuario=id_user).values_list('Cod_Tela', flat=True)
-            return {'get_config' : get_config, 'lista_permissoes_cod_tela' : lista_permissoes_cod_tela, 'lista_permissoes': lista_permissoes, 'admin_status' : admin, 'nome_user' : stat_user.Nome_Usuario, 'id_escola_url' : stat_user.Id_Escola, 'id_escola_get' : stat_user.Id_Escola}
+            return {'get_config' : get_config, 'lista_permissoes_cod_tela' : lista_permissoes_cod_tela, 'lista_permissoes': lista_permissoes, 'admin_status' : admin, 'nome_user' : stat_user.Nome_Usuario, 'id_escola_url' : stat_user.Id_Escola, 'id_unidade_get' : stat_user.Id_Unidade}
         else:
             return {'logout' : True}
     else:

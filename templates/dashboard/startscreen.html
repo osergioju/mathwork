@@ -21,7 +21,14 @@
                             <h2>Selecione uma opção</h2>
                             <ul>
                                 {% for configuracao in configuracoes %}
-                                    <li><a href="{% url 'turmas' id_configuracao=configuracao.Id_Configuracao %}">{{ configuracao.Desc_Configuracao }} | {{ configuracao.Momento_Execucao }}</a></li>
+                                    {% if configuracao.Id_Unidade == id_unidade_get.Id_Unidade %}
+                                        <li>
+                                            <a href="{% url 'turmas' id_configuracao=configuracao.Id_Configuracao %}">
+                                                <b>{{ configuracao.Titulo_Configuracao }}</b> 
+                                                {{ configuracao.Desc_Configuracao }} | {{ configuracao.Momento_Execucao|date:"d/m/Y H:i" }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>

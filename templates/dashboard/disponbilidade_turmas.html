@@ -40,7 +40,7 @@
                             </div>
                             <div class="tab-pane fade show active" id="dash1" role="tabpanel" aria-labelledby="dash1-tab">
                                 
-                                <form method="post" action="{% url 'disponbilidade_td' id_configuracao=id_conf %}">
+                                <form method="post" class="fm" action="{% url 'disponbilidade_td' id_configuracao=id_conf %}">
                                     {% csrf_token %}
                                     <div class="geralbody-dashboard">
                                         {% for turma in turmas %}

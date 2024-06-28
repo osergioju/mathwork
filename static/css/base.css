@@ -797,6 +797,8 @@ DASHBOARD
 .heading_start {
     padding: 20px;
     border-bottom: 1px solid #c6c6c6;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 .heading_start:last-of-type {
@@ -824,6 +826,8 @@ DASHBOARD
     display: inline-flex;
     color: #0F123B;
     transition: 0.4s ease all;
+    flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .heading_start ul li a:hover {
@@ -2562,6 +2566,7 @@ DROPDOWN
     cursor: pointer;
     overflow: hidden;
     width: auto;
+    margin-bottom: 10px;
 }
 
 .fakebubble-checkbox input {

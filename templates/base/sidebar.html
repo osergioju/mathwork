@@ -46,7 +46,7 @@
         </div>
         <div class="footer-sidebar">
             <h2 class="title_sidebar">
-                Rodar {{admin_status}}
+                Rodar
             </h2>
             <div class="button-sidebar">
                 <a data-mylink="8" class="bnt_permission disabled_permission {{ count_disponibilidade_turmas }} {% if count_disponibilidade_turmas <= 0 %} disable__link {% endif %}  {% if 'rodar-modelo' in request.path %}ativo{% endif %}" href="{% url 'rodar_modelo' id_configuracao=id_conf %}"><span><i></i> Modelo</span></a>
