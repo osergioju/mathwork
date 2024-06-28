@@ -175,6 +175,10 @@ $('#fm').submit(function(event) {
     }
 });
 
+$('.fm').submit(function(event) {
+    $('.fakeloader').fadeIn();
+});
+
 $(window).on('load', function(){
     checkSave();
 });

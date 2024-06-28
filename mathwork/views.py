@@ -155,22 +155,26 @@ def new_unidade(request):
         Id_Escola = request.POST['Id_Escola']
         Nome_Unidade = request.POST['Nome_Unidade']
 
-        unidade_existe = Unidades.objects.filter(Id_Escola=Id_Escola,Nome_Unidade=Nome_Unidade).exists()
+        try:
+            escola = Escolas.objects.get(pk=Id_Escola)
+        except Escolas.DoesNotExist:
+            messages.error(request, 'A escola selecionada não existe.')
+            return redirect('new_unidade')
+
+        unidade_existe = Unidades.objects.filter(Id_Escola=escola, Nome_Unidade=Nome_Unidade).exists()
 
         if unidade_existe:
-            escola = Escolas.objects.filter(Id_Escola=Id_Escola).first() 
             nome_escola = escola.Nome_Escola
             messages.error(request, f'A unidade {Nome_Unidade} para a escola {nome_escola} já existe.')
         else:
-            cad_unidades = Unidades(Id_Escola=Id_Escola,Nome_Unidade=Nome_Unidade)
+            cad_unidades = Unidades(Id_Escola=escola, Nome_Unidade=Nome_Unidade)
             cad_unidades.save()
             messages.success(request, 'Unidade adicionada com sucesso!')
 
-       
         return redirect('new_unidade')
     
     list_escolas = Escolas.objects.order_by('Id_Escola').all()
-    return render(request, 'admin/new_unidade.html' , {'list_escolas' : list_escolas})
+    return render(request, 'admin/new_unidade.html', {'list_escolas': list_escolas})
 
 @login_required
 def listar_tudo(request):
@@ -445,7 +449,7 @@ def inicio(request, id_escola):
             # Redirecionar para a página de sucesso ou outra página conforme necessário
             return redirect('turmas', id_configuracao)
 
-        periodos = Periodos.objects.all()
+        periodos = Periodos.objects.all() 
         unidades = Unidades.objects.filter(Id_Escola=id_escola).all()
         escolas = Escolas.objects.filter(Id_Escola=id_escola).first()
         configuracoes = Configuracoes.objects.filter(Id_Escola=id_escola).all()
