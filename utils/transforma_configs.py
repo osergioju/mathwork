@@ -158,7 +158,8 @@ def transforma_atribuicoes(con_class: Connector, configuracoes: dict, id_configu
     # --------------------------------------------------------------------------------------------
 
     colunas_atribuicoes = ["Id_Atribuicao", "Id_Professor", "Id_Configuracao", "Id_Materia", 
-                           "Id_Turma", "Preferencia"]
+                           "Id_Turma", "Preferencia", "Qnt_Maxima_Diaria"]
+    
     query = f"""SELECT {', '.join(colunas_atribuicoes)} 
     FROM Atribuicoes_Professores 
     WHERE Id_Configuracao = {id_configuracao}"""
@@ -167,15 +168,20 @@ def transforma_atribuicoes(con_class: Connector, configuracoes: dict, id_configu
     df_atribuicoes = DataFrame(atribuicoes, columns=colunas_atribuicoes)
 
     professores_turmas_materias = {}
+    aulas_maximas_diarias = {}
     grouped_professor = df_atribuicoes.groupby("Id_Professor")
     for id_professor, group_professor in grouped_professor:
         nm_professor = df_professores.loc[df_professores["Id_Professor"] == id_professor, "Nome_Professor"].values[0]
         professores_turmas_materias[nm_professor] = {}
+        aulas_maximas_diarias[nm_professor] = {}
 
         grouped_turma = group_professor.groupby("Id_Turma")
         for id_turma, group_turma in grouped_turma:
             nm_turma = df_turmas.loc[df_turmas["Id_Turma"] == id_turma, "Nome_Turma"].values[0]
             professores_turmas_materias[nm_professor][nm_turma] = []
+
+            aulas_maximas_diarias[nm_professor][nm_turma] = \
+                group_turma.iloc[0]["Qnt_Maxima_Diaria"]
 
             for i, row in group_turma.iterrows():
                 nm_materia = \
@@ -193,7 +199,8 @@ def transforma_atribuicoes(con_class: Connector, configuracoes: dict, id_configu
             set_index("Nome_Professor").to_dict()["Preferencia"]
 
     configuracoes.update({"professores_turmas_materias": professores_turmas_materias, 
-                          "preferencias_professor": preferencias_professor})
+                          "preferencias_professor": preferencias_professor,
+                          "aulas_maximas_diarias": aulas_maximas_diarias})
 
     return configuracoes
 
