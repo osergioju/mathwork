@@ -87,19 +87,7 @@
                                                                                             <h3>Preferência</h3> 
                                                                                             {% for atrb in get_uniqueatribuicoes %}
                                                                                                 {% if atrb.Id_Professor == resultado.Id_Professor %}
-                                                                                                <input type="text" class="required" name="preferencia_{{ forloop.parentloop.counter }}" id="1_{{ forloop.parentloop.counter }}" value="{{ atrb.Preferencia }}"> 
-                                                                                                {% endif %}
-                                                                                            {% endfor %}
-                                                                                        </label> 
-                                                                                    </div> 
-                                                                                </div> 
-                                                                                <div class="col-12 col-lg-3"> 
-                                                                                    <div class="formg_math"> 
-                                                                                        <label for="2_{{ forloop.counter }}"> 
-                                                                                            <h3>Quantidade máxima diária</h3> 
-                                                                                            {% for atrb in get_uniqueatribuicoes %}
-                                                                                                {% if atrb.Id_Professor == resultado.Id_Professor %}
-                                                                                                <input type="number" min="1" max="3" class="required" name="qnt_maxima_diaria_{{ forloop.parentloop.counter }}" id="2_{{ forloop.parentloop.counter }}" value="{{ atrb.Qnt_Maxima_Diaria }}"> 
+                                                                                                    <input type="text" class="required" name="preferencia_{{ forloop.parentloop.counter }}" id="1_{{ forloop.parentloop.counter }}" value="{{ atrb.Preferencia }}"> 
                                                                                                 {% endif %}
                                                                                             {% endfor %}
                                                                                         </label> 
@@ -140,8 +128,6 @@
                                                                                                                                                 <option {% if materia_id == getmatrias.Id_Materia %} selected {% endif %} value="{{ getmatrias.Id_Materia }}">{{ getmatrias.Nome_Materia }}</option>
                                                                                                                                             {% endfor %}
                                                                                                                                         </select>
-
-                                                                                                                                        
                                                                                                                                     </label> 
                                                                                                                                 </div> 
                                                                                                                             </div> 
@@ -153,14 +139,31 @@
                                                                                                                             <div class="col-12 col-lg-12"> 
                                                                                                                                 <div class="formg_math"> 
                                                                                                                                     <label for="1_{{ forloop.counter }}_{{ forloop.parentloop.counter }}">
-                                                                                                                                        <h3>Turmas</h3> 
+                                                                                                                                        <h3>Selecione as turmas</h3> 
                                                                                                                                         <div class="turmacards-area">
                                                                                                                                             {% for turma in turmas %}
-                                                                                                                                                <label for="turma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                                                                                                    <input {% if turma.Id_Turma in turmas_id %} checked {% endif %} type="checkbox" id="turma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" name="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
-                                                                                                                                                    <div class="beforecarter"></div>
-                                                                                                                                                    <span>{{ turma.Nome_Turma }}</span>
-                                                                                                                                                </label>
+                                                                                                                                                <div class="uniqueturma-area">
+                                                                                                                                                    <div class="label-turma">
+                                                                                                                                                        <p>Turma</p>
+                                                                                                                                                        <label for="turma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
+                                                                                                                                                            <input
+                                                                                                                                                            {% for t in turmas_id %}
+                                                                                                                                                                {% if t.id_turma == turma.Id_Turma %}
+                                                                                                                                                                    checked
+                                                                                                                                                                {% endif %}
+                                                                                                                                                            {% endfor %}
+                                                                                                                                                            type="checkbox" id="turma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" name="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                                                                                                            <div class="beforecarter"></div>
+                                                                                                                                                            <span>{{ turma.Nome_Turma }}</span>
+                                                                                                                                                        </label>
+                                                                                                                                                    </div>
+                                                                                                                                                    
+                                                                                                                                                    <div class="maximo_dayli">
+                                                                                                                                                        <p>Qnt. max. diária</p>
+                                                                                                                                                        <input oninput="validarValor(this)" type="text" name="qntmax_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" id="qntmax_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" 
+                                                                                                                                                        value="{% for t in turmas_id %}{% if t.id_turma == turma.Id_Turma %}{{ t.qnt_max }}{% endif %}{% endfor %}">
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
                                                                                                                                             {% endfor %}
                                                                                                                                         </div>
                                                                                                                                     </label>
@@ -255,14 +258,31 @@
                                                     <h3>Turmas</h3> 
                                                     <div class="turmacards-area">
                                                         {% for turma in turmas %}
-                                                            <label for="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                <input type="checkbox" name="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" id="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
-                                                                <div class="beforecarter"></div>
-                                                                <span>{{ turma.Nome_Turma }}</span>
-                                                            </label>
+                                                            
+
+                                                            <div class="uniqueturma-area">
+                                                                <div class="label-turma">
+                                                                    <p>Turma</p>
+                                                                    <label for="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
+                                                                        <input type="checkbox" name="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" id="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                        <div class="beforecarter"></div>
+                                                                        <span>{{ turma.Nome_Turma }}</span>
+                                                                    </label>
+                                                                </div>
+                                                                
+                                                                <div class="maximo_dayli">
+                                                                    <p>Qnt. max. diária</p>
+                                                                    <input oninput="validarValor(this)" type="text" name="qntmax_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" id="qntmax_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="2">
+                                                                </div>
+                                                            </div>
+
                                                         {% endfor %}
                                                     </div>
                                                 </label> 
+
+                                               
+
+                                                
                                             </div> 
                                         </div> 
                                     </div>
@@ -301,16 +321,6 @@
                                                     </label> 
                                                 </div> 
                                             </div> 
-                                            <div class="col-12 col-lg-3"> 
-                                                <div class="formg_math"> 
-                                                    <label for="2_REPLACEINDEX"> 
-                                                        <h3>Quantidade máxima diária</h3> 
-                                                        <input class="replace_index required" type="text" class="required" name="qnt_maxima_diaria_REPLACEINDEX" id="2_REPLACEINDEX" value="2"> 
-                                                    </label> 
-                                                </div> 
-                                            </div> 
-
-
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-1">
@@ -352,11 +362,22 @@
                                                                                         <h3>Turmas</h3> 
                                                                                         <div class="turmacards-area">
                                                                                             {% for turma in turmas %}
-                                                                                                <label for="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                                                    <input type="checkbox" name="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}"  id="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
-                                                                                                    <div class="beforecarter"></div>
-                                                                                                    <span>{{ turma.Nome_Turma }}</span>
-                                                                                                </label>
+                                                                                                <div class="uniqueturma-area">
+                                                                                                    <div class="label-turma">
+                                                                                                        <p>Turma</p>
+                                                                                                        <label for="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
+                                                                                                            <input type="checkbox" name="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}"  id="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                                                            <div class="beforecarter"></div>
+                                                                                                            <span>{{ turma.Nome_Turma }}</span>
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                    
+                                                                                                    <div class="maximo_dayli">
+                                                                                                        <p>Qnt. max. diária</p>
+                                                                                                        <input oninput="validarValor(this)"  type="text" name="qntmax_1_REPLACEINDEX_{{ turma.Id_Turma }}" id="qntmax_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="2">
+                                                                                                    </div>
+                                                                                                </div>
+
                                                                                             {% endfor %}
                                                                                         </div>
                                                                                     </label> 

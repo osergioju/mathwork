@@ -2566,7 +2566,6 @@ DROPDOWN
     cursor: pointer;
     overflow: hidden;
     width: auto;
-    margin-bottom: 10px;
 }
 
 .fakebubble-checkbox input {
@@ -2709,4 +2708,41 @@ label.unicacheck_fielbubble:hover {
 
 .centralloader svg, .centralloader svg * {
     stroke: #fe922b;
+}
+
+.uniqueturma-area {
+    display: flex;
+    flex-flow: wrap;
+    padding-right: 30px;
+    padding: 12px;
+    background: #111523;
+    margin-right: 5px;
+    border-radius: 10px;
+}
+
+.label-turma {
+    width: 50%;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.maximo_dayli {
+    width: 50%;
+}
+
+.label-turma > p, .maximo_dayli > p {
+    font-size: 12px;
+    color: white;
+    margin: 0;
+    line-height: 14px;
+}
+
+.carouseltype2 .formg_math 
+ .maximo_dayli input {
+    display: block;
+    height: auto;
+    padding: 4px;
+    border-radius: 10px;
 }

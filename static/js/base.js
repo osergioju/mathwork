@@ -437,3 +437,19 @@ function togglePasswordVisibility() {
         eyeIcon.classList.remove("activaded");
     }
 }
+
+
+function validarValor(input) {
+    // Convertendo o valor para número
+    let valor = parseInt(input.value);
+
+    // Verificando se o valor está fora do intervalo desejado
+    if (isNaN(valor) || valor < 1) {
+        valor = 1; // Define o valor mínimo como 1 se for menor que 1 ou não for um número válido
+    } else if (valor > 3) {
+        valor = 3; // Define o valor máximo como 3 se for maior que 3
+    }
+
+    // Atualiza o valor do input com o valor ajustado
+    input.value = valor;
+}

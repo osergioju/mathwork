@@ -892,7 +892,6 @@ def professores(request, id_configuracao):
             grupo_atual = []
             id_professor = None
             grupo_turmas = []
-            qnt_maxima_diaria = None
 
             # Itera sobre os itens do request.POST
             for key, value in request.POST.items():
@@ -905,7 +904,7 @@ def professores(request, id_configuracao):
                         grupo_atual = []
                         # Reinicia a preferência atual para o próximo grupo
                         preferencia_atual = None
-                        qnt_maxima_diaria = None
+
 
                 elif key.startswith('id_professor'):
                     id_professor = value
@@ -915,26 +914,30 @@ def professores(request, id_configuracao):
                     grupo_atual.append({'nome_professor': value, 'id_professor' : id_professor, 'materias': []})
                     # Reinicia a preferência atual para o próximo professor
                     preferencia_atual = None
-                    qnt_maxima_diaria = None
+
                 elif key.startswith('preferencia_'):
                     preferencia_atual = value
-    
-                elif key.startswith('qnt_maxima_diaria_'):
-                    qnt_maxima_diaria = value
 
                 elif key.startswith('mateira_'):
                     # Adiciona a matéria à lista de matérias do professor atual
-                    grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'qnt_maxima_diaria': qnt_maxima_diaria, 'turmas': []})
+                    grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'turmas': []})
                 elif key.startswith('turmas_'):
                     id_turma = value
-
+                    nome_turma = value
+                    # Inicializa o dicionário da turma
+                    turma = {'id_turma': id_turma, 'nome_turma': nome_turma}
+                    
+                elif key.startswith('qntmax_'):
+                    qnt_max_value = value
+                    # Adiciona a quantidade máxima de aulas ao dicionário da turma
+                    turma['qnt_max_aulas'] = qnt_max_value
                     # Adiciona a turma à lista de turmas da matéria atual
-                    grupo_atual[-1]['materias'][-1]['turmas'].append({'id_turma': id_turma, 'nome_turma': value})
+                    grupo_atual[-1]['materias'][-1]['turmas'].append(turma)
 
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
                 grupos_dados.append(grupo_atual)
-
+                
             # Itera sobre os grupos de dados
             for grupo in grupos_dados:
                 # Itera sobre os dados de cada grupo
@@ -969,12 +972,12 @@ def professores(request, id_configuracao):
                     for lista_materias in dados_professor['materias']:
                         id_materia = lista_materias['id_materia']
                         preferencia = lista_materias['preferencia']
-                        qnt_maxima_diaria_get = lista_materias['qnt_maxima_diaria']
                         id_conf = id_configuracao
                         
                         Atribuicoes_Professores.objects.filter(Id_Professor=id_professor_send, Id_Configuracao=id_conf).delete()
                         for lista_turmas in lista_materias['turmas']:
                             id_turma = lista_turmas['id_turma']
+                            qnt_max = lista_turmas['qnt_max_aulas']
 
                             grupo_turmas.append({
                                 'id_turma': id_turma,
@@ -982,14 +985,14 @@ def professores(request, id_configuracao):
                                 'id_configuracao' : id_conf,
                                 'id_materia' : id_materia,
                                 'preferencia' : preferencia,
-                                'qnt_maxima_diaria_get' : qnt_maxima_diaria_get
+                                'qnt_max' : qnt_max
                             })
                         
                         
         
             for turmas_gp in grupo_turmas:
                 # Finalmente cadastra as atribuições
-                atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'],Qnt_Maxima_Diaria=turmas_gp['qnt_maxima_diaria_get'])
+                atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'],Qnt_Maxima_Diaria=turmas_gp['qnt_max'])
                 atribuicoes_obj.save()
 
             # AGora deleta os qiue não existe mais
@@ -1004,7 +1007,7 @@ def professores(request, id_configuracao):
         get_turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
         get_atribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).all()
         get_atribuicoes_count = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Preferencia', 'Id_Professor').annotate(count=Count('Id_Atribuicao'))
-        get_uniqueatribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Id_Professor', 'Preferencia','Qnt_Maxima_Diaria').order_by('Id_Professor').distinct()
+        get_uniqueatribuicoes = Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).values('Id_Professor', 'Preferencia').order_by('Id_Professor').distinct()
 
         # Criar um conjunto para armazenar IDs únicos
         ids_unicos = set()
@@ -1020,11 +1023,13 @@ def professores(request, id_configuracao):
                 'materias_dados' : {
                     'id_materia' : materias.Id_Materia,
                     'turmas' : {
-                        'id_turma' : materias.Id_Turma
+                        'id_turma' : materias.Id_Turma,
+                        'qnt_max' : materias.Qnt_Maxima_Diaria
                     }
                 }
             }
             atribuicoes.append(materias)
+        
 
         # Criar uma lista para armazenar os dados agrupados
         dados_agrupados = []
@@ -1034,7 +1039,8 @@ def professores(request, id_configuracao):
             id_professor = atribuicao['id_professor']
             materia_id = atribuicao['materias_dados']['id_materia']
             turma_id = atribuicao['materias_dados']['turmas']['id_turma']
-            
+            qnt_max = atribuicao['materias_dados']['turmas']['qnt_max']
+
             # Verificar se o professor já está na lista de dados agrupados
             professor_existente = False
             for professor in dados_agrupados:
@@ -1042,18 +1048,36 @@ def professores(request, id_configuracao):
                     professor_existente = True
                     # Verificar se a matéria já está associada ao professor
                     if materia_id in professor['materias_dados']:
-                        professor['materias_dados'][materia_id].append(turma_id)
+                        # Verificar se a turma já está associada à matéria
+                        turma_existente = False
+                        for turma in professor['materias_dados'][materia_id]:
+                            if turma['id_turma'] == turma_id:
+                                turma_existente = True
+                                break
+                        if not turma_existente:
+                            professor['materias_dados'][materia_id].append({
+                                'id_turma': turma_id,
+                                'qnt_max': qnt_max
+                            })
                     else:
-                        professor['materias_dados'][materia_id] = [turma_id]
+                        professor['materias_dados'][materia_id] = [{
+                            'id_turma': turma_id,
+                            'qnt_max': qnt_max
+                        }]
                     break
-            
+
             # Se o professor não existir na lista de dados agrupados, adicionar um novo registro
             if not professor_existente:
                 dados_agrupados.append({
                     'id_professor': id_professor,
-                    'materias_dados': {materia_id: [turma_id]}
+                    'materias_dados': {
+                        materia_id: [{
+                            'id_turma': turma_id,
+                            'qnt_max': qnt_max
+                        }]
+                    }
                 })
-        
+
         return render(request, 'dashboard/professores.html', {'get_uniqueatribuicoes' : get_uniqueatribuicoes,  'get_atribuicoes_count': get_atribuicoes_count, 'dados_agrupados' : dados_agrupados, 'get_atribuicoes' : get_atribuicoes ,'turmas' : get_turmas,'materias' : materias_dados , 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
         return redirect('login')
