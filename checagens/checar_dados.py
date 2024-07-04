@@ -49,6 +49,11 @@ def checa_problemas_dois(configuracoes):
         for professor in professores_turma:
             disponibilidade = configuracoes["df_disponibilidades"].loc[configuracoes["df_disponibilidades"]["professor"] == professor, 
                                                                        configuracoes["dias"].values()].values
+            
+            if disponibilidade.size == 0:
+                problemas.append(f"Professor {professor} não tem disponibilidade cadastrada")
+                continue
+
             disponibilidades_todos_profs += disponibilidade
             
         posicoes_zeros = where(disponibilidades_todos_profs == 0)
