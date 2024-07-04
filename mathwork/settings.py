@@ -142,6 +142,17 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://sistemacronogrid.com.br',
+    'http://18.230.6.109',
+    'http://18.230.6.109:8000',
+    'http://127.0.0.1',
+    'http://162.240.54.198',
+    'https://sistemacronogrid.com.br',
+    'http://localhost',
+    'http://localhost:8000'
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
