@@ -1276,7 +1276,11 @@ def rodar_modelo(request, id_configuracao):
 
             if retorno_sobre_lista == []:
                 # Modelo
-                modelo = cronogrid(msg) 
+                modelo = cronogrid(msg)
+
+                if not isinstance(modelo, list):
+                    return render(request, 'Não foi possível encontrar a solução! Mexa nas configurações e tente novamente!')
+
                 tamanho_modelo = len(modelo)
 
                 # Suponha que tamanho_modelo seja o tamanho do modelo

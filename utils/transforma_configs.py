@@ -183,9 +183,9 @@ def transforma_atribuicoes(con_class: Connector, configuracoes: dict, id_configu
             aulas_maximas_diarias[nm_professor][nm_turma] = \
                 group_turma.iloc[0]["Qnt_Maxima_Diaria"]
 
-            for i, row in group_turma.iterrows():
+            for id_materia in group_turma["Id_Materia"].drop_duplicates():
                 nm_materia = \
-                    df_materias.loc[df_materias["Id_Materia"] == row["Id_Materia"], "Nome_Materia"].values[0]
+                    df_materias.loc[df_materias["Id_Materia"] == id_materia, "Nome_Materia"].values[0]
                 
                 professores_turmas_materias[nm_professor][nm_turma].append(nm_materia)
 

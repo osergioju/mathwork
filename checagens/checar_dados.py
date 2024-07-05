@@ -11,7 +11,10 @@ def checa_problemas_um(configuracoes):
     :param configuracoes: dicionario com as configurações do problema
     :return: lista com os problemas encontrados
     """
-    dica = "Há professor(es) cuja a disponibilidade não é suficiente para suas atribuições!"
+    dica = """
+    Erro de preenchimentos (1):
+    Há professor(es) cuja a disponibilidade não é suficiente para suas atribuições!
+    """
     problemas = []
     for professor in configuracoes["professores"].values():
         disponibilidades_oferecidas = configuracoes["df_disponibilidades"].loc[configuracoes["df_disponibilidades"]["professor"] == professor, 
@@ -38,7 +41,10 @@ def checa_problemas_dois(configuracoes):
     :return: lista com os problemas encontrados
     """
 
-    dica = "As disponibilidades dos professores devem preencher a semana inteira de aulas para as turmas abaixo!"
+    dica = """
+    Erro de preenchimentos (2):
+    As disponibilidades dos professores devem preencher a semana inteira de aulas para as turmas abaixo!
+    """
     problemas = []
     for nm_turma in configuracoes["turmas"].values():
         professores_turma = \
@@ -76,7 +82,9 @@ def checa_problemas_tres(configuracoes):
     :return: lista com os problemas encontrados
     """
 
-    dica = "Cheque os erros abaixo!"
+    dica = """
+    Erro de preenchimentos (3):
+    """
     problemas = []
     for nm_turma in configuracoes["turmas"].values():
         materias_turma = [nm_materia for nm_materia in configuracoes["materias"].values() 
@@ -114,6 +122,8 @@ def checa_problemas_quatro(configuracoes):
     :return: lista com os problemas encontrados
     """
 
+    dica = "Erro de preenchimentos (4):\n"
+
     df_disponibilidades_pivot = pivot_table(configuracoes["df_disponibilidades"], 
                                             index=["professor"], columns=["momento"], values=configuracoes["dias"].values(), aggfunc="sum")
     df_disponibilidades_pivot = \
@@ -123,7 +133,7 @@ def checa_problemas_quatro(configuracoes):
     qtd_insuficiente_profs_momento_dia = df_disponibilidades_pivot.values.sum(axis=0) < configuracoes["B"]
 
     ranking_disponibilidades = sorted(zip(df_disponibilidades_pivot.columns, df_disponibilidades_pivot.values.sum(axis=0)), key=lambda par: par[1], reverse=True)
-    dica = f"Os dias e momentos com mais professores disponiveis são:"
+    dica += f"Os dias e momentos com mais professores disponiveis são:"
     for momento_dia, qtd_profs in ranking_disponibilidades[:5]:
         nm_momento, nm_dia = momento_dia
 
@@ -151,7 +161,12 @@ def checa_problemas_cinco(configuracoes):
     :param configuracoes: dicionario com as configurações do problema
     :return: lista com os problemas encontrados
     """
-    dica = "É necessário checar qual(is) matéria(s) está(ão) com o número de aulas mínimas incorreto(s)"
+
+    dica = """
+    Erro de preenchimentos (5):
+    É necessário checar qual(is) matéria(s) está(ão) com o número de aulas mínimas incorreto(s)
+    """
+
     problemas = []
     for nm_turma in configuracoes["turmas"].values():
         soma_aulas = 0
@@ -180,7 +195,11 @@ def checa_problemas_seis(configuracoes):
     problemas (list): lista com os problemas encontrados
     """
 
-    dica = "Algum(uns) professor(es) não tem disponibilidade suficiente para suas atribuições com apenas duas aulas por dia e por turma"
+    dica = """
+    Erro de preenchimentos (6):
+    Algum(uns) professor(es) não tem disponibilidade suficiente para suas atribuições com apenas 
+    duas aulas por dia e por turma
+    """
     
     b, a, d, c = range(configuracoes['B']), range(1), range(configuracoes['D']), range(configuracoes['C'])
     comb = [str(x) for x in product(b, a, d, c)]
