@@ -464,27 +464,25 @@ function validarValor(input) {
 function selectionTurmas(eu) {
     // Obtém o elemento pai principal
     let superpai = eu.parentElement.parentElement.parentElement.parentElement;
-    
+
     // Seleciona todos os elementos de input com a classe 'turmas_selection'
     let filhos_input = superpai.querySelectorAll('.turmas_selection');
 
-    // Selecione o filho pra mostrar o erro 
-    let spanerror_turmas = superpai.querySelector('.spanerror_turmas');
-
     // Seleciona o input 'receive_qnt_turmas_selected'
     let receive_qnt_turmas_selected = superpai.querySelector('input[name="receive_qnt_turmas_selected"]');
-    
+        
     // Inicializa uma variável para verificar se ao menos um checkbox está checado
     let atLeastOneChecked = false;
     
     // Percorre todos os elementos filhos_input
     filhos_input.forEach(element => {
+        console.log('child');
         // Verifica se o elemento está checado
         if (element.checked) {
             atLeastOneChecked = true;
+            console.log('sim');
         }
     });
-
 
     // Atualiza o valor do input receive_qnt_turmas_selected para 1 se ao menos um estiver checado
     receive_qnt_turmas_selected.value = atLeastOneChecked ? 1 : '';

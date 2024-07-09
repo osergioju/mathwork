@@ -152,7 +152,7 @@
                                                                                                                                                                     checked
                                                                                                                                                                 {% endif %}
                                                                                                                                                             {% endfor %}
-                                                                                                                                                            type="checkbox" id="turma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" name="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                                                                                                            type="checkbox" class="turmas_selection" onchange="selectionTurmas(this)" id="turma_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" name="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
                                                                                                                                                             <div class="beforecarter"></div>
                                                                                                                                                             <span>{{ turma.Nome_Turma }}</span>
                                                                                                                                                         </label>
@@ -165,6 +165,12 @@
                                                                                                                                                     </div>
                                                                                                                                                 </div>
                                                                                                                                             {% endfor %}
+                                                                                                                                            <div class="quantas_turmas_selected">
+                                                                                                                                                <div class="spanerror_turmas">
+                                                                                                                                                    
+                                                                                                                                                </div>
+                                                                                                                                                <input type="text" name="receive_qnt_turmas_selected" value="1" class="required">
+                                                                                                                                            </div>
                                                                                                                                         </div>
                                                                                                                                     </label>
                                                                                                                                 </div> 
@@ -264,7 +270,7 @@
                                                                 <div class="label-turma">
                                                                     <p>Turma</p>
                                                                     <label for="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                        <input type="checkbox" name="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" id="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                        <input class="turmas_selection" type="checkbox" onchange="selectionTurmas(this)" name="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" id="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
                                                                         <div class="beforecarter"></div>
                                                                         <span>{{ turma.Nome_Turma }}</span>
                                                                     </label>
@@ -277,11 +283,15 @@
                                                             </div>
 
                                                         {% endfor %}
+                                                        <div class="quantas_turmas_selected">
+                                                            <div class="spanerror_turmas">
+                                                                
+                                                            </div>
+                                                            <input type="text" name="receive_qnt_turmas_selected" class="required">
+                                                        </div>
+
                                                     </div>
                                                 </label> 
-
-                                               
-
                                                 
                                             </div> 
                                         </div> 
@@ -293,6 +303,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Copiar super grand -->
                         <div class="carouseltype2 fieldto-copy">
