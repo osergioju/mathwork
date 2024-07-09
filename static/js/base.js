@@ -334,13 +334,20 @@ function updatefieldId(type){
             var inputs = formgMath.querySelectorAll('.replace_index');
             inputs.forEach(function(input) {
                 if(type == 'type3'){
+                    var label_pai = input.parentElement;
                     var originalName = input.getAttribute('name');
                     var originalId = input.getAttribute('id');
-    
-                    var split_name = originalName.split('_');
-                    var split_id = originalId.split('_');
-    
-                }
+                    var originalFor = label_pai.getAttribute('for');
+
+        
+                    var newName = originalName.replace(/\d+/g, index + 1);
+                    var newId = originalId.replace(/\d+/g, index + 1);
+                    var newFor = originalFor.replace(/\d+/g, index + 1);
+
+                    label_pai.setAttribute('for', newFor); 
+                    input.setAttribute('name', newName); 
+                    input.setAttribute('id', newId); 
+                }   
                 else{
                     var originalName = input.getAttribute('name');
                     var originalId = input.getAttribute('id');
@@ -376,6 +383,60 @@ function updatefieldId(type){
                 });
             }
     
+            if (type == 'type3') {
+                var miniform_g = formgMath.querySelectorAll('.relacional_professorxmateria');
+                miniform_g.forEach(function (miniform, index2) {
+                    var select_materia = miniform.querySelectorAll('[name^="mateira_"]');
+                    var label_pai = select_materia[0].parentElement;
+                    var split_name_materia = select_materia[0].name.split('_');
+                    var split_id_materia = select_materia[0].name.split('_');
+            
+                    var split_for = label_pai.htmlFor.split('_');  // Ajuste aqui para usar htmlFor ao invés de label_pai.for
+            
+                    split_name_materia[1] = index2 + 1;
+                    split_name_materia[2] = index + 1;
+            
+                    split_id_materia[1] = index2 + 1;
+                    split_id_materia[2] = index + 1;
+            
+                    split_for[1] = index2 + 1;
+                    split_for[2] = index + 1;
+            
+                    // Reatribuindo o nome ao campo
+                    select_materia[0].name = split_name_materia.join('_');
+                    select_materia[0].id = split_id_materia.join('_');
+                    label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+
+                    
+
+                    // Agora pega os campos minis
+                    var turmas_selection = miniform.querySelectorAll('.turmas_selection');
+                    turmas_selection.forEach(dontfeel => {
+                        var label_pai = dontfeel.parentElement;
+
+                        var split_name_materia = dontfeel.name.split('_');
+                        var split_id_materia = dontfeel.name.split('_');
+                        var split_for = label_pai.htmlFor.split('_');  // Ajuste aqui para usar htmlFor ao invés de label_pai.for
+
+                        split_name_materia[1] = index2 + 1;
+                        split_name_materia[2] = index + 1;
+                
+                        split_id_materia[1] = index2 + 1;
+                        split_id_materia[2] = index + 1;
+
+                        split_for[1] = index2 + 1;
+                        split_for[2] = index + 1;
+
+                        // Reatribuindo o nome ao campo
+                        dontfeel.name = split_name_materia.join('_');
+                        dontfeel.id = split_id_materia.join('_');
+                        label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+                    });
+
+    
+                });
+            }
+    
             
         });
     }
@@ -402,7 +463,7 @@ function dropdownProfessores(id){
     }
 }
 
-function duplicatormaximus(me){
+function duplicatormaximus(me, x){
     var copiar_div = document.querySelector('.coopyx_max');
     var new_copiar_div = copiar_div.cloneNode(true);
 
@@ -427,6 +488,11 @@ function duplicatormaximus(me){
 
     // Alimenta input com quantidade de divs 
     count_materias.value = count_materias_valor;
+
+    if(x == 0){
+        alert('rodou');
+        superTreeUpdate();
+    }
 }
 
 // Ver a senha 
@@ -506,4 +572,100 @@ function checkturmas() {
         console.log(receive_qnt_turmas_selected.value);
         console.log(spanerror_turmas);
     });
+}
+
+
+function superTreeUpdate(){
+    var count = document.getElementsByClassName('carouseltype2').length;
+    var formgMaths = document.querySelectorAll('.carouseltype2:not(.fieldto-copy)');
+    
+    // Atualiza name/id de cada um dos campos internos 
+    if(formgMaths){
+        formgMaths.forEach(function(formgMath, index) {
+            console.log(index);
+            var span_index = formgMath.getElementsByClassName('spanex_index'); 
+            var id_conteudo = formgMath.getElementsByClassName('id_conteudo'); 
+
+            if(id_conteudo.length > 0){
+                var split_id_conteudo = id_conteudo[0].name.split('_');
+                split_id_conteudo[1] = index + 1;
+                id_conteudo[0].name = split_id_conteudo.join('_');
+            }   
+            span_index[0].innerHTML = index + 1;
+    
+            var inputs = formgMath.querySelectorAll('.replace_index');
+            inputs.forEach(function(input) {
+                var label_pai = input.parentElement;
+                var originalName = input.getAttribute('name');
+                var originalId = input.getAttribute('id');
+                var originalFor = label_pai.getAttribute('for');
+
+    
+                var newName = originalName.replace(/\d+/g, index + 1);
+                var newId = originalId.replace(/\d+/g, index + 1);
+                var newFor = originalFor.replace(/\d+/g, index + 1);
+
+                label_pai.setAttribute('for', newFor); 
+                input.setAttribute('name', newName); 
+                input.setAttribute('id', newId); 
+            });
+    
+
+            var miniform_g = formgMath.querySelectorAll('.relacional_professorxmateria');
+            miniform_g.forEach(function (miniform, index2) {
+                var select_materia = miniform.querySelectorAll('[name^="mateira_"]');
+                var label_pai = select_materia[0].parentElement;
+                var split_name_materia = select_materia[0].name.split('_');
+                var split_id_materia = select_materia[0].name.split('_');
+        
+                var split_for = label_pai.htmlFor.split('_');  // Ajuste aqui para usar htmlFor ao invés de label_pai.for
+        
+                split_name_materia[1] = index2 + 1;
+                split_name_materia[2] = index + 1;
+        
+                split_id_materia[1] = index2 + 1;
+                split_id_materia[2] = index + 1;
+        
+                split_for[1] = index2 + 1;
+                split_for[2] = index + 1;
+        
+                // Reatribuindo o nome ao campo
+                select_materia[0].name = split_name_materia.join('_');
+                select_materia[0].id = split_id_materia.join('_');
+                label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+
+                
+
+                // Agora pega os campos minis
+                var turmas_selection = miniform.querySelectorAll('.turmas_selection');
+                turmas_selection.forEach(dontfeel => {
+                    var label_pai = dontfeel.parentElement;
+
+                    var split_name_materia = dontfeel.name.split('_');
+                    var split_id_materia = dontfeel.name.split('_');
+                    var split_for = label_pai.htmlFor.split('_');  // Ajuste aqui para usar htmlFor ao invés de label_pai.for
+
+                    split_name_materia[1] = index2 + 1;
+                    split_name_materia[2] = index + 1;
+            
+                    split_id_materia[1] = index2 + 1;
+                    split_id_materia[2] = index + 1;
+
+                    split_for[1] = index2 + 1;
+                    split_for[2] = index + 1;
+
+                    // Reatribuindo o nome ao campo
+                    dontfeel.name = split_name_materia.join('_');
+                    dontfeel.id = split_id_materia.join('_');
+                    label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+                });
+            });
+            
+        });
+    }
+    
+
+    // Atualiza a quantidade do counter 
+    var counterField = document.getElementById('counter');
+    counterField.value = count - 1; 
 }

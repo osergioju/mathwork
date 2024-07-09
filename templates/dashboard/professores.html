@@ -75,19 +75,19 @@
                                                                                     <input type="hidden" name="quantidade_turmas__{{ forloop.counter }}" value="{{ turmas|length }}">
                                                                                     <input class="ihaveindex" type="hidden" name="quantidade_turmas__{{ forloop.counter }}" data-myindexbloc="{{ forloop.counter }}" value="">
                                                                                     <div class="formg_math"> 
-                                                                                        <label for="0_{{ forloop.counter }}"> 
+                                                                                        <label for="nprofessor_{{ forloop.counter }}"> 
                                                                                             <h3>Nome</h3> 
-                                                                                            <input class="required" type="text" name="nprofessor_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Professor }}"> 
+                                                                                            <input class="required" type="text" name="nprofessor_{{ forloop.counter }}" id="nprofessor_{{ forloop.counter }}" value="{{ resultado.Nome_Professor }}"> 
                                                                                         </label> 
                                                                                     </div>  
                                                                                 </div> 
                                                                                 <div class="col-12 col-lg-3"> 
                                                                                     <div class="formg_math"> 
-                                                                                        <label for="1_{{ forloop.counter }}"> 
+                                                                                        <label for="preferencia_{{ forloop.counter }}"> 
                                                                                             <h3>Preferência</h3> 
                                                                                             {% for atrb in get_uniqueatribuicoes %}
                                                                                                 {% if atrb.Id_Professor == resultado.Id_Professor %}
-                                                                                                    <input type="text" class="required" name="preferencia_{{ forloop.parentloop.counter }}" id="1_{{ forloop.parentloop.counter }}" value="{{ atrb.Preferencia }}"> 
+                                                                                                    <input type="text" class="required" name="preferencia_{{ forloop.parentloop.counter }}" id="preferencia_{{ forloop.parentloop.counter }}" value="{{ atrb.Preferencia }}"> 
                                                                                                 {% endif %}
                                                                                             {% endfor %}
                                                                                         </label> 
@@ -183,7 +183,7 @@
                                                                                                     {% endif %}
                                                                                                 {% endfor %}
                                                                                                 <div class="duplicator_turmas_materias">
-                                                                                                    <button type="button" onclick="duplicatormaximus(this)" class="duplicatormaximus">Adicionar +</button>
+                                                                                                    <button type="button" onclick="duplicatormaximus(this, 0)" class="duplicatormaximus">Adicionar matéria +</button>
                                                                                                     {% for dados in dados_agrupados %}
                                                                                                         {% if resultado.Id_Professor == dados.id_professor %}
                                                                                                             <input type="hidden" class="count_materias" name="count_materias_all_{{ forloop.counter }}" value="{{ dados.materias_dados|length }}">
@@ -242,7 +242,7 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6"> 
                                             <div class="formg_math"> 
-                                                <label for="REPLACEINDEXnewreplaceindex"> 
+                                                <label for="mateira_REPLACEINDEX_newreplaceindex"> 
                                                     <h3>Matéria</h3> 
                                                     <select class="required" name="mateira_REPLACEINDEX_newreplaceindex" id="mateira_REPLACEINDEX_newreplaceindex">
                                                         <option value=""  selected disabled>---</option>
@@ -264,7 +264,6 @@
                                                     <h3>Turmas</h3> 
                                                     <div class="turmacards-area">
                                                         {% for turma in turmas %}
-                                                            
 
                                                             <div class="uniqueturma-area">
                                                                 <div class="label-turma">
@@ -318,17 +317,17 @@
                                             <div class="col-12 col-lg-6"> 
                                                 <input type="hidden" name="id_professor_REPLACEINDEX" id="" value="">
                                                 <div class="formg_math"> 
-                                                    <label for="0_REPLACEINDEX"> 
+                                                    <label for="nprofessor_REPLACEINDEX"> 
                                                         <h3>Nome</h3> 
-                                                        <input type="text" class="replace_index required" name="nprofessor_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
+                                                        <input type="text" class="replace_index required" name="nprofessor_REPLACEINDEX" id="nprofessor_REPLACEINDEX" value=""> 
                                                     </label> 
                                                 </div> 
                                             </div> 
                                             <div class="col-12 col-lg-3"> 
                                                 <div class="formg_math"> 
-                                                    <label for="1_REPLACEINDEX"> 
+                                                    <label for="preferencia_REPLACEINDEX"> 
                                                         <h3>Preferência</h3> 
-                                                        <input class="replace_index required" type="text" name="preferencia_REPLACEINDEX" id="1_REPLACEINDEX" value=""> 
+                                                        <input class="replace_index required" type="text" name="preferencia_REPLACEINDEX" id="preferencia_REPLACEINDEX" value=""> 
                                                     </label> 
                                                 </div> 
                                             </div> 
@@ -409,8 +408,8 @@
                                                             </div>
     
                                                             <div class="duplicator_turmas_materias">
-                                                                <button type="button" onclick="duplicatormaximus(this)" class="duplicatormaximus">Adicionar +</button>
-                                                                <input type="hidden" class="count_materias" name="count_materias_all_REPLACEINDEX" value="1">
+                                                                <button type="button" onclick="duplicatormaximus(this, 0)" class="duplicatormaximus">Adicionar matéria +</button>
+                                                                <input type="text" class="count_materias" name="count_materias_all_REPLACEINDEX" value="1">
                                                             </div>
                                                         </div>
                                                         
