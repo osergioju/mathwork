@@ -20,7 +20,6 @@ Essenciais
 body{
     font-family: 'Raleway', sans-serif;
     background: linear-gradient(126deg, #0B061E 45.22%, #010719 85.25%, #020515 123.03%);
-    overflow: hidden;
 }
 
 .brand-Math a:before {
