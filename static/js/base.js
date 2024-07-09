@@ -315,66 +315,73 @@ function updatefieldId(type){
     }
     
     // Atualiza name/id de cada um dos campos internos 
-    formgMaths.forEach(function(formgMath, index) {
-        // Troca id do blocão
-        if(type == 'type2' || type == 'type3'){
-            var span_index = formgMath.getElementsByClassName('spanex_index'); 
-            var id_conteudo = formgMath.getElementsByClassName('id_conteudo'); 
-            if(id_conteudo.length > 0){
-                var split_id_conteudo = id_conteudo[0].name.split('_');
-                split_id_conteudo[1] = index + 1;
-                id_conteudo[0].name = split_id_conteudo.join('_');
-            }   
-            span_index[0].innerHTML = index + 1;
-        }
-
-        var inputs = formgMath.querySelectorAll('.replace_index');
-        inputs.forEach(function(input) {
-            if(type == 'type3'){
-                var originalName = input.getAttribute('name');
-                var originalId = input.getAttribute('id');
-
-                var split_name = originalName.split('_');
-                var split_id = originalId.split('_');
-
-            }
-            else{
-                var originalName = input.getAttribute('name');
-                var originalId = input.getAttribute('id');
+    if(formgMaths){
+        formgMaths.forEach(function(formgMath, index) {
+            console.log(index);
+            // Troca id do blocão
+            if(type == 'type2' || type == 'type3'){
+                var span_index = formgMath.getElementsByClassName('spanex_index'); 
+                var id_conteudo = formgMath.getElementsByClassName('id_conteudo'); 
     
-                var newName = originalName.replace(/\d+/g, index + 1);
-                var newId = originalId.replace(/\d+/g, index + 1);
-    
-                input.setAttribute('name', newName); 
-                input.setAttribute('id', newId); 
+                if(id_conteudo.length > 0){
+                    var split_id_conteudo = id_conteudo[0].name.split('_');
+                    split_id_conteudo[1] = index + 1;
+                    id_conteudo[0].name = split_id_conteudo.join('_');
+                }   
+                span_index[0].innerHTML = index + 1;
             }
-        });
-
+    
+            var inputs = formgMath.querySelectorAll('.replace_index');
+            inputs.forEach(function(input) {
+                if(type == 'type3'){
+                    var originalName = input.getAttribute('name');
+                    var originalId = input.getAttribute('id');
+    
+                    var split_name = originalName.split('_');
+                    var split_id = originalId.split('_');
+    
+                }
+                else{
+                    var originalName = input.getAttribute('name');
+                    var originalId = input.getAttribute('id');
         
-
-        if(type == 'type2'){
-            var miniform_g = formgMath.querySelectorAll('.miniform_g');
-            miniform_g.forEach(function(miniform, index2) {
-                var input_miniform = miniform.getElementsByClassName('replace_index_level2');
-                var id_minifor = miniform.getElementsByClassName('id_minifor');
-
-                var split_name = input_miniform[0].name.split('_');
-                var split_id = id_minifor[0].name.split('_');
-
-                split_name[1] = index2 + 1;
-                split_name[2] = index + 1;
-
-                split_id[1] = index2 + 1;
-                split_id[2] = index + 1;
-
-                // Reatribuindo o nome ao campo
-                input_miniform[0].name = split_name.join('_');
-                id_minifor[0].name = split_name.join('_');
+                    var newName = originalName.replace(/\d+/g, index + 1);
+                    var newId = originalId.replace(/\d+/g, index + 1);
+        
+                    input.setAttribute('name', newName); 
+                    input.setAttribute('id', newId); 
+                }
             });
-        }
+    
+            
+            
+            if(type == 'type2'){
+                var miniform_g = formgMath.querySelectorAll('.miniform_g');
+                miniform_g.forEach(function(miniform, index2) {
+                    var input_miniform = miniform.getElementsByClassName('replace_index_level2');
+                    var id_minifor = miniform.getElementsByClassName('id_minifor');
+                    
+                    console.log(id_minifor);
 
-        
-    });
+                    var split_name = input_miniform[0].name.split('_');
+                    var split_id = id_minifor[0].name.split('_');
+    
+                    split_name[1] = index2 + 1;
+                    split_name[2] = index + 1;
+    
+                    split_id[1] = index2 + 1;
+                    split_id[2] = index + 1;
+    
+                    // Reatribuindo o nome ao campo
+                    input_miniform[0].name = split_name.join('_');
+                    id_minifor[0].name = split_name.join('_');
+                });
+            }
+    
+            
+        });
+    }
+    
 
     // Atualiza a quantidade do counter 
     var counterField = document.getElementById('counter');

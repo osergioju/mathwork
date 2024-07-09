@@ -797,7 +797,7 @@ def dias(request, id_configuracao):
 def materias(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)
+        counts = count_instances(id_configuracao)    
 
         if request.method == 'POST':
             

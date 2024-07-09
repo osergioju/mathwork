@@ -123,7 +123,7 @@
                                                 <div class="addmorefield-generic">
                                                     <button type="button" onclick="genericAddmore('Materias','type2')">Adicionar campo</button>
                                                 </div>
-                                                <input type="hidden" name="counter" id="counter" value="{{ page_resultados|length }}">
+                                                <input type="text" name="counter" id="counter" value="{{ page_resultados|length }}">
                                                 <input type="hidden" name="counter_turmas" id="counter_turmas" value="{{ get_turmas|length }}">
                                                 <div class="row">
                                                     <div class="col-12">
@@ -185,7 +185,7 @@
                                             {% for turmas in get_turmas %}
                                                 <div class="formg_math miniform_g"> 
                                                     <h4>{{ turmas.Nome_Turma }}</h4>
-                                                    <input type="hidden" value="{{ turmas.Id_Turma }}" name="idturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                    <input type="hidden" class="id_minifor" value="{{ turmas.Id_Turma }}" name="idturma_{{ forloop.counter }}_REPLACEINDEX">
                                                     <label for="minturma_{{ forloop.counter }}_REPLACEINDEX">
                                                         <span>Qnt min. (semanal)</span>
                                                         <input type="text" class="replace_index_level2 required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
