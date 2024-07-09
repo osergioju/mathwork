@@ -2762,3 +2762,10 @@ label.unicacheck_fielbubble:hover {
     margin-top: 10px;
     font-weight: 600;
 }
+
+.opacityabs{
+    position: absolute;
+    opacity: 0;
+    cursor: none;
+    pointer-events: none;
+}

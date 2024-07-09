@@ -1,5 +1,6 @@
 # meuapp/views.py
 from datetime import datetime
+import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -889,17 +890,20 @@ def professores(request, id_configuracao):
 
         if request.method == 'POST':
             grupos_dados = []
-            ids_professores = []
+            gpdata = []
             grupo_atual = []
             id_professor = None
+            ids_professores = []
             grupo_turmas = []
+            preferencia_atual = None
             turma = {}
+            d = request.POST.get('d')
 
             # Itera sobre os itens do request.POST
             for key, value in request.POST.items():
                 # Verifica se o nome do campo é 'break', indicando o início de um novo grupo
                 if key.startswith('quantidade_turmas__'):
-                        # Se o grupo atual não estiver vazio, adiciona-o à lista de grupos de dados
+                    # Se o grupo atual não estiver vazio, adiciona-o à lista de grupos de dados
                     if grupo_atual:
                         grupos_dados.append(grupo_atual)
                         # Reinicia o grupo atual para o próximo conjunto de campos repetidores
@@ -912,7 +916,7 @@ def professores(request, id_configuracao):
 
                 elif key.startswith('nprofessor_'):
                     # Adiciona o par de chave-valor ao grupo atual
-                    grupo_atual.append({'nome_professor': value, 'id_professor' : id_professor, 'materias': []})
+                    grupo_atual.append({'nome_professor': value, 'id_professor': id_professor, 'materias': []})
                     # Reinicia a preferência atual para o próximo professor
                     preferencia_atual = None
 
@@ -922,80 +926,77 @@ def professores(request, id_configuracao):
                 elif key.startswith('mateira_'):
                     # Adiciona a matéria à lista de matérias do professor atual
                     grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'turmas': []})
-                    
+
                 elif key.startswith('turmas_'):
                     id_turma = value
                     nome_turma = value
                     # Inicializa o dicionário da turma
                     turma = {'id_turma': id_turma, 'nome_turma': nome_turma}
-                    
-                    
+
                 elif key.startswith('qntmax_'):
-                    if turma:
-                        qnt_max_value = value
-                        # Adiciona a quantidade máxima de aulas ao dicionário da turma
-                        turma['qnt_max_aulas'] = qnt_max_value
-                        # Adiciona a turma à lista de turmas da matéria atual
-                        grupo_atual[-1]['materias'][-1]['turmas'].append(turma)
-                        # Redefine turma
-                        turma = {}
+                    qnt_max_value = value
+                    # Adiciona a quantidade máxima de aulas ao dicionário da turma
+                    turma['qnt_max_aulas'] = qnt_max_value
+                    # Adiciona a turma à lista de turmas da matéria atual
+                    grupo_atual[-1]['materias'][-1]['turmas'].append(turma)
+                    # Redefine turma para evitar mistura de dados
 
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
                 grupos_dados.append(grupo_atual)
-                
+
+            gpdata = json.loads(d)  # Faz o parse do JSON para Python
             # Itera sobre os grupos de dados
-            for grupo in grupos_dados:
-                # Itera sobre os dados de cada grupo
-                for dados_professor in grupo:
-                    # Extrai o nome do professor
-                    nome_professor = dados_professor['nome_professor']
-                    id_professor = dados_professor['id_professor']                    
+            
+            # Itera sobre os dados de cada grupo
+            for dados_professor in gpdata:
+                # Extrai o nome do professor
 
-                    if(id_professor):
-                        id_professor_cadastrado = None
-                        # Atualizar o objeto Materias no banco de dados com base no id_turma
-                        Professores.objects.filter(Id_Professor=id_professor).update(Nome_Professor=nome_professor)
-                    else:
-                        # Cria um novo objeto Professores com os dados do formulário
-                        professores_obj = Professores(Nome_Professor=nome_professor, Id_Configuracao=id_configuracao)
+                nome_professor = dados_professor['nome_professor']
+                id_professor = dados_professor['id_professor']                    
 
-                        # Salva o objeto Professores no banco de dados
-                        professores_obj.save()
+                if(id_professor):
+                    id_professor_cadastrado = None
+                    # Atualizar o objeto Materias no banco de dados com base no id_turma
+                    Professores.objects.filter(Id_Professor=id_professor).update(Nome_Professor=nome_professor)
+                else:
+                    # Cria um novo objeto Professores com os dados do formulário
+                    professores_obj = Professores(Nome_Professor=nome_professor, Id_Configuracao=id_configuracao)
 
-                        # Resgata o id do indivíduo
-                        id_professor_cadastrado = professores_obj.Id_Professor
+                    # Salva o objeto Professores no banco de dados
+                    professores_obj.save()
 
-                    # Identifica os professores
-                    if(id_professor):
-                        id_professor_send = id_professor
-                    else:
-                        id_professor_send = id_professor_cadastrado
+                    # Resgata o id do indivíduo
+                    id_professor_cadastrado = professores_obj.Id_Professor
 
-                    ids_professores.append(id_professor_send)
+                # Identifica os professores
+                if(id_professor):
+                    id_professor_send = id_professor
+                else:
+                    id_professor_send = id_professor_cadastrado
+
+                ids_professores.append(id_professor_send)
 
 
-                    for lista_materias in dados_professor['materias']:
-                        id_materia = lista_materias['id_materia']
-                        preferencia = lista_materias['preferencia']
-                        id_conf = id_configuracao
+                for lista_materias in dados_professor['materias']:
+                    id_materia = lista_materias['id_materia']
+                    preferencia = lista_materias['preferencia']
+                    id_conf = id_configuracao
+                    
+                    Atribuicoes_Professores.objects.filter(Id_Professor=id_professor_send, Id_Configuracao=id_conf).delete()
+                    for lista_turmas in lista_materias['turmas']:
+                        id_turma = lista_turmas['id_turma']
+                        qnt_max = lista_turmas['qnt_max_aulas']
+
+                        grupo_turmas.append({
+                            'id_turma': id_turma,
+                            'id_professor' : id_professor_send,
+                            'id_configuracao' : id_conf,
+                            'id_materia' : id_materia,
+                            'preferencia' : preferencia,
+                            'qnt_max' : qnt_max
+                        })
                         
-                        Atribuicoes_Professores.objects.filter(Id_Professor=id_professor_send, Id_Configuracao=id_conf).delete()
-                        for lista_turmas in lista_materias['turmas']:
-                            id_turma = lista_turmas['id_turma']
-                            qnt_max = lista_turmas['qnt_max_aulas']
-
-                            grupo_turmas.append({
-                                'id_turma': id_turma,
-                                'id_professor' : id_professor_send,
-                                'id_configuracao' : id_conf,
-                                'id_materia' : id_materia,
-                                'preferencia' : preferencia,
-                                'qnt_max' : qnt_max
-                            })
-                        
-                        
-        
             for turmas_gp in grupo_turmas:
                 # Finalmente cadastra as atribuições
                 atribuicoes_obj = Atribuicoes_Professores(Id_Professor=turmas_gp['id_professor'], Id_Configuracao=turmas_gp['id_configuracao'], Id_Materia=turmas_gp['id_materia'],Id_Turma=turmas_gp['id_turma'],Preferencia=turmas_gp['preferencia'],Qnt_Maxima_Diaria=turmas_gp['qnt_max'])

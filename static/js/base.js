@@ -490,7 +490,6 @@ function duplicatormaximus(me, x){
     count_materias.value = count_materias_valor;
 
     if(x == 0){
-        alert('rodou');
         superTreeUpdate();
     }
 }
@@ -556,6 +555,7 @@ function selectionTurmas(eu) {
 
 
 function checkturmas() {
+    
     // Seleciona todos os elementos com a classe 'turmacards-area'
     let turmacards_area = document.querySelectorAll('.turmacards-area');
     
@@ -668,4 +668,60 @@ function superTreeUpdate(){
     // Atualiza a quantidade do counter 
     var counterField = document.getElementById('counter');
     counterField.value = count - 1; 
+}
+
+
+/// Get array profers
+function montarArray() {
+    var grupos_dados = [];
+    var formElements = document.querySelectorAll('#repeaterbody-line > .carouseltype2');
+
+    formElements.forEach(function(formElement) {
+        var nomeProfessor = formElement.querySelector('[name^="nprofessor_"]').value;
+        var idProfessor = formElement.querySelector('[name^="id_professor_"]').value;
+        var preferencia = formElement.querySelector('[name^="preferencia_"]').value;
+        var idMaterias = formElement.querySelectorAll('[name^="mateira_"]');
+        
+        var materias = [];
+
+        idMaterias.forEach(function(idMateria, index) {
+            var idMat = idMateria.value;
+            var blocoturmas = formElement.querySelectorAll('.relacional_professorxmateria')[index];
+            var turmas = [];
+
+            blocoturmas.querySelectorAll('.uniqueturma-area').forEach(function(blocosinputs) {
+                var checkbox = blocosinputs.querySelector('[name^="turmas_"]');
+                
+                if (checkbox && checkbox.checked) {
+                    var qntmax = blocosinputs.querySelector('[name^="qntmax_"]').value;
+                    
+                    turmas.push({
+                        "id_turma": checkbox.value,
+                        "nome_turma": checkbox.value,
+                        "qnt_max_aulas": qntmax
+                    });
+                }
+            });
+
+            materias.push({
+                "id_materia": idMat,
+                "preferencia": preferencia,
+                "turmas": turmas
+            });
+        });
+
+        grupos_dados.push({
+            "nome_professor": nomeProfessor,
+            "id_professor": idProfessor,
+            "materias": materias
+        });
+    });
+
+    var d = document.getElementById('d');
+    d.value = JSON.stringify(grupos_dados);
+    
+    fakeclick = document.getElementById('fakeclick');
+    setTimeout(function(){
+        fakeclick.click();
+    }, 100);
 }
