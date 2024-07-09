@@ -805,9 +805,11 @@ def materias(request, id_configuracao):
             quantidade_grupos = int(request.POST.get('counter', 0))
             quantidade_turmas = int(request.POST.get('counter_turmas', 0))
             materias_obj = None  # Declare a variável fora do primeiro loop
-            
+
+            #print(quantidade_grupos)
             lista_ids = []
             for index in range(1, quantidade_grupos + 1):
+                print(index)
                 # Construir os nomes dos campos para Materias
                 materia_key = f'materia_{index}'
                 preferencia_key = f'preferencia_{index}'
@@ -847,7 +849,11 @@ def materias(request, id_configuracao):
                     qntmin_value = request.POST.get(qntmin_key)
                     qntmax_value = request.POST.get(qntmax_key)
 
-
+                    print(qntmin_key)
+                    print(qntmin_value)
+                    print(qntmax_value)
+                    print(turma)
+                    
                     if materias_obj is None:
                         # Atualizar o objeto Materias no banco de dados com base no id_turma
                         Restricoes_Materias.objects.filter(Id_Materia=id_materia, Id_Configuracao=id_configuracao, Id_Turma=turma).update(Qtd_Minima_Semanal=qntmin_value, Qtd_Maxima_Diaria=qntmax_value)
@@ -857,7 +863,6 @@ def materias(request, id_configuracao):
 
                         # Criar um novo objeto Restricoes_Materias com os dados do formulário
                         restricoes_obj = Restricoes_Materias(Id_Turma=turma, Id_Materia=id_materia_get, Id_Configuracao=id_configuracao, Qtd_Minima_Semanal=qntmin_value, Qtd_Maxima_Diaria=qntmax_value)
-
                         # Salvar o objeto Restricoes_Materias no banco de dados
                         restricoes_obj.save()
             

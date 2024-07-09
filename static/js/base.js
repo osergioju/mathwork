@@ -361,8 +361,6 @@ function updatefieldId(type){
                     var input_miniform = miniform.getElementsByClassName('replace_index_level2');
                     var id_minifor = miniform.getElementsByClassName('id_minifor');
                     
-                    // console.log(id_minifor);
-
                     var split_name = input_miniform[0].name.split('_');
                     var split_id = id_minifor[0].name.split('_');
     
@@ -374,7 +372,7 @@ function updatefieldId(type){
     
                     // Reatribuindo o nome ao campo
                     input_miniform[0].name = split_name.join('_');
-                    id_minifor[0].name = split_name.join('_');
+                    id_minifor[0].name = split_id.join('_');
                 });
             }
     

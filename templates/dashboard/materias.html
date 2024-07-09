@@ -104,9 +104,9 @@
                                                                                                     <input type="hidden" class="id_minifor" name="idturma_{{ loop_two.counter }}_{{ loop_two.parentloop.counter }}" value="{{ turmas.Id_Turma }}"> 
                                                                                                     <label for="turma_{{ loop_two.counter }}_{{ turmas.Id_Turma }}">
                                                                                                         <span>Qnt min. (semanal)</span>
-                                                                                                        <input class="replace_index_level2 required" ID="" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
+                                                                                                        <input class="replace_index_level2 required" id="" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
                                                                                                     </label>
-                                                                                                    <input class="required" value="0" type="hidden" id="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
+                                                                                                    <input class="required" value="2" type="hidden" id="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
                                                                                                 </div>
                                                                                             {% endif %}
                                                                                         {% endfor %}
@@ -123,7 +123,7 @@
                                                 <div class="addmorefield-generic">
                                                     <button type="button" onclick="genericAddmore('Materias','type2')">Adicionar campo</button>
                                                 </div>
-                                                <input type="hidden" name="counter" id="counter" value="{{ page_resultados|length }}">
+                                                <input type="text" name="counter" id="counter" value="{{ page_resultados|length }}">
                                                 <input type="hidden" name="counter_turmas" id="counter_turmas" value="{{ get_turmas|length }}">
                                                 <div class="row">
                                                     <div class="col-12">
@@ -190,7 +190,7 @@
                                                         <span>Qnt min. (semanal)</span>
                                                         <input type="text" class="replace_index_level2 required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
                                                     </label>
-                                                    <input type="hidden" class="required" id="maxturma_{{ forloop.counter }}_REPLACEINDEX" name="maxturma_{{ forloop.counter }}_REPLACEINDEX" value="0">
+                                                    <input type="hidden" class="required" id="maxturma_{{ forloop.counter }}_REPLACEINDEX" name="maxturma_{{ forloop.counter }}_REPLACEINDEX" value="2">
                                                 </div>
                                             {% endfor %}
                                         </div>
@@ -207,3 +207,150 @@
     </div>
     
 {% endblock %} 
+<!-- 
+
+
+
+<div class="carouseltype2" id="fatherfield_16">
+    <div class="indice__count">
+        <span class="spanex_index">16</span>
+    </div>
+    <div class="unicogenerated-field"> 
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="row">
+                    <div class="col-12 col-lg-6"> 
+                        <div class="formg_math"> 
+                            <label for="0_16"> 
+                                <h3>Matéria</h3> 
+                                <input type="text" class="replace_index required" name="materia_16" id="0_16" value=""> 
+                            </label> 
+                        </div> 
+                    </div> 
+                    <div class="col-12 col-lg-6"> 
+                        <div class="formg_math"> 
+                            <label for="1_16"> 
+                                <h3>Preferência</h3> 
+                                <input type="text" class="replace_index required" name="preferencia_16" id="1_16" value="10"> 
+                            </label>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="deletebutton-type2">
+                    <button button="" type="button" class="removeMe" onclick="removeMe('type2' ,16)"></button>
+                </div>
+            </div>
+            <div class="col-12"> 
+                <div class="flex_multipleturmas">
+                    
+                        <div class="formg_math miniform_g"> 
+                            <h4>6</h4>
+                            <input type="hidden" class="id_minifor" value="146" name="idturma_1_16">
+                            <label for="minturma_1_16">
+                                <span>Qnt min. (semanal)</span>
+                                <input type="text" class="replace_index_level2 required" id="minturma_1_16" name="minturma_1_16">
+                            </label>
+                            <input type="hidden" class="required" id="maxturma_1_16" name="maxturma_1_16" value="2">
+                        </div>
+                    
+                        <div class="formg_math miniform_g"> 
+                            <h4>7</h4>
+                            <input type="hidden" class="id_minifor" value="147" name="idturma_2_16">
+                            <label for="minturma_2_16">
+                                <span>Qnt min. (semanal)</span>
+                                <input type="text" class="replace_index_level2 required" id="minturma_2_16" name="minturma_2_16">
+                            </label>
+                            <input type="hidden" class="required" id="maxturma_2_16" name="maxturma_2_16" value="2">
+                        </div>
+                    
+                        <div class="formg_math miniform_g"> 
+                            <h4>8</h4>
+                            <input type="hidden" class="id_minifor" value="148" name="idturma_3_16">
+                            <label for="minturma_3_16">
+                                <span>Qnt min. (semanal)</span>
+                                <input type="text" class="replace_index_level2 required" id="minturma_3_16" name="minturma_3_16">
+                            </label>
+                            <input type="hidden" class="required" id="maxturma_3_16" name="maxturma_3_16" value="2">
+                        </div>
+                    
+                </div>
+            </div> 
+        </div> 
+    </div>
+</div>
+
+
+
+<div class="carouseltype2" id="fatherfield_16">
+    <div class="indice__count">
+        <span class="spanex_index">16</span>
+    </div>
+    <div class="unicogenerated-field"> 
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="row">
+                    <div class="col-12 col-lg-6"> 
+                        <div class="formg_math"> 
+                            <label for="0_16"> 
+                                <h3>Matéria</h3> 
+                                <input type="text" class="replace_index required" name="materia_16" id="16_16" value=""> 
+                            </label> 
+                        </div> 
+                    </div> 
+                    <div class="col-12 col-lg-6"> 
+                        <div class="formg_math"> 
+                            <label for="1_16"> 
+                                <h3>Preferência</h3> 
+                                <input type="text" class="replace_index required" name="preferencia_16" id="16_16" value="10"> 
+                            </label>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="deletebutton-type2">
+                    <button button="" type="button" class="removeMe" onclick="removeMe('type2' ,16)"></button>
+                </div>
+            </div>
+            <div class="col-12"> 
+                <div class="flex_multipleturmas">
+                    
+                        <div class="formg_math miniform_g"> 
+                            <h4>6</h4>
+                            <input type="hidden" class="id_minifor" value="146" name="minturma_1_16">
+                            <label for="minturma_1_16">
+                                <span>Qnt min. (semanal)</span>
+                                <input type="text" class="replace_index_level2 required" id="minturma_1_16" name="minturma_1_16">
+                            </label>
+                            <input type="hidden" class="required" id="maxturma_1_16" name="maxturma_1_16" value="2">
+                        </div>
+                    
+                        <div class="formg_math miniform_g"> 
+                            <h4>7</h4>
+                            <input type="hidden" class="id_minifor" value="147" name="minturma_2_16">
+                            <label for="minturma_2_16">
+                                <span>Qnt min. (semanal)</span>
+                                <input type="text" class="replace_index_level2 required" id="minturma_2_16" name="minturma_2_16">
+                            </label>
+                            <input type="hidden" class="required" id="maxturma_2_16" name="maxturma_2_16" value="2">
+                        </div>
+                    
+                        <div class="formg_math miniform_g"> 
+                            <h4>8</h4>
+                            <input type="hidden" class="id_minifor" value="148" name="minturma_3_16">
+                            <label for="minturma_3_16">
+                                <span>Qnt min. (semanal)</span>
+                                <input type="text" class="replace_index_level2 required" id="minturma_3_16" name="minturma_3_16">
+                            </label>
+                            <input type="hidden" class="required" id="maxturma_3_16" name="maxturma_3_16" value="2">
+                        </div>
+                    
+                </div>
+            </div> 
+        </div> 
+    </div>
+</div>
+
+-->
