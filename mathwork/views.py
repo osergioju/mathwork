@@ -898,49 +898,7 @@ def professores(request, id_configuracao):
             preferencia_atual = None
             turma = {}
             d = request.POST.get('d')
-
-            # Itera sobre os itens do request.POST
-            for key, value in request.POST.items():
-                # Verifica se o nome do campo é 'break', indicando o início de um novo grupo
-                if key.startswith('quantidade_turmas__'):
-                    # Se o grupo atual não estiver vazio, adiciona-o à lista de grupos de dados
-                    if grupo_atual:
-                        grupos_dados.append(grupo_atual)
-                        # Reinicia o grupo atual para o próximo conjunto de campos repetidores
-                        grupo_atual = []
-                        # Reinicia a preferência atual para o próximo grupo
-                        preferencia_atual = None
-
-                elif key.startswith('id_professor'):
-                    id_professor = value
-
-                elif key.startswith('nprofessor_'):
-                    # Adiciona o par de chave-valor ao grupo atual
-                    grupo_atual.append({'nome_professor': value, 'id_professor': id_professor, 'materias': []})
-                    # Reinicia a preferência atual para o próximo professor
-                    preferencia_atual = None
-
-                elif key.startswith('preferencia_'):
-                    preferencia_atual = value
-
-                elif key.startswith('mateira_'):
-                    # Adiciona a matéria à lista de matérias do professor atual
-                    grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'turmas': []})
-
-                elif key.startswith('turmas_'):
-                    id_turma = value
-                    nome_turma = value
-                    # Inicializa o dicionário da turma
-                    turma = {'id_turma': id_turma, 'nome_turma': nome_turma}
-
-                elif key.startswith('qntmax_'):
-                    qnt_max_value = value
-                    # Adiciona a quantidade máxima de aulas ao dicionário da turma
-                    turma['qnt_max_aulas'] = qnt_max_value
-                    # Adiciona a turma à lista de turmas da matéria atual
-                    grupo_atual[-1]['materias'][-1]['turmas'].append(turma)
-                    # Redefine turma para evitar mistura de dados
-
+            
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
                 grupos_dados.append(grupo_atual)
