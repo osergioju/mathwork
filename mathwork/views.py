@@ -305,7 +305,8 @@ def checkuser_login(request, role, code):
                 if code is False: 
                     return True
                 else:
-                    print(request.session['user_escola'])
+                    print(request.session['user_escola'])  
+                    print(request.session['user_email'])
                     get_configs = Configuracoes.objects.filter(Id_Escola=request.session['user_escola']).values_list('Id_Configuracao', flat=True)
                     if code in get_configs:
                         return True 
