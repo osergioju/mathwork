@@ -723,5 +723,5 @@ function montarArray() {
     fakeclick = document.getElementById('fakeclick');
     setTimeout(function(){
         fakeclick.click();
-    }, 100);
+    }, 1000);
 }
