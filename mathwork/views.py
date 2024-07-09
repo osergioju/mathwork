@@ -305,7 +305,7 @@ def checkuser_login(request, role, code):
                 if code is False: 
                     return True
                 else:
-                    if Configuracoes.objects.filter(Id_Escola=request.session['user_escola'], Email=request.session['user_email']).exists():
+                    if Usuarios.objects.filter(Id_Escola=request.session['user_escola'], Email=request.session['user_email']).exists():
                         return True
                     else:
                         return False
