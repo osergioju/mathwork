@@ -511,7 +511,7 @@ function togglePasswordVisibility() {
 
 function validarValor(input) {
     // Convertendo o valor para número
-    let valor = parseInt(input.value);
+    let valor = parseInt(input.value, 10);
 
     // Verificando se o valor está fora do intervalo desejado
     if (isNaN(valor) || valor < 1) {
