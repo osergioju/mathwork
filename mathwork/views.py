@@ -1244,7 +1244,7 @@ def rodar_modelo(request, id_configuracao):
                 modelo = cronogrid(msg)
 
                 if not isinstance(modelo, list):
-                    msg = 'Não foi possível encontrar a solução! Mexa nas configurações e tente novamente!'
+                    msg = ['Não foi possível encontrar a solução! Mexa nas configurações e tente novamente!'];
                     modelos_disponiveis = Rodadas_Modelo.objects.filter(Id_Configuracao=id_configuracao).all()
                     return render(request, 'dashboard/rodar_modelo.html', { 'modelos_disponiveis' : modelos_disponiveis,'rotateModel': rotateModel, 'msg_erro' : msg, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
 
