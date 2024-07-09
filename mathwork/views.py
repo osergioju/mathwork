@@ -421,7 +421,7 @@ def visibilidade_links(request):
 
 ## Início
 def inicio(request, id_escola):
-    if checkuser_login(request, True, id_escola):
+    if checkuser_login(request, False, id_escola):
         ## Caso a pessoa tenha cadastrado uma configuração nova
         if request.method == 'POST':
             # Obter os dados do formulário
