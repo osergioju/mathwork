@@ -898,7 +898,7 @@ def professores(request, id_configuracao):
             preferencia_atual = None
             turma = {}
             d = request.POST.get('d')
-            
+
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
                 grupos_dados.append(grupo_atual)
@@ -1244,57 +1244,60 @@ def rodar_modelo(request, id_configuracao):
                 modelo = cronogrid(msg)
 
                 if not isinstance(modelo, list):
-                    return render(request, 'Não foi possível encontrar a solução! Mexa nas configurações e tente novamente!')
+                    msg = 'Não foi possível encontrar a solução! Mexa nas configurações e tente novamente!'
+                    modelos_disponiveis = Rodadas_Modelo.objects.filter(Id_Configuracao=id_configuracao).all()
+                    return render(request, 'dashboard/rodar_modelo.html', { 'modelos_disponiveis' : modelos_disponiveis,'rotateModel': rotateModel, 'msg_erro' : msg, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
 
-                tamanho_modelo = len(modelo)
-
-                # Suponha que tamanho_modelo seja o tamanho do modelo
-                df_array_escola = []
-                df_array_professores = []
-                df_array_janelas = []
-
-                for i in range(tamanho_modelo):
-
-                    ## Seu DataFrame
-                    view_escola = pd.DataFrame(modelo[i]["df_visualizacao_escola"])
-                    view_professores = pd.DataFrame(modelo[i]["df_visualizacao_professores"])
-                    view_janelas = pd.DataFrame(modelo[i]["df_resumo_janelas"])
-                    
-                    ## Gerando o HTML
-                    df_escola = view_escola.to_dict(orient='records')
-                    df_professores = view_professores.to_dict(orient='records')
-                    df_janelas = view_janelas.to_dict(orient='records')
-
-                    # Adicionando à lista
-                    df_array_escola.append(df_escola)
-                    df_array_professores.append(df_professores)
-                    df_array_janelas.append(df_janelas)
-                    
-                print(df_array_escola)
-                
-                # Consulta na base se já tem resultados, para somar com a quantidade de rodadas
-                registro = Escolas.objects.get(Id_Escola=id_escola_get)
-            
-                # Verifique se o registro existe antes de acessar o campo
-                if registro.N_Rodadas_Utilizadas > 0:
-                    rodads_valor = registro.N_Rodadas_Utilizadas + 1
                 else:
-                    rodads_valor = 1
+                    tamanho_modelo = len(modelo)
 
-                # Insere na base de dados o resultado do modelo 
-                insererodada_objeto = Rodadas_Modelo(df_visualizacao_escola=df_array_escola, df_visualizacao_professores=df_array_professores, df_resumo_janelas=df_array_janelas,Numero_Rodada=rodads_valor, Id_Configuracao=id_configuracao, data_registro=timezone.now())
-                Escolas.objects.filter(Id_Escola=id_escola_get).update(N_Rodadas_Utilizadas=rodads_valor) # Atualiza o campo da escola
+                    # Suponha que tamanho_modelo seja o tamanho do modelo
+                    df_array_escola = []
+                    df_array_professores = []
+                    df_array_janelas = []
 
-                # Salvar o objeto no banco de dados
-                insererodada_objeto.save()
+                    for i in range(tamanho_modelo):
 
-                # Mensagenzinha 
-                modelos_disponiveis = Rodadas_Modelo.objects.filter(Id_Configuracao=id_configuracao).all()
+                        ## Seu DataFrame
+                        view_escola = pd.DataFrame(modelo[i]["df_visualizacao_escola"])
+                        view_professores = pd.DataFrame(modelo[i]["df_visualizacao_professores"])
+                        view_janelas = pd.DataFrame(modelo[i]["df_resumo_janelas"])
+                        
+                        ## Gerando o HTML
+                        df_escola = view_escola.to_dict(orient='records')
+                        df_professores = view_professores.to_dict(orient='records')
+                        df_janelas = view_janelas.to_dict(orient='records')
+
+                        # Adicionando à lista
+                        df_array_escola.append(df_escola)
+                        df_array_professores.append(df_professores)
+                        df_array_janelas.append(df_janelas)
+                        
+                    print(df_array_escola)
+                    
+                    # Consulta na base se já tem resultados, para somar com a quantidade de rodadas
+                    registro = Escolas.objects.get(Id_Escola=id_escola_get)
+                
+                    # Verifique se o registro existe antes de acessar o campo
+                    if registro.N_Rodadas_Utilizadas > 0:
+                        rodads_valor = registro.N_Rodadas_Utilizadas + 1
+                    else:
+                        rodads_valor = 1
+
+                    # Insere na base de dados o resultado do modelo 
+                    insererodada_objeto = Rodadas_Modelo(df_visualizacao_escola=df_array_escola, df_visualizacao_professores=df_array_professores, df_resumo_janelas=df_array_janelas,Numero_Rodada=rodads_valor, Id_Configuracao=id_configuracao, data_registro=timezone.now())
+                    Escolas.objects.filter(Id_Escola=id_escola_get).update(N_Rodadas_Utilizadas=rodads_valor) # Atualiza o campo da escola
+
+                    # Salvar o objeto no banco de dados
+                    insererodada_objeto.save()
+
+                    # Mensagenzinha 
+                    modelos_disponiveis = Rodadas_Modelo.objects.filter(Id_Configuracao=id_configuracao).all()
 
 
-                # Renderize a página com o contexto
-                msg = 'Sucesso, seu modelo foi salvo. Clique aqui para visualizar.'
-                return render(request, 'dashboard/rodar_modelo.html', { 'modelos_disponiveis' : modelos_disponiveis,'rotateModel' : rotateModel, 'msg_sucesso' : msg, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
+                    # Renderize a página com o contexto
+                    msg = 'Sucesso, seu modelo foi salvo. Clique aqui para visualizar.'
+                    return render(request, 'dashboard/rodar_modelo.html', { 'modelos_disponiveis' : modelos_disponiveis,'rotateModel' : rotateModel, 'msg_sucesso' : msg, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
 
             else:
                 msg = retorno_sobre_lista
