@@ -458,3 +458,54 @@ function validarValor(input) {
     // Atualiza o valor do input com o valor ajustado
     input.value = valor;
 }
+
+
+/// Alimenta qnt de turmas 
+function selectionTurmas(eu) {
+    // Obtém o elemento pai principal
+    let superpai = eu.parentElement.parentElement.parentElement.parentElement;
+    
+    // Seleciona todos os elementos de input com a classe 'turmas_selection'
+    let filhos_input = superpai.querySelectorAll('.turmas_selection');
+
+    // Selecione o filho pra mostrar o erro 
+    let spanerror_turmas = superpai.querySelector('.spanerror_turmas');
+
+    // Seleciona o input 'receive_qnt_turmas_selected'
+    let receive_qnt_turmas_selected = superpai.querySelector('input[name="receive_qnt_turmas_selected"]');
+    
+    // Inicializa uma variável para verificar se ao menos um checkbox está checado
+    let atLeastOneChecked = false;
+    
+    // Percorre todos os elementos filhos_input
+    filhos_input.forEach(element => {
+        // Verifica se o elemento está checado
+        if (element.checked) {
+            atLeastOneChecked = true;
+        }
+    });
+
+
+    // Atualiza o valor do input receive_qnt_turmas_selected para 1 se ao menos um estiver checado
+    receive_qnt_turmas_selected.value = atLeastOneChecked ? 1 : '';
+}
+
+
+function checkturmas() {
+    // Seleciona todos os elementos com a classe 'turmacards-area'
+    let turmacards_area = document.querySelectorAll('.turmacards-area');
+    
+    // Itera sobre os elementos de turmacards_area
+    turmacards_area.forEach(element => {
+        let spanerror_turmas = element.querySelector('.spanerror_turmas');
+        let receive_qnt_turmas_selected = element.querySelector('input[name="receive_qnt_turmas_selected"]');
+        
+        if (receive_qnt_turmas_selected.value != 1) {
+            spanerror_turmas.innerHTML = '<span>Selecione ao menos uma turma</span>';
+        } else {
+            spanerror_turmas.innerHTML = '';
+        }
+        console.log(receive_qnt_turmas_selected.value);
+        console.log(spanerror_turmas);
+    });
+}

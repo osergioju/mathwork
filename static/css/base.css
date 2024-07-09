@@ -2746,3 +2746,19 @@ label.unicacheck_fielbubble:hover {
     padding: 4px;
     border-radius: 10px;
 }
+
+.spanerror_turmas {
+    width: 100%;
+}
+
+.quantas_turmas_selected {
+    width: 100%;
+}
+
+.spanerror_turmas span {
+    display: inline-block;
+    font-size: 14px;
+    color: white;
+    margin-top: 10px;
+    font-weight: 600;
+}

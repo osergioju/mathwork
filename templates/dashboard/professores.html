@@ -208,7 +208,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="button-savestage">
-                                                            <button type="submit">Salvar</button>
+                                                            <button type="submit" onclick="checkturmas()">Salvar</button>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -366,7 +366,7 @@
                                                                                                     <div class="label-turma">
                                                                                                         <p>Turma</p>
                                                                                                         <label for="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                                                            <input type="checkbox" name="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}"  id="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                                                            <input class="turmas_selection" onchange="selectionTurmas(this)" type="checkbox" name="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}"  id="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
                                                                                                             <div class="beforecarter"></div>
                                                                                                             <span>{{ turma.Nome_Turma }}</span>
                                                                                                         </label>
@@ -377,8 +377,13 @@
                                                                                                         <input oninput="validarValor(this)"  type="text" name="qntmax_1_REPLACEINDEX_{{ turma.Id_Turma }}" id="qntmax_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="2">
                                                                                                     </div>
                                                                                                 </div>
-
                                                                                             {% endfor %}
+                                                                                            <div class="quantas_turmas_selected">
+                                                                                                <div class="spanerror_turmas">
+                                                                                                    
+                                                                                                </div>
+                                                                                                <input type="text" name="receive_qnt_turmas_selected" class="required">
+                                                                                            </div>
                                                                                         </div>
                                                                                     </label> 
                                                                                 </div> 

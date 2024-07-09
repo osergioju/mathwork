@@ -849,10 +849,6 @@ def materias(request, id_configuracao):
                     qntmin_value = request.POST.get(qntmin_key)
                     qntmax_value = request.POST.get(qntmax_key)
 
-                    print(qntmin_key)
-                    print(qntmin_value)
-                    print(qntmax_value)
-                    print(turma)
                     
                     if materias_obj is None:
                         # Atualizar o objeto Materias no banco de dados com base no id_turma
@@ -897,6 +893,7 @@ def professores(request, id_configuracao):
             grupo_atual = []
             id_professor = None
             grupo_turmas = []
+            turma = {}
 
             # Itera sobre os itens do request.POST
             for key, value in request.POST.items():
@@ -909,7 +906,6 @@ def professores(request, id_configuracao):
                         grupo_atual = []
                         # Reinicia a preferência atual para o próximo grupo
                         preferencia_atual = None
-
 
                 elif key.startswith('id_professor'):
                     id_professor = value
@@ -926,18 +922,23 @@ def professores(request, id_configuracao):
                 elif key.startswith('mateira_'):
                     # Adiciona a matéria à lista de matérias do professor atual
                     grupo_atual[-1]['materias'].append({'id_materia': value, 'preferencia': preferencia_atual, 'turmas': []})
+                    
                 elif key.startswith('turmas_'):
                     id_turma = value
                     nome_turma = value
                     # Inicializa o dicionário da turma
                     turma = {'id_turma': id_turma, 'nome_turma': nome_turma}
                     
+                    
                 elif key.startswith('qntmax_'):
-                    qnt_max_value = value
-                    # Adiciona a quantidade máxima de aulas ao dicionário da turma
-                    turma['qnt_max_aulas'] = qnt_max_value
-                    # Adiciona a turma à lista de turmas da matéria atual
-                    grupo_atual[-1]['materias'][-1]['turmas'].append(turma)
+                    if turma:
+                        qnt_max_value = value
+                        # Adiciona a quantidade máxima de aulas ao dicionário da turma
+                        turma['qnt_max_aulas'] = qnt_max_value
+                        # Adiciona a turma à lista de turmas da matéria atual
+                        grupo_atual[-1]['materias'][-1]['turmas'].append(turma)
+                        # Redefine turma
+                        turma = {}
 
             # Adiciona o último grupo de dados à lista de grupos, se houver algum
             if grupo_atual:
