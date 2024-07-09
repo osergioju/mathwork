@@ -718,10 +718,11 @@ function montarArray() {
     });
 
     var d = document.getElementById('d');
+    d.value = '';
     d.value = JSON.stringify(grupos_dados);
     
     fakeclick = document.getElementById('fakeclick');
-    setTimeout(function(){
-        // fakeclick.click();
-    }, 1000);
+    if(d.value != ''){
+        fakeclick.click();
+    }
 }
