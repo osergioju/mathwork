@@ -291,8 +291,10 @@ def gerar_esquema():
 def checkuser_login(request, role, code):
     if 'user_id' in request.session:
         if request.session['user_email'] == False:
+            print('caiu aqui - 1')
             return False
         else:
+            print('caiu aqui - 2')
             if role == True:
                 if request.session['user_role'] == 1:
                     if code == request.session['user_escola']:
@@ -303,8 +305,10 @@ def checkuser_login(request, role, code):
                     return False
             else:
                 if code is False: 
+                    print('caiu aqui - 3')
                     return True
                 else:
+                    print('caiu aqui - 4')
                     get_configs = Configuracoes.objects.filter(Id_Escola=request.session['user_escola']).values_list('Id_Configuracao', flat=True)
                     if code in get_configs:
                         return True 
