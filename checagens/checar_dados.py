@@ -186,7 +186,7 @@ def checa_problemas_seis(configuracoes):
     """
     Função que checa se algum professor não tem disponibilidade suficiente para suas atribuições 
     com apenas duas aulas por dia e por turma. Foi necessário rodar um modelo para cada professor
-    pois não ofi encontrada uma lógica para resolver o problema de forma direta.
+    pois não foi encontrada uma lógica para resolver o problema de forma direta.
 
     Args:
     configuracoes (dict): dicionário com as configurações do problema
@@ -266,7 +266,8 @@ def checa_problemas_seis(configuracoes):
                 k = insert(bad_, 3, c_)
                 ks.append(k)
             
-            prob += lpSum([vars_[str(tuple(k))] for k in ks]) <= 2, f"{rest:02}_{x:03}" # f"{rest:02}_{2 * x:03}"
+            aulas_maximas = configuracoes["aulas_maximas_diarias"][nm_professor][nm_turma]
+            prob += lpSum([vars_[str(tuple(k))] for k in ks]) <= aulas_maximas, f"{rest:02}_{x:03}" # f"{rest:02}_{2 * x:03}"
             x += 1
         
         rest += 1
