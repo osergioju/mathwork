@@ -308,3 +308,32 @@ def checa_problemas_seis(configuracoes):
         del prob
     
     return problemas, dica
+
+def checa_problemas_sete(configs):
+    """
+    Checa se há problemas com a configuração para o cronogrid
+    """
+
+    dica = """
+    Erro de preenchimentos (7):
+    A quantidade de aulas máximas diárias e a quantidade de aulas mínimas semanais de algum(uns)
+    professor(es) não está(ão) de acordo com a carga horária semanal da(s) matéria(s) que ele(s)
+    """
+
+    problemas = []
+    for nm_professor in configs["professores_turmas_materias"]:
+        for nm_turma in configs["professores_turmas_materias"][nm_professor]:
+            aulas_minimas_semanais_professor = 0
+            for nm_materia in configs["professores_turmas_materias"][nm_professor][nm_turma]:
+                
+                aulas_minimas_semanais_professor += \
+                    configs["aulas_minimas_semanais"][nm_materia][nm_turma]
+            
+            aulas_maximas_diarias_professor = configs["aulas_maximas_diarias"][nm_professor][nm_turma]
+            if aulas_maximas_diarias_professor * configs["D"] < aulas_minimas_semanais_professor:
+                problemas.append(f"""O Professor {nm_professor} possui {aulas_maximas_diarias_professor} aula(s) máxima(s) diária(s),
+                                 na turma {nm_turma}, e possui {aulas_minimas_semanais_professor} aulas mínimas semanais
+                                 com {configs["D"]} dias de aula por semana""")
+                continue
+    
+    return problemas, dica

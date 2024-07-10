@@ -1,6 +1,7 @@
 from checagens.checar_dados import (checa_problemas_um, checa_problemas_dois, 
                                     checa_problemas_tres, checa_problemas_quatro,
-                                    checa_problemas_cinco, checa_problemas_seis)
+                                    checa_problemas_cinco, checa_problemas_seis,
+                                    checa_problemas_sete)
 from pandas import DataFrame
 
 checagens = [
@@ -9,7 +10,8 @@ checagens = [
     checa_problemas_tres,
     checa_problemas_quatro,
     checa_problemas_cinco,
-    checa_problemas_seis
+    checa_problemas_seis,
+    checa_problemas_sete,
     ]
 
 
