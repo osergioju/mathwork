@@ -246,21 +246,17 @@ def restricao_seis(prob, vars_, a, b, c, d, professores, turmas, dias, momentos,
         indice_dia, indice_momento = dc_
         nm_dia, nm_momento = dias[indice_dia], momentos[indice_momento]
 
-        ks = []
-        for j, ba in enumerate(product(b, a)):
+        for indice_turma in b:
 
-            ba_ = array(ba)
-            indice_turma, indice_professor = ba_
             nm_turma = turmas[indice_turma]
-            nm_professor = professores[indice_professor]
-
-            if nm_turma not in professores_turmas_materias[nm_professor].keys():
-                continue
 
             if dict_disponibilidades_aulas[nm_turma].loc[nm_momento, nm_dia] == 0:
-                k = insert(dc_, 0, ba)
-                ks.append(k)
-        
-        if len(ks) > 0:
-            prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) == 0, f"{rest:02}_{x:03d}"
-            x += 1
+                ks = []
+                for indice_professor in a:
+                    k = insert(dc_, 0, indice_turma)
+                    k = insert(k, 1, indice_professor)
+                    ks.append(k)
+
+                # print(ks)
+                prob += plp.lpSum([vars_[str(tuple(k))] for k in ks]) == 0, f"{rest:02}_{x:03d}"
+                x += 1
