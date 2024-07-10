@@ -344,7 +344,7 @@ function updatefieldId(type){
                     var newId = originalId.replace(/\d+/g, index + 1);
                     var newFor = originalFor.replace(/\d+/g, index + 1);
 
-                    label_pai.setAttribute('for', newFor); 
+                    //label_pai.setAttribute('for', newFor); 
                     input.setAttribute('name', newName); 
                     input.setAttribute('id', newId); 
                 }   
@@ -405,7 +405,7 @@ function updatefieldId(type){
                     // Reatribuindo o nome ao campo
                     select_materia[0].name = split_name_materia.join('_');
                     select_materia[0].id = split_id_materia.join('_');
-                    label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+                    // label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
 
                     
 
@@ -430,7 +430,7 @@ function updatefieldId(type){
                         // Reatribuindo o nome ao campo
                         dontfeel.name = split_name_materia.join('_');
                         dontfeel.id = split_id_materia.join('_');
-                        label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+                        ///label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
                     });
 
     
@@ -516,10 +516,7 @@ function validarValor(input) {
     // Verificando se o valor está fora do intervalo desejado
     if (isNaN(valor) || valor < 1) {
         valor = 1; // Define o valor mínimo como 1 se for menor que 1 ou não for um número válido
-    } else if (valor > 3) {
-        valor = 3; // Define o valor máximo como 3 se for maior que 3
     }
-
     // Atualiza o valor do input com o valor ajustado
     input.value = valor;
 }
@@ -632,7 +629,7 @@ function superTreeUpdate(){
                 // Reatribuindo o nome ao campo
                 select_materia[0].name = split_name_materia.join('_');
                 select_materia[0].id = split_id_materia.join('_');
-                label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+                //label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
 
                 
 
@@ -657,7 +654,7 @@ function superTreeUpdate(){
                     // Reatribuindo o nome ao campo
                     dontfeel.name = split_name_materia.join('_');
                     dontfeel.id = split_id_materia.join('_');
-                    label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
+                    // label_pai.htmlFor = split_for.join('_');  // Corrigido para usar htmlFor ao invés de label_pai.for
                 });
             });
             
@@ -726,3 +723,18 @@ function montarArray() {
         fakeclick.click();
     }
 }
+
+
+// Labelors
+document.addEventListener('DOMContentLoaded', (event) => {
+    const labels = document.querySelectorAll('.unicacheck_fielbubble');
+
+    labels.forEach(label => {
+        label.addEventListener('click', (e) => {
+            const input = label.querySelector('input[type="checkbox"]');
+            if (input) {
+                input.checked = !input.checked;
+            }
+        });
+    });
+});

@@ -68,7 +68,7 @@
                                                                 </div>
                                                                 <div class="unicogenerated-field"> 
                                                                     <div class="row">
-                                                                        <div class="col-12 col-lg-11">
+                                                                        <div class="col-12 col-lg-11"> 
                                                                             <div class="row">
                                                                                 <div class="col-12 col-lg-6"> 
                                                                                     <input type="hidden" name="id_professor_{{ forloop.counter }}" id="" value="{{ resultado.Id_Professor }}">
@@ -144,15 +144,15 @@
                                                                                                                                             {% for turma in turmas %}
                                                                                                                                                 <div class="uniqueturma-area">
                                                                                                                                                     <div class="label-turma">
-                                                                                                                                                        <p>Turma</p>
-                                                                                                                                                        <label for="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
+                                                                                                                                                        <p>turmax</p>
+                                                                                                                                                        <label class="unicacheck_fielbubble">
                                                                                                                                                             <input
                                                                                                                                                             {% for t in turmas_id %}
                                                                                                                                                                 {% if t.id_turma == turma.Id_Turma %}
                                                                                                                                                                     checked
                                                                                                                                                                 {% endif %}
                                                                                                                                                             {% endfor %}
-                                                                                                                                                            type="checkbox" class="turmas_selection" onchange="selectionTurmas(this)" id="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" name="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                                                                                                            type="checkbox" class="turmas_selection" onchange="selectionTurmas(this)" name="turmas_{{ loop_one.counter }}_{{ forloop.parentloop.counter }}_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
                                                                                                                                                             <div class="beforecarter"></div>
                                                                                                                                                             <span>{{ turma.Nome_Turma }}</span>
                                                                                                                                                         </label>
@@ -269,9 +269,9 @@
 
                                                             <div class="uniqueturma-area">
                                                                 <div class="label-turma">
-                                                                    <p>Turma</p>
-                                                                    <label for="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                        <input class="turmas_selection" type="checkbox" onchange="selectionTurmas(this)" name="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" id="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                    <p>turmax</p>
+                                                                    <label class="unicacheck_fielbubble">
+                                                                        <input class="turmas_selection" type="checkbox" onchange="selectionTurmas(this)" name="turmas_REPLACEINDEX_newreplaceindex_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
                                                                         <div class="beforecarter"></div>
                                                                         <span>{{ turma.Nome_Turma }}</span>
                                                                     </label>
@@ -376,9 +376,9 @@
                                                                                             {% for turma in turmas %}
                                                                                                 <div class="uniqueturma-area">
                                                                                                     <div class="label-turma">
-                                                                                                        <p>Turma</p>
-                                                                                                        <label for="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" class="unicacheck_fielbubble">
-                                                                                                            <input class="turmas_selection" onchange="selectionTurmas(this)" type="checkbox" name="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}"  id="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
+                                                                                                        <p>turmax</p>
+                                                                                                        <label class="unicacheck_fielbubble">
+                                                                                                            <input class="turmas_selection" onchange="selectionTurmas(this)" type="checkbox" name="turmas_1_REPLACEINDEX_{{ turma.Id_Turma }}" value="{{ turma.Id_Turma }}">
                                                                                                             <div class="beforecarter"></div>
                                                                                                             <span>{{ turma.Nome_Turma }}</span>
                                                                                                         </label>
