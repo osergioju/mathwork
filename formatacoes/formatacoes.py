@@ -64,7 +64,7 @@ def formata_turmas_df(turmas_df, professores_turmas_materias, aulas_minimas_sema
                 
                 qtd_aulas_dia_materia[materia_inserir][nm_dia] += 1
 
-                turmas_df_formatado_escola[nm_turma].loc[nm_momento, nm_dia] = f"{materia_inserir}/{nm_professor}"
+                turmas_df_formatado_escola[nm_turma].loc[nm_momento, nm_dia] = f"{materia_inserir} | {nm_professor}"
                 materias_inserir.remove(materia_inserir)
         
         turmas_df_formatado_escola[nm_turma].fillna("-", inplace=True)
