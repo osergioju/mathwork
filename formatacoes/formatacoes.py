@@ -92,7 +92,7 @@ def gera_visualizacao_professores(professores, dias, momentos, turmas_df,
                 nm_momento = momentos[id_momento]
                 nm_dia = dias[id_dia]
 
-                visualizacoes_professores[nm_professor].loc[nm_momento, nm_dia] = f"{turma_prof}/{materias_prof_semana[i]}"
+                visualizacoes_professores[nm_professor].loc[nm_momento, nm_dia] = f"{turma_prof} / {materias_prof_semana[i]}"
         
         visualizacoes_professores[nm_professor].fillna("-", inplace=True)
     
