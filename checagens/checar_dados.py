@@ -12,9 +12,10 @@ def checa_problemas_um(configuracoes):
     :return: lista com os problemas encontrados
     """
     dica = """
-    Erro de preenchimentos (1):
+    Erro de preenchimento do tipo 1:
     Há professor(es) cuja a disponibilidade não é suficiente para suas atribuições!
     """
+
     problemas = []
     for professor in configuracoes["professores"].values():
         disponibilidades_oferecidas = configuracoes["df_disponibilidades"].loc[configuracoes["df_disponibilidades"]["professor"] == professor, 
@@ -27,8 +28,10 @@ def checa_problemas_um(configuracoes):
                 atribuicoes += configuracoes["aulas_minimas_semanais"][materia_prof][turma_prof]
             
         if disponibilidades_oferecidas < atribuicoes:
-            problemas.append(f"Professor {professor} disponibilizou {disponibilidades_oferecidas} " \
-                             f"disponibilidades NÃO suficientes para suas {atribuicoes} atribuicoes")
+            problemas.append(f"""O professor {professor} disponibilizou {disponibilidades_oferecidas} horários, 
+                                mas tem {atribuicoes} aulas atribuídas.""")
+            
+            
 
     return problemas, dica
 
@@ -42,9 +45,10 @@ def checa_problemas_dois(configuracoes):
     """
 
     dica = """
-    Erro de preenchimentos (2):
-    As disponibilidades dos professores devem preencher a semana inteira de aulas para as turmas abaixo!
+    Erro de preenchimento do tipo 2:
+    Existe algum dia/momento sem professor disponível para uma turma ou algum professor não deu nenhuma disponibilidade.
     """
+
     problemas = []
     for nm_turma in configuracoes["turmas"].values():
         professores_turma = \
@@ -67,7 +71,8 @@ def checa_problemas_dois(configuracoes):
             nm_dia = configuracoes["dias"][indice_dia]
             nm_momento = configuracoes["momentos"][indice_momento]
 
-            problemas.append(f"Turma {nm_turma} não tem professor para o dia {nm_dia} no momento {nm_momento}")
+            if configuracoes["dict_disponibilidades_aulas"][nm_turma].loc[nm_momento, nm_dia] == 1:
+                problemas.append(f"A Turma {nm_turma} não tem professor para o dia {nm_dia} no momento {nm_momento}")
 
     return problemas, dica
 
@@ -83,8 +88,9 @@ def checa_problemas_tres(configuracoes):
     """
 
     dica = """
-    Erro de preenchimentos (3):
+    Erro de preenchimento do tipo 3:
     """
+
     problemas = []
     for nm_turma in configuracoes["turmas"].values():
         materias_turma = [nm_materia for nm_materia in configuracoes["materias"].values() 
@@ -94,8 +100,8 @@ def checa_problemas_tres(configuracoes):
                                 if nm_turma in configuracoes["professores_turmas_materias"][nm_professor].keys()]
         
         if len(professores_turma) > len(materias_turma):
-            problemas.append(f"Turma {nm_turma} tem mais {len(professores_turma)} professores e {len(materias_turma)} materias." \
-                             "Alguma matéria está sendo ministrada por mais de um professor para esta turma.")
+            problemas.append(f"Turma {nm_turma} tem mais professores ({len(professores_turma)}) do que materias ({len(materias_turma)})." \
+                             "Alguma matéria está sendo ministrada simultenamente por mais de um professor para esta turma.")
         
         for nm_professor in professores_turma:
             materias_professor_turma = configuracoes["professores_turmas_materias"][nm_professor][nm_turma]
@@ -104,12 +110,11 @@ def checa_problemas_tres(configuracoes):
                 try:
                     materias_turma.remove(nm_materia)
                 except ValueError:
-                    problemas.append(f"A matéria {nm_materia} do professor {nm_professor} não é ministrada na turma {nm_turma}." \
-                                     "Ou a matéria do professor não deveria ser cadastrada nessa turma ou o número de aulas mínimas " \
-                                     "está incorreto para esta matéria/turma.")
+                    problemas.append(f"""Verifique se existe mais de um professor cadastrado para ministrar a 
+                                         matéria {nm_materia} na turma {nm_turma}.""")
         
         if len(materias_turma) > 0:
-            problemas.append(f"Turma {nm_turma} não tem professor para as materias {materias_turma}")
+            problemas.append(f"A Turma {nm_turma} não tem professor cadastrado para a(s) materia(s) {materias_turma}")
     
     return problemas, dica
 
@@ -122,7 +127,8 @@ def checa_problemas_quatro(configuracoes):
     :return: lista com os problemas encontrados
     """
 
-    dica = "Erro de preenchimentos (4):\n"
+    dica = """Erro de preenchimento 4:"
+              Os dias e momentos com mais professores disponiveis são:"""
 
     df_disponibilidades_pivot = pivot_table(configuracoes["df_disponibilidades"], 
                                             index=["professor"], columns=["momento"], values=configuracoes["dias"].values(), aggfunc="sum")
@@ -133,11 +139,10 @@ def checa_problemas_quatro(configuracoes):
     qtd_insuficiente_profs_momento_dia = df_disponibilidades_pivot.values.sum(axis=0) < configuracoes["B"]
 
     ranking_disponibilidades = sorted(zip(df_disponibilidades_pivot.columns, df_disponibilidades_pivot.values.sum(axis=0)), key=lambda par: par[1], reverse=True)
-    dica += f"Os dias e momentos com mais professores disponiveis são:"
     for momento_dia, qtd_profs in ranking_disponibilidades[:5]:
         nm_momento, nm_dia = momento_dia
 
-        dica += f"\n{nm_dia} {nm_momento} com {qtd_profs} professores disponíveis"
+        dica += f"\n{nm_dia} {nm_momento} possui {qtd_profs} professores disponíveis"
 
     colunas_problema = [coluna for i, coluna in enumerate(df_disponibilidades_pivot.columns) if qtd_insuficiente_profs_momento_dia[i]]
 
@@ -163,8 +168,9 @@ def checa_problemas_cinco(configuracoes):
     """
 
     dica = """
-    Erro de preenchimentos (5):
-    É necessário checar qual(is) matéria(s) está(ão) com o número de aulas mínimas incorreto(s)
+    Erro de preenchimento do tipo 5:
+    Faça a checagem das matérias atribuídas às turmas e certificando-se que a quantidade de aulas mínimas semanais seja igual ao total
+    de aulas semanais da turma
     """
 
     problemas = []
@@ -175,8 +181,8 @@ def checa_problemas_cinco(configuracoes):
 
         qtd_aulas_nao_permitidas = (1 - configuracoes["dict_disponibilidades_aulas"][nm_turma].values).sum()
         if soma_aulas != configuracoes["C"] * configuracoes["D"] - qtd_aulas_nao_permitidas:
-            problemas.append(f"O número de aulas mínimas semanais para a turma {nm_turma} não está correto " \
-                             f"({soma_aulas} != {configuracoes['C'] * configuracoes['D'] - qtd_aulas_nao_permitidas})")
+            problemas.append(f"""O número de aulas mínimas semanais ({soma_aulas}) para a turma {nm_turma} é diferente da quantidade
+                             de aulas semanais da turma ({configuracoes['C'] * configuracoes['D'] - qtd_aulas_nao_permitidas})""")
     
     return problemas, dica
 
@@ -196,9 +202,8 @@ def checa_problemas_seis(configuracoes):
     """
 
     dica = """
-    Erro de preenchimentos (6):
-    Algum(uns) professor(es) não tem disponibilidade suficiente para suas atribuições com apenas 
-    duas aulas por dia e por turma
+    Erro de preenchimentos do tipo 6:
+    Algum(uns) professor(es) não tem disponibilidade suficiente para suas atribuições
     """
     
     b, a, d, c = range(configuracoes['B']), range(1), range(configuracoes['D']), range(configuracoes['C'])
@@ -304,8 +309,9 @@ def checa_problemas_seis(configuracoes):
         prob.solve(PULP_CBC_CMD(msg=False))
 
         if LpStatus[prob.status] == "Infeasible":
-            problemas.append(f"Professor {nm_professor} não tem disponibilidade suficiente para suas atribuições " \
-                             "com apenas duas aulas por dia e por turma")
+            problemas.append(f"""O professor {nm_professor} não tem disponibilidades suficientes para suas atribuições
+                             com apenas {aulas_maximas} aulas máximas por dia e por turma. É necessário aumentar a 
+                             disponibilidade em outros dias da semana ou aumentar a quantidade de aulas máximas diárias.""")
         del prob
     
     return problemas, dica
@@ -316,9 +322,13 @@ def checa_problemas_sete(configs):
     """
 
     dica = """
-    Erro de preenchimentos (7):
+    Erro de preenchimento do tipo 7:
+    
     A quantidade de aulas máximas diárias e a quantidade de aulas mínimas semanais de algum(uns)
-    professor(es) não está(ão) de acordo com a carga horária semanal da(s) matéria(s) que ele(s)
+    professor(es) não está(ão) de acordo com a carga horária semanal da(s) matéria(s) que ele(s).
+
+    A quantidade de aulas máximas diárias do professor vezes a quantidade de dias de aula por 
+    semana deve ser maior ou igual a quantidade de aulas mínimas semanais.
     """
 
     problemas = []
@@ -329,12 +339,19 @@ def checa_problemas_sete(configs):
                 
                 aulas_minimas_semanais_professor += \
                     configs["aulas_minimas_semanais"][nm_materia][nm_turma]
+                
+
+            qtd_dias_disponibilizados = \
+                (configs["df_disponibilidades"][configs["df_disponibilidades"]["professor"] == nm_professor][configs["dias"].values()].
+                    sum(axis=0) > 0).sum()
             
             aulas_maximas_diarias_professor = configs["aulas_maximas_diarias"][nm_professor][nm_turma]
-            if aulas_maximas_diarias_professor * configs["D"] < aulas_minimas_semanais_professor:
-                problemas.append(f"""O Professor {nm_professor} possui {aulas_maximas_diarias_professor} aula(s) máxima(s) diária(s),
-                                 na turma {nm_turma}, e possui {aulas_minimas_semanais_professor} aulas mínimas semanais
-                                 com {configs["D"]} dias de aula por semana""")
+            if aulas_maximas_diarias_professor * qtd_dias_disponibilizados < aulas_minimas_semanais_professor:
+                problemas.append(f"""
+                                 O Professor {nm_professor} possui {aulas_maximas_diarias_professor} aula(s) máxima(s) diária(s),
+                                 e {qtd_dias_disponibilizados} dia(s) disponibilizado(s), porém, a quantidade de aulas semanais
+                                 na turma {nm_turma}, é de {aulas_minimas_semanais_professor} aulas semanais.
+                                 """)
                 continue
     
     return problemas, dica
