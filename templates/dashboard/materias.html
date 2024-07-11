@@ -104,7 +104,7 @@
                                                                                                     <input type="hidden" class="id_minifor" name="idturma_{{ loop_two.counter }}_{{ loop_two.parentloop.counter }}" value="{{ turmas.Id_Turma }}"> 
                                                                                                     <label for="turma_{{ loop_two.counter }}_{{ turmas.Id_Turma }}">
                                                                                                         <span>Qnt min. (semanal)</span>
-                                                                                                        <input class="replace_index_level2 required" id="" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
+                                                                                                        <input oninput="validarValor(this)" class="replace_index_level2 required" id="" value="{{ restricoes.Qtd_Minima_Semanal  }}" type="text" id="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="minturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
                                                                                                     </label>
                                                                                                     <input class="required" value="2" type="hidden" id="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}" name="maxturma_{{ loop_two.counter }}_{{ loop_one.counter }}">
                                                                                                 </div>
@@ -188,7 +188,7 @@
                                                     <input type="hidden" class="id_minifor" value="{{ turmas.Id_Turma }}" name="idturma_{{ forloop.counter }}_REPLACEINDEX">
                                                     <label for="minturma_{{ forloop.counter }}_REPLACEINDEX">
                                                         <span>Qnt min. (semanal)</span>
-                                                        <input type="text" class="replace_index_level2 required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
+                                                        <input oninput="validarValor(this)" type="text" class="replace_index_level2 required" id="minturma_{{ forloop.counter }}_REPLACEINDEX" name="minturma_{{ forloop.counter }}_REPLACEINDEX">
                                                     </label>
                                                     <input type="hidden" class="required" id="maxturma_{{ forloop.counter }}_REPLACEINDEX" name="maxturma_{{ forloop.counter }}_REPLACEINDEX" value="2">
                                                 </div>
