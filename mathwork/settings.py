@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['18.230.6.109', '18.230.6.109:8000', '127.0.0.1', '162.240.54.198', 'sistemacronogrid.com.br', 'localhost', 'localhost:8000']
 
 
-
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
