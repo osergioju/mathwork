@@ -634,7 +634,6 @@ def solucoes(request, id_escola):
 def turmas(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)
     
         if request.method == 'POST':
             # Obter os dados do formulário
@@ -675,6 +674,8 @@ def turmas(request, id_configuracao):
             # Restante do código
             return redirect('turmas', id_configuracao)
 
+        counts = count_instances(id_configuracao)
+
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         page_resultados = Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
         return render(request, 'dashboard/turmas.html', {'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
@@ -684,7 +685,6 @@ def turmas(request, id_configuracao):
 def momentos(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)
 
         if request.method == 'POST':
             # Obter os dados do formulário
@@ -725,6 +725,8 @@ def momentos(request, id_configuracao):
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         page_resultados = Momentos.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Momento').all()
 
+        counts = count_instances(id_configuracao)
+
         return render(request, 'dashboard/momentos.html', {'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
         return redirect('login')
@@ -733,8 +735,6 @@ def momentos(request, id_configuracao):
 def dias(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)
-
         if request.method == 'POST':
             # Obter os dados do formulário
             idconfiguracao = request.POST.get('idconfig')
@@ -775,6 +775,8 @@ def dias(request, id_configuracao):
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         page_resultados = Dias.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Dia').all()
 
+        counts = count_instances(id_configuracao)
+
         return render(request, 'dashboard/dias.html', { 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
         return redirect('login')
@@ -783,7 +785,7 @@ def dias(request, id_configuracao):
 def materias(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)    
+        
 
         if request.method == 'POST':
             
@@ -857,6 +859,9 @@ def materias(request, id_configuracao):
 
             return redirect('materias', id_configuracao)
         else:
+
+            counts = count_instances(id_configuracao)    
+
             ## Pega a função das urls
             objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
             page_resultados = Materias.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Materia').all()
@@ -948,7 +953,6 @@ def professores(request, id_configuracao):
             Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=ids_professores).delete()
             Atribuicoes_Professores.objects.filter(Id_Configuracao=id_configuracao).exclude(Id_Professor__in=ids_professores).delete()
 
-
         ## Pega a função das urls
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         page_resultados = Professores.objects.filter(Id_Configuracao=id_configuracao).all()
@@ -1037,7 +1041,6 @@ def professores(request, id_configuracao):
 def disponbilidade_td(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls
-        counts = count_instances(id_configuracao)
 
         if request.method == 'POST':
             # Obter a quantidade de grupos do campo 'counter'
@@ -1104,6 +1107,8 @@ def disponbilidade_td(request, id_configuracao):
 
         json_resultados = serialize('json', raw_page_results)
 
+        counts = count_instances(id_configuracao)    
+
         # get_atribuicoes = ( Atribuicoes_Professores.objects.raw( "SELECT Id_Atribuicao, Id_Professor, Id_Configuracao, Id_Materia, " "GROUP_CONCAT(Id_Turma SEPARATOR '|') as Id_Turma, Preferencia " "FROM Atribuicoes_Professores " "WHERE Id_Configuracao = %s " "GROUP BY Id_Materia, Id_Professor", [id_configuracao] ) )
         return render(request, 'dashboard/disponbilidade_turmas.html', {  'json_resultados' : json_resultados,'turmas' : turmas, 'dias' : dias ,'momentos' : momentos  ,'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
@@ -1113,7 +1118,7 @@ def disponbilidade_td(request, id_configuracao):
 def disponibilidade(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)
+        
 
         if request.method == 'POST':
             # Obter a quantidade de grupos do campo 'counter'
@@ -1200,6 +1205,8 @@ def disponibilidade(request, id_configuracao):
         momentos = Momentos.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Momento').all()
         dias = Dias.objects.filter(Id_Configuracao=id_configuracao).all()
         professores = Professores.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Professor').all()
+
+        counts = count_instances(id_configuracao)
 
         return render(request, 'dashboard/disponibilidade.html', {'json_resultados' : json_resultados ,'professores' : professores ,'dias' : dias ,'momentos' : momentos  ,'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
@@ -1298,6 +1305,8 @@ def rodar_modelo(request, id_configuracao):
         N_Rodadas_Contratadas_total = get_escola_info.N_Rodadas_Contratadas
         N_Rodadas_Utilizadas = get_escola_info.N_Rodadas_Utilizadas
 
+        counts = count_instances(id_configuracao)
+
         return render(request, 'dashboard/rodar_modelo.html', {'N_Rodadas_Contratadas_total' : N_Rodadas_Contratadas_total ,'N_Rodadas_Contratadas_proximidade' : N_Rodadas_Contratadas_proximidade, 'N_Rodadas_Utilizadas' : N_Rodadas_Utilizadas,   'modelos_disponiveis' : modelos_disponiveis, 'rotateModel' : rotateModel, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
     else:
         return redirect('login')
@@ -1305,9 +1314,10 @@ def rodar_modelo(request, id_configuracao):
 # Relatórios
 def relatorios(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
-        counts = count_instances(id_configuracao)
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         modelos_disponiveis = Rodadas_Modelo.objects.filter(Id_Configuracao=id_configuracao).all()
+
+        counts = count_instances(id_configuracao)
 
         return render(request, 'dashboard/relatorios.html', {'modelos_disponiveis' : modelos_disponiveis, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
     else:
@@ -1316,11 +1326,13 @@ def relatorios(request, id_configuracao):
 # Relatórios
 def ver_relatorio(request, id_configuracao, id_rodada):
     if checkuser_login(request, False, id_configuracao):
-        counts = count_instances(id_configuracao)
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         modelos_disponiveis = Rodadas_Modelo.objects.filter(Id_Rodada=id_rodada).all()
         professores_select = Professores.objects.filter(Id_Configuracao=id_configuracao).all()
         turmas_select = Turmas.objects.filter(Id_Configuracao=id_configuracao).all()
+
+        counts = count_instances(id_configuracao)
+
         return render(request, 'dashboard/ver_relatorio.html', {'turmas_select' : turmas_select,  'professores_select' : professores_select,   'modelos_disponiveis' : modelos_disponiveis, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, **counts})
     else:
         return redirect('login')
