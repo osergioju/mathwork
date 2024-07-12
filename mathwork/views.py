@@ -396,20 +396,6 @@ def administrativo(request):
     else:
         return redirect('login')
 
-###########DASHBOARD############
-## Sidebar links ##
-def count_instances(id_configuracao):
-    # Sua lógica para contar as instâncias e adicioná-las ao contexto global
-    count_turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).count()
-    count_momentos = Momentos.objects.filter(Id_Configuracao=id_configuracao).count()
-    count_dias = Dias.objects.filter(Id_Configuracao=id_configuracao).count()
-    count_materias = Materias.objects.filter(Id_Configuracao=id_configuracao).count()
-    count_professores = Professores.objects.filter(Id_Configuracao=id_configuracao).count()
-    count_disponibilidade = Disponibilidades_Professores.objects.filter(Id_Configuracao=id_configuracao).count()
-    count_disponibilidade_turmas = Disponibilidades_Turmas.objects.filter(Id_Configuracao=id_configuracao).count()
-
-    # Adiciona count_turmas ao contexto global
-    return {'count_disponibilidade_turmas' : count_disponibilidade_turmas, 'count_turmas': count_turmas, 'count_momentos': count_momentos, 'count_dias': count_dias, 'count_materias': count_materias, 'count_professores': count_professores, 'count_disponibilidade': count_disponibilidade}
 
 # Visibilidade dos links
 def visibilidade_links(request):
@@ -885,7 +871,6 @@ def materias(request, id_configuracao):
 def professores(request, id_configuracao):
     if checkuser_login(request, False, id_configuracao):
         ## Pega a função das urls, se poder ve
-        counts = count_instances(id_configuracao)
 
         if request.method == 'POST':
             grupos_dados = []
@@ -1041,6 +1026,8 @@ def professores(request, id_configuracao):
                         }]
                     }
                 })
+
+        counts = count_instances(id_configuracao)
 
         return render(request, 'dashboard/professores.html', {'get_uniqueatribuicoes' : get_uniqueatribuicoes,  'get_atribuicoes_count': get_atribuicoes_count, 'dados_agrupados' : dados_agrupados, 'get_atribuicoes' : get_atribuicoes ,'turmas' : get_turmas,'materias' : materias_dados , 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
     else:
@@ -1341,3 +1328,21 @@ def ver_relatorio(request, id_configuracao, id_rodada):
 # View de erros no servidor, tem que gerar log 
 def server_error(request):
     return render(request, 'dashboard/error_page.html', status=500)
+
+
+###########DASHBOARD############
+## Sidebar links ##
+def count_instances(id_configuracao):
+    # Sua lógica para contar as instâncias e adicioná-las ao contexto global
+    count_turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).count()
+    count_momentos = Momentos.objects.filter(Id_Configuracao=id_configuracao).count()
+    count_dias = Dias.objects.filter(Id_Configuracao=id_configuracao).count()
+    count_materias = Materias.objects.filter(Id_Configuracao=id_configuracao).count()
+    count_professores = Professores.objects.filter(Id_Configuracao=id_configuracao).count()
+    count_disponibilidade = Disponibilidades_Professores.objects.filter(Id_Configuracao=id_configuracao).count()
+    count_disponibilidade_turmas = Disponibilidades_Turmas.objects.filter(Id_Configuracao=id_configuracao).count()
+
+    print(count_professores)
+    
+    # Adiciona count_turmas ao contexto global
+    return {'count_disponibilidade_turmas' : count_disponibilidade_turmas, 'count_turmas': count_turmas, 'count_momentos': count_momentos, 'count_dias': count_dias, 'count_materias': count_materias, 'count_professores': count_professores, 'count_disponibilidade': count_disponibilidade}
