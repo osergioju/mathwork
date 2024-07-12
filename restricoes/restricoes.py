@@ -177,7 +177,7 @@ def restricao_quatro(prob, a, b, c, d, vars_, max_aulas_dia, professores_turmas_
         x += 1
 
 def restricao_cinco(prob, a, b, vars_, df_disponibilidade_professores, professores_turmas_materias, 
-                    professores, turmas, dias, momentos, rest):
+                    professores, turmas, dias, rest):
 
     """
     Restrição 5: Cada professor deve dar aula apenas nos momentos que ele está disponível.
@@ -219,8 +219,7 @@ def restricao_cinco(prob, a, b, vars_, df_disponibilidade_professores, professor
             prob += vars_[str((indice_turma, indice_professor, indice_dia, indice_momento))] == 0, f"{rest:02}_{x:03d}"
             x += 1
 
-def restricao_seis(prob, vars_, a, b, c, d, professores, turmas, dias, momentos, 
-                   professores_turmas_materias, dict_disponibilidades_aulas, rest):
+def restricao_seis(prob, vars_, a, b, c, d, turmas, dias, momentos, dict_disponibilidades_aulas, rest):
 
     """
     Restrição 6: Garantir que alguma turma que não possa ter aula num determinado dia e momento não tenha aula nesse dia e momento.
