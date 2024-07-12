@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import mimetypes
- 
-# Auth CSS
-mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$!+x737w1+07weejodu=7wu(iwt0hm#c&#70t6*28vhok!*m=d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['18.230.6.109', '18.230.6.109:8000', '127.0.0.1', '162.240.54.198', 'sistemacronogrid.com.br', 'localhost', 'localhost:8000']
 
@@ -173,22 +169,3 @@ EMAIL_HOST_USER = 'noreply@sistemacronogrid.com.br'  # Seu endereço de e-mail
 EMAIL_HOST_PASSWORD = 'jZ+%1HtjxPMJ'  # Sua senha de e-mail
 DEFAULT_FROM_EMAIL = 'noreply@sistemacronogrid.com.br'  # Seu endereço de e-mail padrão
 
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'logs/logfile.log'
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
