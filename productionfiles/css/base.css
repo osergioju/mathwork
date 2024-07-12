@@ -115,6 +115,29 @@ div#content {
     height: 100%;
 }
 
+.flex-settings a {
+    color: #484848;
+    background: white;
+    padding: 6px 15px;
+    text-decoration: none;
+    border-radius: 10px;
+    display: flex;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.4s ease all;
+    margin-left:5px;
+}
+
+.flex-settings a:hover{
+    background: #eca258;
+    color: white;
+}
+
+.flex-settings a:hover::after{
+    filter: brightness(0) invert(1);
+    opacity: 1;
+}
+
 .settings-guide {
     position: absolute;
     top: calc(100% + 10px);
@@ -257,6 +280,7 @@ span#name_suer {
 div#myTabContent {
     background: white;
     border-radius: 0 15px 15px 15px;
+    position: relative;
 }
 
 .tabs_mathworks ul li.nav-item button {
@@ -456,19 +480,13 @@ h2.title_sidebar {
     font-weight: 600;
 }
 
-.chosenclass-sidebar a {
-    transition: 0.4s ease all;
+h2.title_sidebar span {
     display: inline-block;
-    background: linear-gradient(90deg, #161C35 47.84%, rgba(255, 107, 0, 0.41) 215.03%);
-    color: white;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 5px 30px;
-    border-radius: 100px;
-    font-size: 14px;
-    position: relative;
-    overflow: hidden;
+    font-size: 12px;
+    font-weight: 400;
 }
+
+.chosenclass-sidebar a {color: black;font-size: 12px;font-weight: 600;}
 
 .chosenclass-sidebar {
     padding-bottom: 20px;
@@ -730,21 +748,24 @@ DASHBOARD
 }
 
 .formg_math label h3 {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
     color: #0F123B;
 }
 
 .formg_math label input {
     width: 100%;
-    padding: 14px;
+    padding: 0 14px;
     border-radius: 1000px;
-    border: 1px solid #878787;
-    font-size: 16px;
+    border: 1px solid #c8c8c8;
+    height: 40px;
+    font-size: 14px;
+    padding-right: 40px;
 }
 
 .formg_math label {
     width: 100%;
+    position: relative;
 }
 
 .startscreen {
@@ -776,6 +797,8 @@ DASHBOARD
 .heading_start {
     padding: 20px;
     border-bottom: 1px solid #c6c6c6;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 .heading_start:last-of-type {
@@ -803,6 +826,8 @@ DASHBOARD
     display: inline-flex;
     color: #0F123B;
     transition: 0.4s ease all;
+    flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .heading_start ul li a:hover {
@@ -815,17 +840,16 @@ DASHBOARD
     flex-direction: column;
     align-items: baseline;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     width: 50%;
     padding-right: 10px;
 }
 
 .form_create_startscreen label input, .form_create_startscreen label select {
-    padding: 10px 20px;
-    border-radius: 1000px;
+    padding: 5px 14px;
+    border-radius: 10000px;
     border: 1px solid #b9b9b9;
     width: 100%;
-    height: 50px;
 }
 
 .form_create_startscreen {
@@ -941,13 +965,14 @@ li.disable__link {
     font-size: 14px;
 }
 
-.carouseltype2 {background: #1a1f37;padding: 20px;border-radius: 10px;margin-bottom: 20px;}
+.carouseltype2 {background: #1a1f37;padding: 20px;border-radius: 10px;margin-bottom: 20px;position: relative;}
 
 #repeaterbody-line {
     scrollbar-width: thin;
     scrollbar-color: #ffffff #d9d9d9;
     /* max-height: 700px;
     overflow-y: auto; */
+    padding-left: 20px;
 }
 
 #repeaterbody-line::-webkit-scrollbar {
@@ -1048,8 +1073,7 @@ li.disable__link {
 .formg_math.miniform_g h4 {font-size: 14px;font-weight: bold;width: 100%;display: inline-block;color: #1a1f37;}
 
 .formg_math.miniform_g label {
-    width: 47%;
-    margin-right: 3%;
+    width: 100%
 }
 
 .formg_math.miniform_g input {
@@ -1178,7 +1202,7 @@ li.disable__link {
 .materias___e_turmas {
     background: #fcf7f2;
     border-radius: 20px;
-    padding: 0 30px;
+    padding: 0 5px;
 }
 
 .header-materiasturmas_repeater {
@@ -1186,11 +1210,12 @@ li.disable__link {
     flex-flow: wrap;
     justify-content: space-between;
     align-items: center;
+    padding: 5px 0 5px 5px;
 }
 
 .header-materiasturmas_repeater h3 {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 14px;
     color: #1a1f37;
     margin: 0;
 }
@@ -1200,11 +1225,11 @@ li.disable__link {
     background: #fe922b;
     width: 30px;
     height: 30px;
-    margin: 10px 0;
     border: none;
     color: white;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: 300;
+    line-height: 18px;
 }
 
 .duplicator_turmas_materias {
@@ -1212,7 +1237,7 @@ li.disable__link {
     display: flex;
     justify-content: flex-end;
     padding: 15px 0 0 0;
-    border-top: 1px solid black;
+    border-top: 1px solid #e2e2e2;
     order: 9999999;
 }
 
@@ -1237,7 +1262,7 @@ li.disable__link {
     margin: 0;
 }
 
-.content_materias_turmas {
+.content_materias_turmas.hidden {
     display: none;
 }
 
@@ -1912,12 +1937,12 @@ div.bubble_message div {
 
 .body-bubblebox table a {
     text-align: center;
-    display: inline-block;
     margin: 0;
     padding: 0;
     background: none;
     color: #eda159;
     text-decoration: underline;
+    display: flex;
 }
 
 .link_starten {
@@ -1960,6 +1985,9 @@ div.bubble_message div {
 .solutions_guide a {
     font-size: 14px;
     color: black;
+    width: 100%;
+    display: -webkit-inline-box;
+    padding: 10px 0;
 }
 
 .solutions_guide a:hover {
@@ -2097,4 +2125,647 @@ div.bubble_message div {
     cursor: none;
     pointer-events: none;
     opacity: 0.3;
+}
+
+a.cardactions_person {
+    position: relative;
+    background: white;
+    width: 100%;
+    padding: 30px;
+    border-radius: 50px;
+    text-align: center;
+    height: 300px;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: none;
+}
+
+a.cardactions_person:before {
+    background: radial-gradient(50% 50% at 50% 50%, #FE912A 0%, rgba(254, 145, 42, 0.00) 89%);
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    bottom: 0;
+    right: 0;
+    transform: scale(2.5);
+    cursor: none;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.desc-action {
+    width: 100%;
+    position: relative;
+    z-index: 9;
+}
+
+a.cardactions_person i {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: black;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 4;
+    border-radius: 100000px;
+}
+
+.desc-action p {
+    line-height: 26px;
+    font-weight: bold;
+    font-size: 24px;
+    color: #363636;
+    margin: 0;
+}
+
+a.cardactions_person:after {
+    background: linear-gradient(126deg, #0B061E 45.22%, #010719 85.25%, #020515 123.03%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+    opacity: 0;
+    transition: 0.4s ease all;
+}
+
+a.cardactions_person:hover p {
+    color: white;
+    transition: 0.4s ease all;
+}
+
+a.cardactions_person:hover::after {
+    opacity: 1;
+    transition: 0.4s ease all;
+}
+
+.title-welcome h2 {
+    font-size: 46px;
+    color:#0B061E;
+    font-weight: bold;
+}
+
+.title-welcome p {
+    font-size: 28px;
+    color:#0B061E;
+}
+
+a.cardactions_person:hover::before {
+    transition: 0.4s ease all;
+    opacity: 0.5;
+}
+
+.modal-edituser {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: radial-gradient(white, rgb(0 0 0 / 10%));
+    z-index: 999;
+    display:none;
+}
+
+.centermodal-edit {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-modal-edit {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    height: 90%;
+    border-radius: 20px;
+}
+
+.headermodal-edit {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    z-index: 888;
+}
+
+.headermodal-edit button {
+    background: #ffa503;
+    width: 50px;
+    height: 50px;
+    color: black;
+    border-radius: 1000px;
+    border: none;
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.bodymodal-edit {
+    padding: 50px 20px 20px 20px;
+    overflow-y: scroll;
+    height: 100%;
+    position: relative;
+}
+
+.minimodal label {
+    display: flex;
+    flex-direction: column;
+}
+
+.minimodal label label input {}
+
+.minimodal label label input {
+    width: auto;
+    margin-right: 6px;
+}
+
+.minimodal label label {
+    flex-direction: unset;
+}
+
+.supergrupoforms {
+    padding: 25px;
+    background: #ececec;
+    border-radius: 30px;
+    border: 1px solid #bababa;
+    margin-bottom: 20px;
+}
+
+.supergrupoforms > h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.supergrupoforms .fieldinpt {
+    justify-content: center;
+    display: flex;
+}
+
+.supergrupoforms .unica-permission 
+ h3 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.supergrupoforms .unica-permission {
+    border: 1px solid #c6c6c6;
+}
+
+.minimodal button {
+    background: #ffa503;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 100000px;
+    color: white;
+}
+
+.minimodal label input {
+    padding: 5px;
+    margin: 0;
+    font-size: 14px;
+}
+
+.minimodal .formg_math {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.body-bubblebox table a svg {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    opacity: 0;
+    transition: 0.4s ease all;
+}
+
+.body-bubblebox table a svg.apareca__Svg{
+    opacity: 1;
+    transition: 0.4s ease all;
+}
+
+.loading-edituser {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(255 255 255 / 55%);
+    z-index: 99999;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    display: none;
+}
+
+.centrlload-edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-iconic {
+    position: absolute;
+}
+
+.loading-edituser svg {
+    width: 100px;
+}
+
+.sucess-iconic img {
+    width: 100px;
+}
+
+.sucess-iconic {
+    display: none;
+}
+
+.nopermission_page {
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 20px;
+}
+
+.nopermission_page i {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+}
+
+.nopermission_page i:before {
+    content: url(../svg/atencao.svg);
+    transform: scale(0.7);
+    display: inline-block;
+    width: 100%;
+}
+
+.nopermission_page h2 {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.nopermission_page a {
+    transition: 0.4s ease all;
+    display: inline-block;
+    padding: 10px 30px;
+    background: #eca158;
+    border-radius: 10000px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid #eca158;
+}
+
+.nopermission_page a:hover {
+    background: #1a1e37;
+    transition: 0.4s ease all;
+    border: 1px solid #1a1e37;
+}
+
+.addmorefield-generic button {
+    padding: 5px 25px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #0F123B;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    transition: 0.4s ease all;
+}
+
+.addmorefield-generic button:hover {
+    color: #0F123B;
+    background: #d5d5d5;
+    transition: 0.4s ease all;
+}
+
+.formg_math label .removeMe {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 100000px;
+    border: none;
+    background: #e5e5e5;
+    transform: scale(0.7);
+    color: white;
+    transition: 0.4s ease all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.formg_math label .removeMe:before{
+    height: 20px;
+    content: url(../svg/lixo.svg);
+    display: inline-block;
+    width: 20px;
+    opacity: 0.5;
+}
+
+.formg_math label .removeMe:hover {
+    background: #ff9292;
+    transition: 0.4s ease all;
+}
+
+.addmorefield-generic {
+    display: flex;
+    justify-content: end;
+}
+
+.formg_math label .removeMe:hover::before {
+    opacity: 1;
+}
+
+.deletebutton-type2 button {
+    width: 40px;
+    height: 40px;
+    border-radius: 100000px;
+    border: none;
+    background: #e5e5e5;
+    transform: scale(0.7);
+    color: white;
+    transition: 0.4s ease all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deletebutton-type2 {
+    padding-bottom: 20px;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.indice__count {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #1a1f37;
+    transform: translate(-25px, 0px);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px 0 0 10px;
+    z-index: 3;
+}
+
+.deletebutton-type2 button:before{
+    content: url(../svg/lixo.svg);
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+.deletebutton-type2 button:hover {
+    transition: 0.4s ease all;
+    background: #ff9292;
+}
+
+.deletebutton-type2 button:hover::before {
+    opacity: 1;
+    transition: 0.3s ease all;
+}
+
+/***
+DROPDOWN
+***********/
+.turmacards-area {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.formg_math label.unicacheck_fielbubble {
+    min-width: 10%;
+    background: white;
+    margin-right: 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px 5px 28px;
+    position: relative;
+    font-size: 14px;
+    transition: 0.5s ease all;
+    cursor: pointer;
+    overflow: hidden;
+    width: auto;
+}
+
+.fakebubble-checkbox input {
+    display: none;
+}
+
+.fakebubble-checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 1000px;
+    position: absolute;
+    left: 5px;
+    border: 2px solid #1a1f37;
+}
+
+.unicacheck_fielbubble:hover {
+    transition: 0.4s ease all;
+    background: #fe932a;
+    color: white;
+}
+
+.fakebubble-checkbox:before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #1a1f37;
+    position: absolute;
+    border-radius: 1000px;
+    left: 1px;
+    top: 1px;
+    transform: scale(0);
+    transition: 0.4s ease all;
+}
+
+.unicacheck_fielbubble:hover .fakebubble-checkbox:before {
+    transition: 0.4s ease all;
+    transform: scale(0.8);
+}
+
+
+input:checked + .slider {
+    background-color: #FE912B;
+}
+  
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+input:checked + .beforecarter {
+    background: #fe922b;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: 0.4s ease all;
+}
+
+.unicacheck_fielbubble span {
+    position: relative;
+}
+
+.beforecarter {
+    transition: 0.4s ease all;
+}
+
+.beforecarter:before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 1000px;
+    left: 6px;
+    top: 8px;
+    border: 1px solid #1a1f37;
+}
+
+.beforecarter:after {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    background: #1a1f37;
+    content: "";
+    border-radius: 1000px;
+    top: 10px;
+    left: 8px;
+    transform: scale(0);
+    transition: 0.4s ease all;
+}
+
+input:checked + .beforecarter:after {
+    transform: scale(0.8);
+}
+
+.turmacards-area input {
+    display: none;
+}
+
+label.unicacheck_fielbubble:hover {
+    background: #fe932a;
+}
+
+.form_create_startscreen label:first-of-type {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.fakeloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(255 255 255 / 64%);
+    z-index: 99;
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
+    display: none;
+}
+
+.centralloader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centralloader svg {
+    width: 100px;
+    height: 100px;
+}
+
+.centralloader svg, .centralloader svg * {
+    stroke: #fe922b;
+}
+
+.uniqueturma-area {
+    display: flex;
+    flex-flow: wrap;
+    padding-right: 30px;
+    padding: 12px;
+    background: #111523;
+    margin-right: 5px;
+    border-radius: 10px;
+}
+
+.label-turma {
+    width: 50%;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.maximo_dayli {
+    width: 50%;
+}
+
+.label-turma > p, .maximo_dayli > p {
+    font-size: 12px;
+    color: white;
+    margin: 0;
+    line-height: 14px;
+}
+
+.carouseltype2 .formg_math 
+ .maximo_dayli input {
+    display: block;
+    height: auto;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.spanerror_turmas {
+    width: 100%;
+}
+
+.quantas_turmas_selected {
+    width: 100%;
+}
+
+.spanerror_turmas span {
+    display: inline-block;
+    font-size: 14px;
+    color: white;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.opacityabs{
+    position: absolute;
+    opacity: 0;
+    cursor: none;
+    pointer-events: none;
 }

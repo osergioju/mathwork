@@ -1,5 +1,6 @@
 from mathwork.models import Permissoes_Usuarios, Usuarios, Configuracoes
-from django.urls import resolve
+from django.urls import resolve, Resolver404
+
 
 def visibilidade_links(request):
     lista_permissoes = []
@@ -40,11 +41,13 @@ def visibilidade_links(request):
 
 
 def check_permissions(request):
-    if 'user_id' in request.session:
-        url_name = resolve(request.path).url_name
-        id_user = request.session['user_id']
-        lista_permissoes = Permissoes_Usuarios.objects.filter(Id_Usuario=id_user).all()
-
-        return {'maxima' : lista_permissoes}
-    else:
-        return {'maxima' : 0}
+    try:
+        if 'user_id' in request.session:
+            url_name = resolve(request.path).url_name
+            id_user = request.session['user_id']
+            lista_permissoes = Permissoes_Usuarios.objects.filter(Id_Usuario=id_user).all()
+            return {'maxima': lista_permissoes, 'url_name': url_name}
+        else:
+            return {'maxima': 0, 'url_name': None}
+    except Resolver404:
+        return {'maxima': 0, 'url_name': None}

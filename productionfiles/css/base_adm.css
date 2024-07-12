@@ -20,7 +20,6 @@ Essenciais
 body{
     font-family: 'Raleway', sans-serif;
     background: linear-gradient(126deg, #0B061E 45.22%, #010719 85.25%, #020515 123.03%);
-    overflow: hidden;
 }
 
 .brand-Math a:before {
@@ -38,16 +37,24 @@ header {
 }
 
 header .sair_btn {
-    padding: 10px 60px;
-    background: #FE912A;
-    color: white;
-    font-size: 16px;
-    border: 1px solid #FE912A;
-    border-radius: 10000px;
-    font-weight: 500;
-    margin-left: auto;
-    margin-right: 0;
+    padding: 2px 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-left: 10px;
     display: table;
+    font-weight: bold;
+    color: #ffffff;
+    transition: 0.4s ease all;
+}
+
+.flexlinks-startpage {
+    display: flex;
+    justify-content: end;
+}
+
+header .sair_btn:hover {
+    color: #fe922b;
+    transition: 0.4s ease all;
 }
 
 .header-allprodcs {
@@ -273,4 +280,127 @@ div#myTabContent {
     color: black;
     font-size: 14px;
     margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.grandex-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: none;
+    backdrop-filter: blur(5px);
+}
+
+.centralmodal-edit {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.blocmodal-edit {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+}
+
+.headermodal-edit {
+    position: absolute;
+    height: 0;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.headermodal-edit button {
+    width: 60px;
+    height: 60px;
+    border-radius: 1000px;
+    border: none;
+    background: #fe922b;
+    color: white;
+    margin: -15px;
+}
+
+.body-modax {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #959595;
+    box-shadow: 0 0 20px 7px rgb(0 0 0 / 11%);
+}
+
+.minimodal {
+    padding: 60px 40px 40px 40px;
+}
+
+.formg_math label label {
+    display: flex;
+}
+
+.formg_math label label input {
+    width: auto;
+    margin-right: 5px;
+}
+
+.actionen_ svg {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+}
+
+.actionen_ {
+    opacity: 0;
+    transition: 0.3s ease all;
+}
+
+
+.actionen_.active_action{
+    opacity: 1;
+    transition: 0.3s ease all;
+}
+
+.loadermini-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(255 255 255 / 59%);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    display: none;
+}
+
+.centerload-erminimodal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.centerload-erminimodal svg {
+    width: 100px;
+    height: 100px;
+}
+
+.sucesso-modal h2 {
+    font-weight: bold;
+    font-size: 28px;
+    margin: 0;
+}
+
+.sucesso-modal {
+    display: none;
 }

@@ -345,7 +345,14 @@ def login(request):
             return redirect('login')
     else:
         return render(request, 'login/login.html')
-        
+
+## Páginas de erro 
+def custom_404(request, exception):
+    return render(request, 'pages/error.html', status=404)
+
+def custom_500(request):
+    return render(request, 'pages/error.html', status=500)
+
 ## Autenticacao de duas
 def autenticacao(request):
     if request.session['user_id']:

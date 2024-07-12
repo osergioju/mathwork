@@ -15,10 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls import handler404, handler500
 from .views import login, sair_comom, recuperar_senha, changelistagem, startpage, new_user, autenticacao, listar_tudo, solucoes, alterar_senha, administrativo, dash_inicial, inicio, meus_dados, cadastrar_usuario, meus_usuarios, turmas, momentos, dias, materias, professores, disponibilidade, disponbilidade_td, rodar_modelo, relatorios, ver_relatorio, server_error, new_escola, new_unidade, sair_adm
 
-handler500 = 'mathwork.views.server_error'  
+handler404 = 'mathwork.views.custom_404'
+handler500 = 'mathwork.views.custom_500'
 
 urlpatterns = [
     # Login inicial 
