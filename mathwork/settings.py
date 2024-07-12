@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import mimetypes
-
+ 
 # Auth CSS
 mimetypes.add_type("text/css", ".css", True)
 
