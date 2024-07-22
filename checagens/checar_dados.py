@@ -1,5 +1,5 @@
 from numpy import zeros, where, array, insert
-from pandas import pivot_table
+from pandas import pivot_table, Series
 from pulp import LpProblem, LpVariable, LpBinary, lpSum, LpMaximize, LpStatus, PULP_CBC_CMD
 from itertools import product
 
@@ -354,4 +354,55 @@ def checa_problemas_sete(configs):
                                  """)
                 continue
     
+    return problemas, dica
+
+def checa_problemas_oito(configs):
+    """
+    Checa se há problemas com a configuração para o cronogrid
+    """
+
+    dica = \
+"""
+Erro de preenchimento do tipo 8:
+
+Existem duplicações nos campos de texto preenchidos.
+"""
+
+    problemas = []
+
+    contagem_turmas = Series(configs["turmas"]).value_counts()
+    contagem_turmas_duplicadas = contagem_turmas[contagem_turmas > 1]
+    for nm_turma in contagem_turmas_duplicadas.index:
+        problemas.append(f"""A turma {nm_turma} foi cadastrada 
+                         {contagem_turmas_duplicadas[nm_turma]} vezes. Não é permitido repetições
+                         nos nomes das turmas.""")
+    
+    contagem_momentos = Series(configs["momentos"]).value_counts()
+    contagem_momentos_duplicados = contagem_momentos[contagem_momentos > 1]
+    for nm_momento in contagem_momentos_duplicados.index:
+        problemas.append(f"""O momento {nm_momento} foi cadastrado 
+                         {contagem_momentos_duplicados[nm_momento]} vezes. Não é permitido repetições
+                         nos nomes dos momentos.""")
+        
+    contagem_dias = Series(configs["dias"]).value_counts()
+    contagem_dias_duplicados = contagem_dias[contagem_dias > 1]
+    for nm_dia in contagem_dias_duplicados.index:
+        problemas.append(f"""O dia {nm_dia} foi cadastrado 
+                         {contagem_dias_duplicados[nm_dia]} vezes. Não é permitido repetições
+                         nos nomes dos dias.""")
+    
+    contagem_materias = Series(configs["materias"]).value_counts()
+    contagem_materias_duplicadas = contagem_materias[contagem_materias > 1]
+    for nm_materia in contagem_materias_duplicadas.index:
+        problemas.append(f"""A matéria {nm_materia} foi cadastrada 
+                         {contagem_materias_duplicadas[nm_materia]} vezes. Não é permitido repetições
+                         nos nomes das matérias.""")
+
+    contagem_professores = Series(configs["professores"]).value_counts()
+    contagem_professores_duplicados = contagem_professores[contagem_professores > 1]
+    for nm_professor in contagem_professores_duplicados.index:
+        problemas.append(f"""O professor {nm_professor} foi cadastrado 
+                         {contagem_professores_duplicados[nm_professor]} vezes. Não é permitido repetições
+                         nos nomes dos professores.""")
+            
     return problemas, dica
