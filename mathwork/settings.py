@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$!+x737w1+07weejodu=7wu(iwt0hm#c&#70t6*28vhok!*m=d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['18.230.6.109', '18.230.6.109:8000', '127.0.0.1', '162.240.54.198', 'sistemacronogrid.com.br', 'localhost', 'localhost:8000']
 
@@ -36,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mathwork'
+    'mathwork',
+    'whitenoise.runserver_nostatic'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,14 +135,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'productionfiles'
 
-STATIC_URL = '/static/'
-
-#Add this in your settings.py file:
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://sistemacronogrid.com.br',
@@ -169,3 +165,11 @@ EMAIL_HOST_USER = 'noreply@sistemacronogrid.com.br'  # Seu endereço de e-mail
 EMAIL_HOST_PASSWORD = 'jZ+%1HtjxPMJ'  # Sua senha de e-mail
 DEFAULT_FROM_EMAIL = 'noreply@sistemacronogrid.com.br'  # Seu endereço de e-mail padrão
 
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#Add this in your settings.py file:
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
