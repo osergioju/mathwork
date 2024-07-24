@@ -67,7 +67,11 @@ def retorna_mensagens(configuracoes):
     problemas = []
 
     for i, checagem in enumerate(checagens):
-        mensagens, dica = checagem(configuracoes)
+        try:
+            mensagens, dica = checagem(configuracoes)
+        except Exception as e:
+            mensagens, dica = [f"Houve um problema do tipo {i + 1}: {e}"], "Verifique se os dados inseridos estão corretos"
+
         if len(mensagens) > 0:
             problemas.append((mensagens, dica))
     
