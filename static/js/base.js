@@ -738,3 +738,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 });
+
+
+// Check duplicidade de nome do professor 
+function verificarDuplicidade() {
+    // Seleciona todos os inputs com a classe 'name_profe'
+    const nameProfeInputs = document.querySelectorAll('.name_profe');
+    let duplicado = false;
+
+    // Itera sobre cada input para verificar duplicidade
+    nameProfeInputs.forEach(input => {
+        // Limpa as classes de erro
+        input.classList.remove('error_field');
+
+        // Verifica se há algum outro input com o mesmo valor
+        nameProfeInputs.forEach(outroInput => {
+            if (outroInput !== input && outroInput.value === input.value && input.value.trim() !== '') {
+                duplicado = true;
+                input.classList.add('error_field');
+            }
+        });
+    });
+
+    // Seleciona o botão de ID 'savetudo'
+    const fielderror = document.querySelector('.error-name-profe');
+    const botaoSalvar = document.getElementById('savetudo');
+    if (duplicado) {
+        // Desabilita o botão se houver duplicidade
+        botaoSalvar.disabled = true;
+        fielderror.innerHTML = '<span>Não é permitido que haja dois professores com o mesmo nome.</span>';
+    } else {
+        // Habilita o botão se não houver duplicidade
+        botaoSalvar.disabled = false;
+        fielderror.innerHTML = '';
+    }
+}
