@@ -846,8 +846,14 @@ def materias(request, id_configuracao):
 
                     
                     if materias_obj is None:
-                        # Atualizar o objeto Materias no banco de dados com base no id_turma
-                        Restricoes_Materias.objects.filter(Id_Materia=id_materia, Id_Configuracao=id_configuracao, Id_Turma=turma).update(Qtd_Minima_Semanal=qntmin_value, Qtd_Maxima_Diaria=qntmax_value)
+                        if Restricoes_Materias.objects.filter(Id_Materia=id_materia, Id_Configuracao=id_configuracao, Id_Turma=turma).exists():
+                            # Atualizar o objeto Materias no banco de dados com base no id_turma
+                            Restricoes_Materias.objects.filter(Id_Materia=id_materia, Id_Configuracao=id_configuracao, Id_Turma=turma).update(Qtd_Minima_Semanal=qntmin_value, Qtd_Maxima_Diaria=qntmax_value)
+                        else:
+                            restricoes_obj = Restricoes_Materias(Id_Turma=turma, Id_Materia=id_materia, Id_Configuracao=id_configuracao, Qtd_Minima_Semanal=qntmin_value, Qtd_Maxima_Diaria=qntmax_value)
+                            
+                            # Salvar o objeto Restricoes_Materias no banco de dados
+                            restricoes_obj.save()
                     else:
                         # Recuperar o id da Materias recém-inserida
                         id_materia_get = materias_obj.Id_Materia
@@ -873,8 +879,18 @@ def materias(request, id_configuracao):
             objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
             page_resultados = Materias.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Materia').all()
             get_turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
+
+            # Obtém as restrições
             get_restricoes = Restricoes_Materias.objects.filter(Id_Configuracao=id_configuracao).all()
-            return render(request, 'dashboard/materias.html', { 'get_restricoes' : get_restricoes, 'get_turmas' : get_turmas, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
+            
+            # Converte get_restricoes para uma lista de dicionários
+            restricoes_list = list(get_restricoes.values())
+            
+            # Converte a lista de dicionários para JSON
+            restricoes_json = json.dumps(restricoes_list, indent=4)
+            
+            print(restricoes_json)
+            return render(request, 'dashboard/materias.html', { 'json_materias' : restricoes_json, 'get_restricoes' : get_restricoes, 'get_turmas' : get_turmas, 'id_conf' : id_configuracao, 'objconfig' : objsconfig, 'page_resultados' : page_resultados, **counts})
 
     else:
         return redirect('login')
