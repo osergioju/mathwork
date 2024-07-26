@@ -127,7 +127,7 @@ def checa_problemas_quatro(configuracoes):
     :return: lista com os problemas encontrados
     """
 
-    dica = """Erro de preenchimento di tipo 4:"
+    dica = """Erro de preenchimento do tipo 4:"
               Os dias e momentos com mais professores disponiveis são:"""
 
     df_disponibilidades_pivot = pivot_table(configuracoes["df_disponibilidades"], 
