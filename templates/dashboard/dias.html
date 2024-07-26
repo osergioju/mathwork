@@ -63,7 +63,7 @@
                                                                     <label for="{{ forloop.counter }}">
                                                                         <h3>Dias {{ forloop.counter }}</h3>
                                                                         <input class="replace_index" type="hidden" name="iddias_{{ forloop.counter }}" id="{{ forloop.counter }}"  value="{{ resultado.Id_Dia }}">
-                                                                        <input class="replace_index required" type="text" name="dias_{{ forloop.counter }}" id="{{ forloop.counter }}"  value="{{ resultado.Nome_Dia }}">
+                                                                        <input class="replace_index required ckduplicidade" onkeyup="checkdupliciade()"  type="text" name="dias_{{ forloop.counter }}" id="{{ forloop.counter }}"  value="{{ resultado.Nome_Dia }}">
                                                                         <button type="button" class="removeMe" onclick="removeMe('type1', {{ forloop.counter }})"></button>
                                                                     </label>
                                                                 </div>
@@ -77,7 +77,8 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="button-savestage">
-                                                                <button type="submit">Salvar</button>
+                                                                <button type="submit" id="savetudo">Salvar</button>
+                                                                <div class="error-name-profe"></div>
                                                             </div>
                                                         </div>
                                                     </div> 

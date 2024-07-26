@@ -265,7 +265,7 @@ function genericAddmore(y, z){
     if(z == 'type1'){
         newDiv.className = 'col-12 col-lg-6';
         newDiv.id = 'fatherfield_' + novovalor;
-        newDiv.innerHTML = '<div class="formg_math"><label for="' + novovalor + '"><h3>'+ y +' ' + novovalor + '</h3><input class="replace_index required" type="text" name="'+ y.toLowerCase() +'_'+novovalor+'" id="' + novovalor + '"><button type="button" class="removeMe" onclick="removeMe(\'type\', \''+ novovalor +'\')"></button></label></div>';
+        newDiv.innerHTML = '<div class="formg_math"><label for="' + novovalor + '"><h3>'+ y +' ' + novovalor + '</h3><input class="replace_index ckduplicidade required" type="text"  onkeyup="checkdupliciade()"  name="'+ y.toLowerCase() +'_'+novovalor+'" id="' + novovalor + '"><button type="button" class="removeMe" onclick="removeMe(\'type\', \''+ novovalor +'\')"></button></label></div>';
         
     }
     else if(z == 'type2' || z == 'type3'){
@@ -767,6 +767,41 @@ function verificarDuplicidade() {
         // Desabilita o botão se houver duplicidade
         botaoSalvar.disabled = true;
         fielderror.innerHTML = '<span>Não é permitido que haja dois professores com o mesmo nome.</span>';
+    } else {
+        // Habilita o botão se não houver duplicidade
+        botaoSalvar.disabled = false;
+        fielderror.innerHTML = '';
+    }
+}
+
+
+// Check duplicidade
+function checkdupliciade() {
+    // Seleciona todos os inputs com a classe 'name_profe'
+    const nameProfeInputs = document.querySelectorAll('.ckduplicidade');
+    let duplicado = false;
+
+    // Itera sobre cada input para verificar duplicidade
+    nameProfeInputs.forEach(input => {
+        // Limpa as classes de erro
+        input.classList.remove('error_field');
+
+        // Verifica se há algum outro input com o mesmo valor
+        nameProfeInputs.forEach(outroInput => {
+            if (outroInput !== input && outroInput.value === input.value && input.value.trim() !== '') {
+                duplicado = true;
+                input.classList.add('error_field');
+            }
+        });
+    });
+
+    // Seleciona o botão de ID 'savetudo'
+    const fielderror = document.querySelector('.error-name-profe');
+    const botaoSalvar = document.getElementById('savetudo');
+    if (duplicado) {
+        // Desabilita o botão se houver duplicidade
+        botaoSalvar.disabled = true;
+        fielderror.innerHTML = '<span>Não é permitido valores iguais.</span>';
     } else {
         // Habilita o botão se não houver duplicidade
         botaoSalvar.disabled = false;

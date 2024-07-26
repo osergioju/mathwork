@@ -1113,8 +1113,8 @@ def disponbilidade_td(request, id_configuracao):
 
         ## Envia valores à página
         turmas = Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
-        momentos = Momentos.objects.filter(Id_Configuracao=id_configuracao).all()
-        dias = Dias.objects.filter(Id_Configuracao=id_configuracao).all()
+        momentos = Momentos.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Momento').all()
+        dias = Dias.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Dia').all()
         objsconfig = Configuracoes.objects.filter(Id_Configuracao=id_configuracao).first()
         page_resultados = Disponibilidades_Turmas.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Turma').all()
         raw_page_results = ( Disponibilidades_Turmas.objects.raw( 

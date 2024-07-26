@@ -74,7 +74,7 @@
                                                                                     <div class="formg_math"> 
                                                                                         <label for="0_{{ forloop.counter }}"> 
                                                                                             <h3>Matéria</h3> 
-                                                                                            <input type="text" class="replace_index required" name="materia_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Materia }}"> 
+                                                                                            <input type="text" class="replace_index required ckduplicidade" onkeyup="checkdupliciade()" name="materia_{{ forloop.counter }}" id="0_{{ forloop.counter }}" value="{{ resultado.Nome_Materia }}"> 
                                                                                         </label> 
                                                                                     </div> 
                                                                                 </div> 
@@ -126,7 +126,8 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="button-savestage">
-                                                            <button type="submit">Salvar</button>
+                                                            <button type="submit" id="savetudo">Salvar</button>
+                                                            <div class="error-name-profe"></div>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -159,7 +160,7 @@
                                                 <div class="formg_math"> 
                                                     <label for="0_REPLACEINDEX"> 
                                                         <h3>Matéria</h3> 
-                                                        <input type="text" class="replace_index required" name="materia_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
+                                                        <input type="text" class="replace_index required ckduplicidade" onkeyup="checkdupliciade()"  name="materia_REPLACEINDEX" id="0_REPLACEINDEX" value=""> 
                                                     </label> 
                                                 </div> 
                                             </div> 
