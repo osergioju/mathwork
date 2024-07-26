@@ -1226,7 +1226,7 @@ def disponibilidade(request, id_configuracao):
         json_resultados = serialize('json', raw_page_results)
 
         momentos = Momentos.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Momento').all()
-        dias = Dias.objects.filter(Id_Configuracao=id_configuracao).all()
+        dias = Dias.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Dia').all()
         professores = Professores.objects.filter(Id_Configuracao=id_configuracao).order_by('Id_Professor').all()
 
         counts = count_instances(id_configuracao)
